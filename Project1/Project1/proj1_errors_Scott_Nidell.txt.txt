@@ -1,0 +1,18 @@
+Scott Nidell
+CSE 1325-002
+Logical error report
+
+First logical error was encountered with the Time() constructor class that would build a time object
+with zero seconds and zero hundreth of seconds regardless if it had passed values in. This was fixed by extending
+the string constructor to except these values using the parseInt and split methods used for hour and Minute
+
+Second logical error was implementing the compareTo method in DateTime class. It was not returning the correct
+value of the result. The initial if statement was using the isBefore method from the ttime and date classes.
+However this was not turning providing the correct result for the if statement. After speaking with the TA
+he discovered that the compareTo method of each time and date class was required to obtain correct results
+
+Third logical error was in implementing the add minutes class. I miss understood what the return value was
+of each addSecond minute, hour etc. I beleived it returned the over flowing value of the superceeding value but
+it was returning the over flow of days always regardless if second minute or hour was called.
+
+Hours spent on project: 31

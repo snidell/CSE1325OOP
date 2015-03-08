@@ -1,0 +1,19 @@
+Project 3 Logical Erros
+
+Error 1
+Array outof Bounds. 
+This error was encountered when looping through the first array of employees and trying to access pastEmployees.
+I was using the size (i< employees.size())of one array to access elements of another array leading to running out of bounds on the smaller
+array. This was fixed and changed to correctly use the right size of the arraylist
+
+Error 2
+Null Pointer Exception
+I was trying to add items to an Arraylist that memory was not yet allocated for. instared of private ArrayList<Stuff> myStuff=new ArrayList<Item>();
+I just had ArrayList<Stuff> myStuff. This does not allocated anymemory to tge Arraylist and when dynamically swapping items throws a Null Pointer
+
+Error 3
+When bringing in a release Date for employee I kept it stored a string instead of as  a null date. When comparing null to the string "null" i was not getting the 
+the correct output with my if statements.
+
+
+Time Spent: 36 hours

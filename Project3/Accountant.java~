@@ -1,0 +1,38 @@
+/*************************************************************************
+ *  Compilation:  javac Accountant.java <br>
+ *  Execution:    java Accountant <br>
+ *************************************************************************/
+
+/**
+ * A simple data type Accountant for use in Project 3 (CSE 1325, Spring 2014)
+ * <br>
+ * Useful for creating Accountant objects to hold employee info
+ * 
+ * @author Scott Nidell  (3/12/2014) (
+ */
+public class Accountant extends SalariedEmp{ 
+  
+   double hourlyRate;
+  
+  Accountant(String fn,String ln, Date db, String gender, Date hd, String rd,double base, double hr){
+    
+    super(fn,ln,db,gender,hd,rd,base); //Salaried will build then Person will build from salaried
+    hourlyRate=hr;    
+  }
+  
+  /**
+  * Overrides abvstract method in SalariedEmployee to calculate salary
+  * 
+  * @return age of current person       
+  */
+  public double computeSalary(int numHours){
+    
+    return basePay+hourlyRate*numHours;
+  }
+    
+  public String toString(){    
+   
+   return "Accountant->"+firstName+" "+lastName+" Birthdate: "+dob+" Gender:"+gender+" ID: "+id+" HireDate: "+
+     hireDate+" Release Date: "+releaseDate+" basePay: "+basePay;   
+ }
+}

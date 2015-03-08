@@ -1,0 +1,1642 @@
+Script started on Wed 29 Jan 2014 08:24:31 PM CST
+]0;san1465@omega:~/CSE1325/Project1[san1465@omega Project1]$ ls -l
+[00mtotal 364
+-rw-r--r-- 1 san1465 students 125184 Jan 29 19:48 [00mCSE-1325-ScriptFile-generation.pdf[00m
+-rw-r--r-- 1 san1465 students   1045 Jan 29 17:32 [00mDateConstants.java[00m
+-rw-r--r-- 1 san1465 students   1328 Jan 28 22:58 [00mDateConstants.java~[00m
+-rw-r--r-- 1 san1465 students  14108 Jan 24 16:38 [00mDate.java[00m
+-rw-r--r-- 1 san1465 students  18042 Jan 29 20:17 [00mDateTime.java[00m
+-rw-r--r-- 1 san1465 students  17068 Jan 29 19:30 [00mDateTime.java~[00m
+drwxr-xr-x 3 san1465 students   4096 Jan 29 20:22 [00;34mdoc[00m
+-rw-r--r-- 1 san1465 students 134277 Jan 24 16:37 [00mProject 1 CSE 1325.pdf[00m
+-rw-r--r-- 1 san1465 students      0 Jan 29 20:24 [00msan1465_Nidell_project1_002.log[00m
+-rw-r--r-- 1 san1465 students  15582 Jan 29 17:31 [00mTime.java[00m
+-rw-r--r-- 1 san1465 students  15988 Jan 29 12:04 [00mTime.java~[00m
+[m]0;san1465@omega:~/CSE1325/Project1[san1465@omega Project1]$ cat Time.jaba[K[Kva
+/*************************************************************************
+ *  Compilation:  javac Time.java <br>
+ *  Execution:    java Time <br>
+ *************************************************************************/
+
+/**
+ * A simple time type (CSE 1325, Fall 2012)
+ * <br>
+ * Useful for creating Time objects
+ * 
+ * @author Sharma Chakravarhty (Sent the skeleton 08/25/2012)
+ * @author extended by Yuanzhe Cai & Das (08/27/2012)
+ * @see java.util.Calendar
+ * @since 09/04/2012, Fixed a logical error to wrapping around 24 hour and add 
+ *  addHour(), addMinute(), addSecond() (Cai)
+ */
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+public class Time implements DateConstants{
+
+ private  int hour; // hour (larger or equal to than 0)
+ private  int minute; // minute (between 0 and 59)
+ private  int second; // second (between 0 and 59)
+ private  int hundredth; // hundredth (between 0 and 99)
+
+ static private final int HOUR_CHANGE_TIME = 60 * 60 * 100;
+ static private final int MINUTE_CHANGE_TIME = 60 * 100;
+ static private final int SECOND_CHANGE_TIME = 100;
+ static private final int HOURS_FOR_DAY = 24;
+
+ /**
+  * Constructor: default; returns today's Time
+  */
+ public Time() {
+  GregorianCalendar c = new GregorianCalendar();
+  hour = c.get(Calendar.HOUR); 
+  minute = c.get(Calendar.MINUTE);
+  second = c.get(Calendar.SECOND);
+  hundredth = 0;
+ }
+
+ /**
+  * Constructor: create a time with a given hour, minute, second and
+  * hundredth ; fills in valid time;
+  * 
+  * @param hour
+  *            represents the hour
+  * @param minute
+  *            represents the minute between 0 and 59
+  * @param second
+  *            represents the second between 0 and 59
+  * @param hundredth
+  *            represents the hundredth between 0 and 99
+  */
+ public Time(int hour, int minute, int second, int hundredth) {
+
+  if (!isValid(hour, minute, second, hundredth))
+   throw new RuntimeException("Time 1: Invalid time " + hour + ":" + 
+                            minute + ":" + second + ":" + hundredth);
+
+  this.hour = hour;
+  this.minute = minute;
+  this.second = second;
+  this.hundredth = hundredth;
+ }
+
+/**
+  * Constructor: creates a valid time object with a string in hh:mm:ss format as a string;
+  * 
+  * @param hour
+  *            represents the hour
+  * @param minute
+  *            represents the minute between 0 and 59
+  */
+ public Time(String aTime) {
+
+  
+   this(Integer.parseInt(aTime.split(":")[ZEROI]), 
+                Integer.parseInt(aTime.split(":")[ONEI]), Integer.parseInt(aTime.split(":")[TWOI]), 
+                Integer.parseInt(aTime.split(":")[THREEI]));    
+ }
+ // return hundredth
+ /**
+  * change a time to hundredth;
+  * 
+  */
+ private int timeToHundredth() {
+  return this.hour * this.HOUR_CHANGE_TIME + this.minute
+    * this.MINUTE_CHANGE_TIME + this.second
+    * this.SECOND_CHANGE_TIME + this.hundredth;
+ }
+
+ // return hundredths
+ /**
+  * change hundredths to a time;
+  * returns extra days obtained in that conversion
+     * 
+  */
+ private int hundredthToTime(int hundredths) {
+
+  int tmpHour = ((int) (hundredths / this.HOUR_CHANGE_TIME));
+
+  int tmpMinute = (int) (hundredths - tmpHour * this.HOUR_CHANGE_TIME)
+    / this.MINUTE_CHANGE_TIME;
+
+  int tmpSecond = (int) (hundredths - tmpHour * this.HOUR_CHANGE_TIME - tmpMinute
+    * this.MINUTE_CHANGE_TIME)
+    / this.SECOND_CHANGE_TIME;
+
+  int tmpHundredth = hundredths - tmpHour * this.HOUR_CHANGE_TIME
+    - tmpMinute * this.MINUTE_CHANGE_TIME - tmpSecond
+    * this.SECOND_CHANGE_TIME;
+
+  int daysToAdd = tmpHour / this.HOURS_FOR_DAY;
+        tmpHour = tmpHour % this.HOURS_FOR_DAY;
+        
+  //if (!isValid(tmpHour, tmpMinute, tmpSecond, tmpHundredth))
+  // throw new RuntimeException("Time 2: Invalid time" + hour + ":" + minute + ":" + second + ":" + hundredth);
+
+        this.hour = tmpHour;
+        this.minute = tmpMinute;
+        this.second = tmpSecond;
+        this.hundredth = tmpHundredth;
+  return daysToAdd;
+ }
+
+ // return add one hour
+ /**
+  * add an hour and returns a new Time object
+  * 
+  * @return returns a new Time object adding an hour
+  */
+ int addHours() {
+  return addHours(1);
+ }
+
+ // return add hours
+ // This approach does not support to add the negative values.
+ /**
+  * adds hours and returns a new Time object
+  * 
+  * @return returns a new Time object adding hours
+  */
+ int addHours(int hours) {
+
+  if (hours < 0)
+   throw new RuntimeException("Time 3: Invalid hours:" + hour);
+
+  int originalHundredths = timeToHundredth();
+
+  int hundredths = originalHundredths + hours * this.HOUR_CHANGE_TIME;
+
+  return hundredthToTime(hundredths);
+ }
+
+ // return add one minute
+ /**
+  * add a minute and returns a new Time object
+  * 
+  * @return returns a new Time object adding an hour
+  */
+ int addMinutes() {
+  return addMinutes(1);
+ }
+
+ // return add minutes
+ // This approach does not support to add the negative values.
+ /**
+  * adds minutes and returns a new Time object
+  * 
+  * @return returns a new Time object adding minutes
+  */
+ int addMinutes(int minutes) {
+
+  if (minutes < 0)
+   throw new RuntimeException("Time 4: Invalid minutes:" + minute );
+
+  int originalHundredths = timeToHundredth();
+
+  int hundredths = originalHundredths + minutes * this.MINUTE_CHANGE_TIME;
+
+  return hundredthToTime(hundredths);
+
+ }
+
+ // return add one second
+ /**
+  * add a second and returns a new Time object
+  * 
+  * @return returns a new Time object adding an hour
+  */
+ int addSeconds() {
+  return addSeconds(1);
+ }
+
+ // return add seconds
+ // This approach does not support to add the negative values.
+ /**
+  * adds seconds and returns a new Time object
+  * 
+  * @return returns a new Time object adding seconds
+  */
+ int addSeconds(int seconds) {
+
+  if (seconds < 0)
+   throw new RuntimeException("Time 5: Invalid seconds:" + second);
+
+  int originalHundredths = timeToHundredth();
+
+  int hundredths = originalHundredths + seconds * this.SECOND_CHANGE_TIME;
+
+  return hundredthToTime(hundredths);
+
+ }
+
+    int addHundredths() {
+  return addHundredths(1);
+ }
+
+    int addHundredths(int hundredth) {
+
+  if (hundredth < 0)
+   throw new RuntimeException("Time 6: Invalid hundredths of a second" + hundredth);
+
+  int originalHundredths = timeToHundredth();
+
+  int hundredths = originalHundredths + hundredth;
+
+  return hundredthToTime(hundredths);
+
+ }
+
+ // is this Time after t?
+ /**
+  * compares two Time objects
+  * 
+  * @param t
+  *            Time object
+  * @return true if this Time is after Time t
+  */
+ public boolean isAfter(Time t) {
+  return compareTo(t) > 0;
+ }
+
+ // is this Time before t?
+ /**
+  * compares two Time objects
+  * 
+  * @param t
+  *            Time object
+  * @return true if this Time is after Time t
+  */
+ public boolean isBefore(Time t) {
+  return compareTo(t) < 0;
+ }
+
+ // comparison function between two Times
+ /**
+  * compares two Time objects
+  * 
+  * @param t
+  *            Time object
+  * @return 0 if this Time is the same as Time t <br>
+  *         negative integer if this Time is earlier than Time t <br>
+  *         positive integer if this Time is after Time t
+  */
+ public int compareTo(Time t) {
+  if (this.hour != t.hour)
+   return this.hour - t.hour;
+  if (this.minute != t.minute)
+   return this.minute - t.minute;
+  if (this.second != t.second)
+   return this.second - t.second;
+
+  return this.hundredth - t.hundredth;
+ }
+
+ // substract of Times
+ /**
+  * substract two Time objects
+  * 
+  * @param t
+  *            Time object
+  * @return new Time object
+  */
+ int subtractTime(Time t) {
+
+  if (t.isAfter(this)) {
+   System.out.println("T2 is greater than T1; -1 is returned");
+            return -1;
+  }
+
+  int originalHundredths = timeToHundredth();
+
+  int hundredths = originalHundredths - t.timeToHundredth();
+
+  return hundredthToTime(hundredths);
+
+ }
+
+ // add  two Times
+ /**
+  * add two Time objects
+  * 
+  * @param t
+  *            Time object
+  * @return new Time object
+  */
+ int addTime(Time t) {
+
+  int originalHundredths = timeToHundredth();
+
+  int hundredths = originalHundredths + t.timeToHundredth();
+
+  return hundredthToTime(hundredths);
+
+ }
+
+ // return a string representation of this Time
+ /**
+  * replaces the default toString of Object class
+  */
+ public String toString() {
+  return "[" + this.hour + ":" + this.minute + ":" + this.second + ":"
+    + this.hundredth + "]";
+ }
+
+ /**
+  * Is the given time valid?
+  * 
+  * @param hour
+  *            , minute, second and hundredth
+  * @return false if hour exceeds 24 or is less than 1
+  * @return false if day exceeds the corresponding days for a month from
+  *         array DAYS
+  * @return false if the year is not a leap year and has 29 days
+  */
+ private static boolean isValid(int hour, int minute, int second,
+   int hundredth) {
+  if (hour < 0 || hour > 24)
+   return false;
+  if (minute < 0 || minute > 60)
+   return false;
+  if (second < 0 || second > 60)
+   return false;
+  if (hundredth < 0 || hundredth > 99)
+   return false;
+
+  return true;
+ }
+
+ // return hour
+ /**
+  * return hour
+  * 
+  */
+ public int getHour() {
+  return this.hour;
+ }
+
+ // return minute
+ /**
+  * return minute
+  * 
+  */
+ public int getMinute() {
+  return this.minute;
+ }
+
+ // return second
+ /**
+  * return second
+  * 
+  */
+ public int getSecond() {
+  return this.second;
+ }
+
+ // return hundredth
+ /**
+  * return hundredth
+  * 
+  */
+ public int getHundredth() {
+  return this.hundredth;
+ }
+
+ public static void main(String[] args) {
+
+  System.out.println("Test Default Constructor: ");
+
+  Time current = new Time();
+  System.out.println("Current Time is " + current);
+  System.out.println("Current hour is " + current.getHour());
+  System.out.println("Current minute is " + current.getMinute());
+  System.out.println("Current second is " + current.getSecond());
+  System.out.println("Current hundredth is " + current.getHundredth());
+
+  System.out.println("\nTest Constructor (4 params): ");
+
+  Time t1 = new Time(0, 20, 31, 12);
+  System.out.println("Input t1 Time is " + t1);
+
+  Time t2 = new Time(13, 0, 1, 1);
+  System.out.println("Input t2 Time is " + t2);
+
+  Time t3 = new Time(23, 59, 59, 99);
+  System.out.println("Input t3 Time is " + t3);
+
+  Time t4 = new Time(0, 0, 0, 0);
+  System.out.println("Input t4 Time is " + t4);
+
+        System.out.println("\nTest Constructor (hh:mm): ");
+
+  t1 = new Time("10:34");
+  System.out.println("Input t1 Time is " + t1);
+
+   t2 = new Time("13:45");
+  System.out.println("Input t2 Time is " + t2);
+
+  t3 = new Time("23:59");
+  System.out.println("Input t3 Time is " + t3);
+
+  t4 = new Time("0:1");
+  System.out.println("Input t4 Time is " + t4);
+  
+  Time t5= new Time("00:11:22");
+  System.out.println("Input t5 Time is " + t5);
+
+
+  // testing addHours, addMinutes, addSeconds, and addHundredths
+  System.out.println("\nTESTING add hour method");
+  
+  current = new Time(12, 59, 30, 99);
+        System.out.println("Current Time: " + current);
+        int daysToAdd = current.addHours();
+  System.out.println("adding 1 hours to current means, adding: " + 
+                    daysToAdd + " days and new time is: " + current);
+        current = new Time(12, 59, 59, 99);
+        System.out.println("Current Time: " + current);
+  daysToAdd= current.addHours(14);
+  System.out.println("adding 14 hours to current means, adding: " + 
+                    daysToAdd + " days and new time is: " + current);
+  
+  System.out.println("\nTESTING addMinutes method");
+  
+  current = new Time(12, 59, 30, 99);
+        System.out.println("Current Time: " + current);
+        daysToAdd = current.addMinutes();
+  System.out.println("adding 1 min to current means, adding: " + 
+                                daysToAdd + " days and new time is: " + current);
+  daysToAdd = current.addMinutes(1440);
+  System.out.println("adding 1440 mins to current means, adding: " + 
+                                daysToAdd + " days and new time is: " + current);
+  
+  System.out.println("\nTESTING addSeconds");
+  current = new Time(23, 59, 59, 99);
+        System.out.println("Current Time: " + current);
+        daysToAdd = current.addSeconds();
+  System.out.println("adding 1 sec to current means, adding: " + 
+                                daysToAdd + " days and new time is: " + current);
+  current = new Time(23, 59, 59, 99);
+        System.out.println("Current Time: " + current);
+        daysToAdd = current.addSeconds(86401);
+  System.out.println("adding 86401 secs to current means, adding: " + 
+                                daysToAdd + " days and new time is: " + current);
+        
+        System.out.println("\nTESTING addHundredths");
+  current = new Time(12, 59, 59, 99);
+        System.out.println("Current Time: " + current);
+        daysToAdd = current.addHundredths();
+  System.out.println("adding 1 hundredth to current means, adding: " + 
+                                daysToAdd + " days and new time is: " + current);
+  daysToAdd = current.addHundredths(10000);
+  System.out.println("adding 10000 hundredths to current means, adding: " + 
+                                daysToAdd + " days and new time is: " + current);
+
+  // testing isAfter
+  System.out.println("\nTESTING isAfter");
+  t2 = new Time(23, 59, 59, 99);
+
+  boolean isAfter = t2.isAfter(new Time(23, 59, 59, 99));
+  System.out.println(t2 + " is after " + new Time(23, 59, 59, 99) + ": " + isAfter);
+
+  t1 = new Time(23, 59, 59, 99);
+        t2 = new Time(23, 59, 59, 98);
+        System.out.println(t1 + " is after " + t2 + ":" + t1.isAfter(t2));
+
+  // test isBefore
+  System.out.println("\nTESTING isBefore");
+  t1 = new Time(1, 20, 31, 12);
+  t2 = new Time(0, 18, 11, 13);
+
+  boolean isBefore = t2.isBefore(t1);
+  System.out.println(t2 + " is before " + t1 + ": " + isBefore);
+
+  t1 = new Time(1, 0, 0, 0);
+  t2 = new Time(0, 59, 59, 59);
+  System.out.println(t2 + " is before " + t1 + ": " + t2.isBefore(t1));
+
+  t1 = new Time(0, 0, 0, 0);
+  t2 = new Time(1, 59, 59, 59);
+  isBefore = t2.isBefore(t1);
+  System.out.println(t2 + " is before " + t1 + ": " + isBefore);
+
+        t1 = new Time(0, 0, 0, 1);
+  t2 = new Time(0, 0, 0, 2);
+  System.out.println(t2 + " is before " + t1 + ": " + t2.isBefore(t1));
+
+  // test subtractTime
+  System.out.println("\nTESTING subtractTime");
+  t1 = new Time(1, 58, 31, 12);
+        t3 = new Time(1, 58, 31, 12);
+  t2 = new Time(0, 58, 30, 11);
+  int interval = t3.subtractTime(t2);
+  System.out.println(t1 + " - " + t2 + " is " + t3 + " and subtract " + interval + " days");
+
+  // test compareTo
+  System.out.println("\nTESTING compareTo ");
+  t1 = new Time(0, 0, 0, 99);
+  t2 = new Time(0, 0, 0, 99);
+
+  System.out.println(t1 + " compare to " + t2 + " is " + t1.compareTo(t2));
+
+  t1 = new Time(23, 5, 8, 99);
+  t2 = new Time(23, 5, 8, 98);
+
+  System.out.println(t1 + " compare to " + t2 + " is " + t1.compareTo(t2));
+
+  t1 = new Time(1, 4, 3, 34);
+  t2 = new Time(8, 23, 13, 31);
+
+  System.out.println(t1 + " compare to " + t2 + " is " + t1.compareTo(t2));
+  
+  
+
+        //the following should generate exceptions
+        //t1 = new Time(25, 0, 0, 0);
+        //t2 = new Time(23, -2, 1, 0);
+        //t2 = new Time(1, 1, 1, 100);
+        
+ }
+}
+
+]0;san1465@omega:~/CSE1325/Project1[san1465@omega Project1]$ cat Date.java
+/*************************************************************************
+ *  Compilation:  javac Date.java <br>
+ *  Execution:    java Date <br>
+ *************************************************************************/
+
+/**
+ * A simple data type Date for use in Project 2 (CSE 1325, Fall 2010)
+ * <br>
+ * Useful for creating Date objects to hold calendar date
+ * 
+ * @author Sharma Chakravarhty (Extended Robert Sedgewick and Kevin Wayne code,
+ *         Copyright 2007)
+ * @author extended by Yuanzhe Cai (10/8/2010)
+ * @see java.util.Calendar
+ * @since 02/13/2010 Fixed a logical error/bug for addMonths on 2/22/2010 (Cai)
+ * @since 08/2012 Fixed a logical error in the constructor with m and y (sharma)
+ * @since 08/2012 Fixed a logical error in the methid addMonths (sharma)
+ * @since 09/2012  fixed bugs in Date (m, y) and daysBetween (sharma)
+ * @since 01/2014 revised to make it mutable
+ */
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+public class Date implements DateConstants {
+
+	private static final int[] DAYS = { 0, 31, 29, 31, 30, 31, 30, 31, 31,
+			30, 31, 30, 31 };
+    private static final int LEAP_YEAR = 366;
+    private static final int NON_LEAP_YEAR = 365;
+
+	private int month; // month (between 1 and 12)
+	private int day; // day (between 1 and DAYS[month])
+	private int year; // year
+
+/**
+	 * Constructor: default; returns today's date
+	 */
+    public Date() {
+        GregorianCalendar c = new GregorianCalendar();
+        month = c.get(Calendar.MONTH)+1;  //our month starts from 1
+        day = c.get(Calendar.DAY_OF_MONTH);
+        year = c.get(Calendar.YEAR);
+    }
+
+	/**
+	 * Constructor: Does bounds-checking to ensure object represents a valid
+	 * date
+	 * 
+	 * @param m    represents the month between 1 and 12
+	 * @param d    represents the date between 1 and the corresponding number
+	 *             from array DAYS
+	 * @param y    represents the year
+	 * @exception RuntimeException
+	 *                if the date is invalid
+	 */
+	public Date(int m, int d, int y) {
+		if (!isValid(m, d, y))
+			throw new RuntimeException("Date 1: Invalid date, incorrect input"  + m + ":" + d + ":" + y);
+		this.month = m;
+		this.day = d;
+		this.year = y;
+	}
+
+	/**
+	 * Constructor: Does bounds-checking to ensure string represents a valid
+	 * date
+	 * 
+	 * @param sDate    represents a date given in format mm-dd-yyyy as a string
+	 * @exception RuntimeException if the date is invalid
+	 */
+	public Date(String sDate) {
+		int m, d, y;
+		String[] chopDate = sDate.split("-");
+		m = Integer.parseInt(chopDate[ZEROI]);
+		d = Integer.parseInt(chopDate[ONEI]);
+		y = Integer.parseInt(chopDate[TWOI]);
+		if (!isValid(m, d, y))
+			throw new RuntimeException("Date 2:Invalid date: correct input" + m + "-" + d + "-" + y);
+		month = m;
+		day = d;
+		year = y;
+	}
+
+	/**
+	 * constructor:    creates a date with a given year; fills in valid last 
+     * month and day;
+	 * 
+	 * @param y    represents a date for a  year supplied as an integer
+	 */
+	public Date(int y) {
+
+		month = LAST_MONTH;
+		day = DAYS[LAST_MONTH];
+		year = y;
+	}
+
+	/**
+	 * create a date with a given month and year; fills in valid day;
+	 * 
+	 * @param m    represents the month between 1 and 12
+	 * @param y    represents the year
+	 * @exception  RuntimeException if the date is invalid
+	 */
+	public Date(int m, int y) {
+
+		if (m < FIRST_MONTH || m > LAST_MONTH) throw new RuntimeException("Date 3:Invalid date; correct input" + m + ":" + y);
+        else month = m;
+		if (!isLeapYear(y) && m == FEB) day = DAYS[m]-1;
+        else day = DAYS[m];
+        year = y;
+        if (!isValid(month, day, year))
+			throw new RuntimeException("4::Invalid date; correct input" + m + ":" + y);
+	}
+
+	/**
+	 * Is the given date valid?
+	 * 
+	 * @param month, day, and year
+	 * @return false if month exceeds 12 or is less than 1
+	 * @return false if day exceeds the corresponding days for a month from
+	 *         array DAYS
+	 * @return false if the year is not a leap year and has 29 days
+	 */
+	private static boolean isValid(int m, int d, int y) {
+		if (y < 0) return false; //will not handle negative years!
+        if (m < FIRST_MONTH || m > LAST_MONTH)
+			return false;
+		if (d < FIRST_DAY || d > DAYS[m])
+			return false;
+		if (m == FEB && d == DAYS[FEB] && !isLeapYear(y))
+			return false;
+		return true;
+	}
+
+	/**
+	 * is y a leap year?
+	 * 
+	 * @param y
+	 *            represents the year specified
+	 * @return true if year divisible by 400
+	 * @return false if year divisible by 100 and not by 400
+	 */
+	private static boolean isLeapYear(int y) {
+		if (y % 400 == 0)
+			return true;
+		if (y % 100 == 0)
+			return false;
+		return (y % 4 == 0);
+	}
+
+	/**
+	 * does a given date belong to the given year y ?
+	 * 
+	 * @param y
+	 *            represents the year specified
+	 * @return true if date belongs to that Calendar year
+	 * @return false if date DOES NOT belongs to that Calendar year
+	 */
+    
+	public boolean dateBelongsTo(int y) {
+		
+        if (this.year != y) return false;
+        else return true;
+	}
+
+/**
+	 * is (m, y) a leap month?
+	 * 
+     * @param m represents the month specified
+	 * @param y represents the year specified
+	 * @return true if it is a leap month
+	 * @return false otherwise
+	 */
+	private static boolean isLeapMonth(int m, int y) {
+		if (isLeapYear(y)) return ((m == 2) ? true : false);
+		return false;
+	}
+
+	// return the next Date
+	/**
+	 * adds a day and returns the same Date object
+	 * 
+	 * @return returns the same Date object adding a day
+	 */
+	public Date next() {
+		if (isValid(month, day + 1, year)){
+            this.day +=1;
+			return this;
+        }
+		else if (isValid(month + 1, 1, year)){
+            this.month += 1;
+            this.day = 1;
+			return this;
+        }
+		else{
+            this.day = 1;
+            this.month =1;
+            this.year +=1;
+			return this;
+        }
+	}
+
+	// is this Date after b?
+	/**
+	 * compares two Date objects
+	 * 
+	 * @param b Date object
+	 * @return true if this Date is after Date b
+	 */
+	public boolean isAfter(Date b) {
+		return compareTo(b) > 0;
+	}
+
+	// is this Date a before b?
+	/**
+	 * compares two date objects
+	 * 
+	 * @param b Date object
+	 * @return true if this Date is before Date b
+	 */
+	public boolean isBefore(Date b) {
+		return compareTo(b) < 0;
+	}
+
+
+	// comparison function between two dates
+	/**
+	 * compares two Date objects
+	 * 
+	 * @param b    Date object
+	 * @return     0 if this Date is the same as Date b <br>
+	 *             negative integer if this Date is earlier than Date b <br>
+	 *             positive integer if this Date is after Date b
+	 */
+	public int compareTo(Date b) {
+		if (year != b.year)
+			return year - b.year;
+		if (month != b.month)
+			return month - b.month;
+		return day - b.day;
+	}
+
+	
+	// advance date by number of months
+	/**
+	 * advances the date by m months (fixed a bug on 2/22/2010)
+	 * 
+	 * @param m    represents the  months to advance
+	 * @return     modifies the same Date object)
+	 */
+	public Date addMonths(int m) {
+        int td;
+		int tm = (month + (m % 12)) > 12 ? ((month + (m % 12)) % 12) : month
+				+ (m % 12);
+		int ty = (month + (m % 12)) > 12 ? year + (m / 12) + 1 : year + (m / 12);
+        td = day;
+		if (isLeapYear(ty) && (day > DAYS[tm]))  td = DAYS[tm];
+        if (!isLeapYear(ty) && tm == FEB && day > DAYS[tm] -1) td = DAYS[tm]-1;
+        this.month = tm; this.day = td; this.year = ty;
+        return this;
+    }         
+	
+    // returns the number of days between two dates
+	/**
+     * @ param  endDate is the second date
+	 * @ return the number of days between two dates
+     *          - 1 if start date is after the end date
+     *          +ve #days if the start date is before end date
+	 * 
+	 */
+	public int daysBetween(Date endDate) {
+
+		if (this.isAfter(endDate)) return -1;
+        int totDays = 0;
+        for (int y = this.year; y < endDate.year; y++) 
+			totDays += (isLeapYear(y) ? LEAP_YEAR : NON_LEAP_YEAR);
+			
+		int daysBeforeFirst = 0;
+		for (int m = 1; m < this.month; m++)
+			daysBeforeFirst +=  (m == 2 && !isLeapMonth(m, this.year)) ? DAYS[m]-1 : DAYS[m];
+		daysBeforeFirst += this.day;
+
+		int daysInSecond = 0;
+		for (int me = 1; me < endDate.month; me++)
+			daysInSecond += (me ==2 && !isLeapMonth(me, endDate.year) ? DAYS[me]-1  : DAYS[me]);
+		daysInSecond += endDate.day;	
+			
+		return totDays - daysBeforeFirst + daysInSecond;
+	}
+
+	// return a string representation of this date
+	/**
+	 * replaces the default toString of Object class
+     * @override
+	 */
+	public String toString() {
+		return "[" + month + "-" + day + "-" + year + "]";
+	}
+
+    public void toString(String s){
+        System.out.println("in a different toString\n");
+    }
+
+
+	/**
+	 * Code for testing the Date class
+	 * 
+	 * @param args Array of String arguments
+	 */
+
+	public static void main(String[] args) {
+        int count;
+		Date today = new Date(1, 26, 2011);
+        today.toString("cse");
+		System.out.println(today);
+		for (int i = 0; i < 14; i++) {
+			today = today.next();
+			System.out.println(today);
+		}
+        Date expiry = new Date(2011);
+		System.out.println("testing 2011 as input:" + expiry);
+        expiry = new Date(2012);
+        System.out.println("testing 2012 as input:" + expiry);
+        expiry = new Date(2, 2013);
+        System.out.println("testing [2, 2013] as input:" + expiry);
+        expiry = new Date(2, 2012);
+        System.out.println("testing [2, 2012] as input:" + expiry);
+        expiry = new Date(8, 2013);
+        System.out.println("testing [8, 2013] as input:" + expiry);
+        expiry = new Date(7, 2012);
+        System.out.println("testing [7, 2012] as input:" + expiry);
+        
+                
+		Date todayDate = new Date();
+		System.out.println("todays date: " + todayDate);
+		System.out.println("current month:" + todayDate.month);
+
+        todayDate = new Date(2, 2010);
+        System.out.println("todays date: " + todayDate);
+		System.out.println("current month: " + todayDate.month);
+        System.out.println("current day: " + todayDate.day);
+
+        //testing dateBelongsTo method
+        Date lease = new Date("08-01-2010");
+		expiry = new Date("12-31-2011");
+        Date expiry1 = new Date("1-01-2012");
+        System.out.println(lease + " belongs to " + "2012: " + lease.dateBelongsTo(2012));
+        System.out.println(lease + " belongs to " + "2010: " + lease.dateBelongsTo(2010));
+        System.out.println(lease + " belongs to " + "2000: " + lease.dateBelongsTo(2000));
+        System.out.println(expiry +  " belongs to " + "2011: " + expiry.dateBelongsTo(2011));
+        System.out.println(expiry + " belongs to " + "2012: " + expiry.dateBelongsTo(2012));
+        System.out.println(expiry + " belongs to " + "201: " + expiry.dateBelongsTo(201));
+        System.out.println(expiry1 + " belongs to " + "2012: " + expiry1.dateBelongsTo(2012));
+        System.out.println(expiry1 + " belongs to " + "2011: " + expiry1.dateBelongsTo(2011));
+        System.out.println(expiry1 + " belongs to " + "2056: " + expiry1.dateBelongsTo(2056));
+
+        lease = new Date("08-01-2010");
+		expiry = new Date("08-01-2011");
+        expiry1 = new Date("08-01-2012");
+
+		// testing daysBetween
+        System.out.println("\nTESTING daysBetween method\n------------------------------");
+		count = lease.daysBetween(expiry);
+		System.out.println("Days between "  + lease + " and " + expiry + "is: " + count);
+        count = lease.daysBetween(expiry1);
+        System.out.println("Days between "  + lease + " and " + expiry1 + "is: " + count);
+		count = lease.daysBetween(new Date("12-31-2016"));
+		System.out.println("Days between "  + lease + " and [12-31-2016] " + "is: " + count);
+        count = lease.daysBetween(lease);
+		System.out.println("Days between "  + lease + " and " + lease + "is: " + count);
+
+        //testin isBefore
+        System.out.println("\nTESTING isBefore method\n------------------------------");
+        today = new Date();
+        Date today1 = new Date();
+        Date tomorrow = today1.next();
+		System.out.println(today + " is before " + tomorrow + ": " + today.isBefore(tomorrow));
+        System.out.println(tomorrow + " is before " + today + ": " + tomorrow.isBefore(today));
+        System.out.println(today + " is before " + today + ": " + today.isBefore(today));
+        
+        //testing  addMonths
+        System.out.println("\nTESTING addMonths method\n------------------------------");
+        today = new Date("1-31-2011");
+        today1 = new Date("1-31-2011");
+        System.out.println("adding 1 months to " + today + " gives: " + today1.addMonths(1));
+        today = new Date("1-31-2012");
+        System.out.println("adding 1 months to " + today + " gives: " + new Date("1-31-2012").addMonths(1));
+        System.out.println("adding 24 months to " + today + " gives: " + new Date("1-31-2012").addMonths(24));
+        today = new Date("12-15-2012");
+        System.out.println("adding 2 months to " + today + " gives: " + new Date("12-15-2012").addMonths(2));
+        today = new Date("2-29-2012");
+        System.out.println("adding 15 months to " + today + " gives: " + new Date("2-29-2012").addMonths(15));
+        System.out.println("adding 23 months to " + today + " gives: " + new Date("2-29-2012").addMonths(23));
+        System.out.println("adding 0 months to " + today + " gives: " + new Date("2-29-2012").addMonths(0));
+        System.out.println("adding 48 months to " + today + " gives: " + new Date("2-29-2012").addMonths(48));
+        
+		//following will generate exception
+        //System.out.println(lease.dateBelongsTo(-2));
+		//today = new Date(13, 13, 2010);
+        //expiry = new Date(13, 2012);
+		// expiry = new Date("2-29-2009");
+        // expiry = new Date("3-32-2009");
+		// System.out.println(expiry);	
+	}
+}
+
+]0;san1465@omega:~/CSE1325/Project1[san1465@omega Project1]$ cat DateTime.java
+/*************************************************************************
+ *  Compilation:  javac DateTime.java <br>
+ *  Execution:    java DateTime <br>
+ *************************************************************************/
+
+/**
+ * A simple data type DateTime to be fleshed out for Project 1 (CSE 1325, Spring 2014)
+ * <br>
+ * Useful for creating DateTime objects (a la DATETIME type supported in Oracle)
+ * 
+ * @author skeleton developed by Sharma Chakravarhty 
+ * @author To be completed by the student
+ * @see java.util.Calendar
+ * 
+ */
+
+public class DateTime implements DateConstants {
+
+ static private final int VALID_STRING = 21;
+ static private final int DATE_INDEC = 0;
+ static private final int TIME_INDEX = 1;
+ static private final int MONTHS_INYEAR = 12;
+ static private final int HOURS_INDAY = 24;
+ 
+ private Date date; // from Date Class
+ private Time time; // from Time class
+
+ 
+/**
+  * Constructor: default; returns today's date and time
+  */
+    public DateTime() {
+        date = new Date();
+        time = new Time();
+    }
+
+ /**
+  * Constructor: Does bounds-checking to ensure object represents a valid
+  * date and time
+  * 
+  * @param m    represents the month between 1 and 12
+  * @param d    represents the date between 1 and the corresponding number
+  *             from array DAYS
+  * @param y    represents the year
+  * @exception RuntimeException
+  *                if the date is invalid
+  */
+ public DateTime(int mo, int d, int y, int h, int mi, int s, int hun) {
+  
+    date= new Date(mo,d,y);
+    time= new Time(h,mi,s,hun);
+    
+ }
+
+ /**
+  * Constructor: Does bounds-checking to ensure string represents a valid
+  * date
+  * 
+  * @param sDate    represents a date given in format mm-dd-yyyy,hh:mm:ss:hund as a string
+  * @exception RuntimeException if the date is invalid
+  */
+ public DateTime(String sDateTime) {
+    
+   String [] splitResult= sDateTime.split(",");
+   date= new Date(splitResult[0]);
+   time= new Time(splitResult[1]);   
+ }
+
+    
+ // is this DateTime after b?
+ /**
+  * compares two DateTime objects
+  * 
+  * @param b DateTime object
+  * @return true if this DateTime is after DateTime b
+  */
+ public boolean isAfter(DateTime b) {
+ 
+   return compareTo(b)>0;
+ }
+
+ // is this DateTime a before b?
+ /**
+  * compares two date objects
+  * 
+  * @param b DateTime object
+  * @return true if this DateTime is before DateTime b
+  */
+ public boolean isBefore(DateTime b) {
+   
+   return compareTo(b)<0;
+ }
+
+
+ // comparison function between two dates
+ /**
+  * compares two DateTime objects
+  * 
+  * @param b    DateTime object
+  * @return     0 if this DateTime is the same as DateTime b <br>
+  *             negative integer if this DateTime is earlier than DateTime b <br>
+  *             positive integer if this DateTime is after DateTime b
+  */
+ public int compareTo(DateTime b) {
+
+  if(date.isBefore(b.date))
+    return date.compareTo(b.date);
+  
+    return time.compareTo(b.time);
+ }
+
+ 
+ // advance DateTime by days
+ /**
+  * advances the datetime by days
+  * 
+  * @param d    represents the  days to advance
+  * @return     modifies the same DateTime object)
+  */
+ 
+ public DateTime addDays(int d){
+   for(int i=0;i<d;i++)    
+   date.next();
+      
+      return this; 
+ }
+ 
+  // advance DateTime by months
+ /**
+  * advances the datetime by montsh
+  * 
+  * @param m    represents the  monthss to advance
+  * @return     modifies the same DateTime object)
+  */
+ public DateTime addMonths(int m){
+     
+  date.addMonths(m);
+   return this;
+ }
+ 
+  // advance DateTime by years
+ /**
+  * advances the datetime by years
+  * 
+  * @param y    represents the  years to advance
+  * @return     modifies the same DateTime object)
+  */
+ public DateTime addYears(int y){
+   
+  date.addMonths(y*MONTHS_INYEAR);
+   return this;
+ }
+ 
+  // advance DateTime by hours
+ /**
+  * advances the datetime by hours
+  * 
+  * @param h    represents the  hours to advance
+  * @return     modifies the same DateTime object)
+  */
+ public DateTime addHours(int h){
+   
+  int daysOver=0;
+  daysOver=time.addHours(h);
+  this.addDays(daysOver);
+   
+  return this;
+ }
+ 
+  // advance DateTime by minutes
+ /**
+  * advances the datetime by minutes
+  * 
+  * @param m    represents the  minutes to advance
+  * @return     modifies the same DateTime object)
+  */
+ public DateTime addMinutes(int m){
+   
+   int daysOver=0;
+   daysOver=time.addMinutes(m);
+   this.addDays(daysOver);
+   
+   return this;
+ }
+ 
+  // advance DateTime by seconds
+ /**
+  * advances the datetime by seconds
+  * 
+  * @param s    represents the  seconds to advance
+  * @return     modifies the same DateTime object)
+  */
+ public DateTime addSeconds(int s){
+   
+   int daysOver=0;
+   daysOver=time.addSeconds(s);
+   this.addDays(daysOver);
+   
+   return this;
+ }
+
+ // return a string representation of this date
+ /**
+  * replaces the default toString of Object class
+     * @override
+  */
+ public String toString() {
+      
+      return this.date+ " " + this.time;  
+ }
+ 
+ //Add two DateTimes returning a DateTime
+ /**
+  * adds Date and Time and returns new DateTime object
+  * 
+  * @return returns a new DateTime adding Date and Time
+  */
+ public DateTime addDateTime(DateTime d2){
+   
+  return this; 
+ }
+ 
+ //Subtract two DateTimes returning a DateTime
+ /**
+  * subtracts Date and Time and returns new DateTime object
+  * 
+  * @return returns a new DateTime subtracting Date and Time
+  */
+ public DateTime subtractDateTime(DateTime dt2){
+  
+      return this;
+ }
+  
+ 
+
+ /**
+  * Code for testing the DateTime class
+  * 
+  * @param args Array of String arguments
+  */
+
+ public static void main(String[] args) {
+
+    System.out.println("\n-------Testing Constructors:-------");
+    
+    System.out.println("Building Blank Constructor...");
+    DateTime today = new DateTime();
+    System.out.println("Today's date and time is: " + today);
+    
+    System.out.println("Building String Constructor...");    
+    //Before todays date
+    DateTime today1 = new DateTime("01-01-2012,01:01:03:00");
+    
+    System.out.println("Today's date and time is: " + today1);
+    
+    System.out.println("Building Integer Constructor...");
+    //After todays date
+    DateTime today2 = new DateTime(03,01,2014,01,01,03,00);
+    
+    System.out.println("----------Testing comapre()------------\n");
+    
+    System.out.println("Is "+today+" before "+today1 +today.isBefore(today1));
+    
+    System.out.println("Is "+today+ "after "+today1 +today.isAfter(today1));
+    
+    System.out.println("If "+today+ "is after  "+today1+" than it should be positive "+today.compareTo(today1));
+    
+    System.out.println("If "+today+ "is earlier than "+today2+" than it should be negative "+today.compareTo(today2));
+    
+    System.out.println("-----------Testing addDays---------\n");
+    System.out.println("Adding 1 day to: "+today1);
+    today1=today1.addDays(1);
+    System.out.println("New today 1: "+today1);
+    System.out.println("Adding 3 more days to today1");
+    today1.addDays(3); 
+    System.out.println("New today 1: "+today1);
+    System.out.println("Adding 100 more days to today1");
+    today1.addDays(100);
+    
+    System.out.println("-----------Testing addMonths---------\n");
+    System.out.println("New today 1: "+today1);
+    System.out.println("Adding 1 month to today1");
+    today1.addMonths(1);
+    System.out.println("New today 1: "+today1);
+    System.out.println("Adding 3 month to today1");
+    today1.addMonths(3);
+    System.out.println("New today 1: "+today1);
+    System.out.println("Adding 17 Months");
+    today1.addMonths(17);
+    System.out.println("New today 1: "+today1);
+    
+    System.out.println("-----------Testing addYears-------\n");
+    
+    System.out.println("New today 1: "+today1);
+    System.out.println("Adding 1 year to today1:");
+    today1.addYears(1);
+    System.out.println("New today 1: "+today1);
+    System.out.println("adding 6 years to today1");
+    today1.addYears(6);
+    System.out.println("New today 1: "+today1);
+    
+    System.out.println("------------Hours Test-------------");
+    
+    
+    System.out.println("Adding 26hours to today1");
+    today1.addHours(26);
+    System.out.println("New today 1: "+today1+"\n");
+    
+    System.out.println("Adding 24hours to today1");
+    today1.addHours(24);
+    System.out.println("New today 1: "+today1+"\n");
+    
+    System.out.println("Adding 23hours to today1");
+    today1.addHours(23);
+    System.out.println("New today 1: "+today1+"\n");
+    
+    System.out.println("Adding 2200 hours to today1");
+    today1.addHours(2200);
+    System.out.println("New today 1: "+today1+"\n");    
+    
+    System.out.println("------------Minutes Test---------\n");
+    
+    System.out.println("Adding 1minute to today1");
+    today1.addMinutes(1);
+    System.out.println("New today 1: "+today1+"\n");
+    
+    System.out.println("Adding 60minutes to today1");
+    today1.addMinutes(60);
+    System.out.println("New today 1: "+today1+"\n");
+    
+    System.out.println("Adding 13000 minute to today1");
+    today1.addMinutes(13000);
+    System.out.println("New today 1: "+today1+"\n");
+    
+    System.out.println("----------Testing isBefore()-----------\n");
+    
+    System.out.println("Is "+today+" before "+today1+" ? should be true result: "+today.isBefore(today1));
+    System.out.println("Is "+today1+" before "+today+" ? should be false result: "+today1.isBefore(today));
+    System.out.println("Is "+today1+" before "+today1+" ? should be false result: "+today1.isBefore(today1));
+    
+    System.out.println("----------Testing isAfter()------------\n");
+    
+    System.out.println("Is "+today+" after "+today1+" ? should be false result: "+today.isAfter(today1));
+    System.out.println("Is "+today1+" after "+today+" ? should be true result: "+today1.isAfter(today));
+    
+   System.out.println("------------Running given test cases--------------");
+   DateTime today001 = new DateTime();
+   System.out.println("Testing no arg constructor: "+today001);
+   
+   System.out.println("\n");
+   System.out.println("-------- Testing hours-minutes-seconds 1--------\n");
+   DateTime dateTime1 = new DateTime("2-28-2016,23:59:59:99"); 
+   System.out.println("testing string as input:" + dateTime1);
+   System.out.println("Adding 26 hrs to"+dateTime1+" gives "+dateTime1.addHours(26));
+   
+   System.out.println("\n");
+   System.out.println("-------- Testing hours-minutes-seconds 2--------");     
+   DateTime dateTime2 = new DateTime("2-27-2017,23:59:00:00");
+   System.out.println("Adding 24hrs to "+dateTime2+" gives "+dateTime2.addHours(24));
+   System.out.println("Adding 7 min to "+dateTime2+ "gives "+dateTime2.addMinutes(7));
+   
+   System.out.println("\n");
+   System.out.println("-------- Testing hours-minutes-seconds 3--------");
+   dateTime2 = new DateTime("12-31-2013,11:30:00:00");
+   System.out.println("Adding 13 hrs to "+dateTime2+" gives "+dateTime2.addHours(13));
+   System.out.println("Adding 31 min to "+dateTime2+ "gives "+dateTime2.addMinutes(31));
+   
+   System.out.println("\n");
+   System.out.println("-------- Testing hours-minutes-seconds 4--------");
+   dateTime2 = new DateTime("1-1-2012,23:59:00:00");
+   System.out.println("Adding 86400 sec to "+dateTime2+" gives "+dateTime2.addSeconds(86400));
+   System.out.println("Adding 3600 sec to "+dateTime2+ "gives "+dateTime2.addSeconds(3600));
+   
+   System.out.println("\n");
+   System.out.println("-------- Testing hours-minutes-seconds 5--------");        
+   DateTime dateTime3 = new DateTime("1-11-2014,23:59:57:00");
+   System.out.println("Adding 4 sec to "+dateTime3+" gives "+dateTime3.addSeconds(4));
+   
+   System.out.println("\n");
+   System.out.println("-------- Testing hours-minutes-seconds 6--------");
+   dateTime1 = new DateTime(2,28,2015,12,30,30,0);
+   System.out.println("testing 7 arg constructor with initial date: "+dateTime1);
+   System.out.println("Increasing day by 366 "+dateTime1.addDays(366));
+   System.out.println("Increasing  month by 12 "+dateTime1.addMonths(12));
+   System.out.println("Increasing  year by 2 "+dateTime1.addYears(2));
+   
+   System.out.println("\n");
+   System.out.println("-------- Testing hours-minutes-seconds 7--------");
+   dateTime1 = new DateTime(2,28,2016,12,30,30,0);
+   System.out.println("Initial date is "+dateTime1);
+   System.out.println("Increasing day by 365 "+dateTime1.addDays(365));
+   System.out.println("Increasing  month by 11 "+dateTime1.addMonths(11));
+   System.out.println("Increasing  year by 30 "+dateTime1.addYears(30));
+        
+   dateTime2 = new DateTime(12,31,2013,12,45,30,0);
+   dateTime3 = new DateTime(12,31,2013,12,45,29,99);
+   System.out.println("\n");
+   System.out.println("--------------Test 1 isBefore isAfter ------------------");     
+   System.out.println("checking "+dateTime2+" is before "+dateTime3+" gives "+dateTime2.isBefore(dateTime3));
+   System.out.println("checking "+dateTime2+" is after "+dateTime3+" gives "+dateTime2.isAfter(dateTime3)); 
+   System.out.println("checking "+dateTime3+" is before "+dateTime2+" gives "+dateTime3.isBefore(dateTime2));
+   System.out.println("checking "+dateTime3+" is after "+dateTime2+" gives "+dateTime3.isAfter(dateTime2)); 
+        
+   System.out.println("\n");    
+   System.out.println("--------------Test 2 isBefore isAfter ------------------");   
+   dateTime2 = new DateTime(12,30,2013,12,45,30,0);
+   dateTime3 = new DateTime(12,31,2013,12,45,29,99);           
+   System.out.println("checking "+dateTime2+" is before "+dateTime3+" gives "+dateTime2.isBefore(dateTime3));
+   System.out.println("checking "+dateTime2+" is after "+dateTime3+" gives "+dateTime2.isAfter(dateTime3));
+   
+   System.out.println("\n");
+   System.out.println("--------------Test 3 isBefore isAfter ------------------"); 
+   dateTime2 = new DateTime(12,31,2012,12,45,30,0);
+   dateTime3 = new DateTime(8,31,2013,12,45,29,99);         
+   System.out.println("checking "+dateTime2+" is before "+dateTime3+" gives "+dateTime2.isBefore(dateTime3));
+   System.out.println("checking "+dateTime2+" is after "+dateTime3+" gives "+dateTime2.isAfter(dateTime3));
+   
+   System.out.println("\n");
+   System.out.println("--------------Test 4 isBefore isAfter ------------------");
+   dateTime2 = new DateTime(12,31,2013,11,45,29,99);
+   dateTime3 = new DateTime(12,31,2013,12,45,29,99);        
+   System.out.println("checking "+dateTime2+" is before "+dateTime3+" gives "+dateTime2.isBefore(dateTime3));
+   System.out.println("checking "+dateTime2+" is after "+dateTime3+" gives "+dateTime2.isAfter(dateTime3));
+   
+   System.out.println("\n");
+   System.out.println("--------------Test 5 isBefore isAfter ------------------");
+   dateTime2 = new DateTime(12,31,2013,12,44,59,0);
+   dateTime3 = new DateTime(12,31,2013,12,45,0,0);        
+   System.out.println("checking "+dateTime2+" is before "+dateTime3+" gives "+dateTime2.isBefore(dateTime3));
+   System.out.println("checking "+dateTime2+" is after "+dateTime3+" gives "+dateTime2.isAfter(dateTime3));
+        
+   System.out.println("--------------Test 6 isBefore isAfter ------------------");
+   dateTime2 = new DateTime(12,31,2013,12,45,29,98);
+   dateTime3 = new DateTime(12,31,2013,12,45,29,99);        
+   System.out.println("checking "+dateTime2+" is before "+dateTime3+" gives "+dateTime2.isBefore(dateTime3));
+   System.out.println("checking "+dateTime2+" is after "+dateTime3+" gives "+dateTime2.isAfter(dateTime3));
+        
+   System.out.println("\n");
+   System.out.println("--------------Test 7 isBefore isAfter ------------------");
+   System.out.println("\n");
+   dateTime2 = new DateTime(12,31,2013,13,50,30,0);
+   dateTime3 = new DateTime("12-29-2014,12:45:29:0");        
+   System.out.println("checking "+dateTime2+" is before "+dateTime3+" gives "+dateTime2.isBefore(dateTime3));
+   System.out.println("checking "+dateTime2+" is after "+dateTime3+" gives "+dateTime2.isAfter(dateTime3));
+
+        
+   System.out.println("Comparing dateTimes now");
+   
+   System.out.println("\n");
+   System.out.println("--------------Test 1 compareTo() ------------------");
+   dateTime2 = new DateTime(12,31,2013,13,50,30,0);
+   dateTime3 = new DateTime("12-29-2014,12:45:29:0");        
+   System.out.println("Comparing "+dateTime2+" with "+dateTime3+" gives "+dateTime2.compareTo(dateTime3));
+   
+   System.out.println("\n");
+   System.out.println("--------------Test 2 compareTo() ------------------");
+   dateTime2 = new DateTime(12,31,2013,13,50,30,0);
+   dateTime3 = new DateTime("12-29-2013,12:45:29:0");        
+   System.out.println("Comparing "+dateTime2+" with "+dateTime3+" gives "+dateTime2.compareTo(dateTime3));
+   
+   System.out.println("\n");
+   System.out.println("--------------Test 3 compareTo() ------------------");
+   dateTime2 = new DateTime(12,29,2014,12,45,29,0);
+   dateTime3 = new DateTime("12-29-2014,12:45:29:0");        
+   System.out.println("Comparing "+dateTime2+" with "+dateTime3+" gives "+dateTime2.compareTo(dateTime3));
+   
+   System.out.println("\n");
+   System.out.println("--------------Test 4 compareTo() ------------------");
+   dateTime2 = new DateTime(12,29,2014,12,45,31,0);
+   dateTime3 = new DateTime("12-29-2014,12:45:29:0");        
+   System.out.println("Comparing "+dateTime2+" with "+dateTime3+" gives "+dateTime2.compareTo(dateTime3));
+   
+   System.out.println("\n");
+   System.out.println("--------------Test 5 compareTo() ------------------");
+   dateTime2 = new DateTime(12,29,2014,12,44,31,0);
+   dateTime3 = new DateTime("12-29-2014,12:45:29:0");        
+   System.out.println("Comparing "+dateTime2+" with "+dateTime3+" gives "+dateTime2.compareTo(dateTime3));
+        
+ }
+}
+
+]0;san1465@omega:~/CSE1325/Project1[san1465@omega Project1]$ javac *.java
+]0;san1465@omega:~/CSE1325/Project1[san1465@omega Project1]$ ls -l
+[00mtotal 444
+-rw-r--r-- 1 san1465 students 125184 Jan 29 19:48 [00mCSE-1325-ScriptFile-generation.pdf[00m
+-rw-r--r-- 1 san1465 students   7227 Jan 29 20:25 [00mDate.class[00m
+-rw-r--r-- 1 san1465 students    417 Jan 29 20:25 [00mDateConstants.class[00m
+-rw-r--r-- 1 san1465 students   1045 Jan 29 17:32 [00mDateConstants.java[00m
+-rw-r--r-- 1 san1465 students   1328 Jan 28 22:58 [00mDateConstants.java~[00m
+-rw-r--r-- 1 san1465 students  14108 Jan 24 16:38 [00mDate.java[00m
+-rw-r--r-- 1 san1465 students  10471 Jan 29 20:25 [00mDateTime.class[00m
+-rw-r--r-- 1 san1465 students  18042 Jan 29 20:17 [00mDateTime.java[00m
+-rw-r--r-- 1 san1465 students  17068 Jan 29 19:30 [00mDateTime.java~[00m
+drwxr-xr-x 3 san1465 students   4096 Jan 29 20:22 [00;34mdoc[00m
+-rw-r--r-- 1 san1465 students 134277 Jan 24 16:37 [00mProject 1 CSE 1325.pdf[00m
+-rw-r--r-- 1 san1465 students  49152 Jan 29 20:24 [00msan1465_Nidell_project1_002.log[00m
+-rw-r--r-- 1 san1465 students   7498 Jan 29 20:25 [00mTime.class[00m
+-rw-r--r-- 1 san1465 students  15582 Jan 29 17:31 [00mTime.java[00m
+-rw-r--r-- 1 san1465 students  15988 Jan 29 12:04 [00mTime.java~[00m
+[m]0;san1465@omega:~/CSE1325/Project1[san1465@omega Project1]$ java DateTime
+
+-------Testing Constructors:-------
+Building Blank Constructor...
+Today's date and time is: [1-29-2014] [8:25:23:0]
+Building String Constructor...
+Today's date and time is: [1-1-2012] [1:1:3:0]
+Building Integer Constructor...
+----------Testing comapre()------------
+
+Is [1-29-2014] [8:25:23:0] before [1-1-2012] [1:1:3:0]false
+Is [1-29-2014] [8:25:23:0]after [1-1-2012] [1:1:3:0]true
+If [1-29-2014] [8:25:23:0]is after  [1-1-2012] [1:1:3:0] than it should be positive 7
+If [1-29-2014] [8:25:23:0]is earlier than [3-1-2014] [1:1:3:0] than it should be negative -2
+-----------Testing addDays---------
+
+Adding 1 day to: [1-1-2012] [1:1:3:0]
+New today 1: [1-2-2012] [1:1:3:0]
+Adding 3 more days to today1
+New today 1: [1-5-2012] [1:1:3:0]
+Adding 100 more days to today1
+-----------Testing addMonths---------
+
+New today 1: [4-14-2012] [1:1:3:0]
+Adding 1 month to today1
+New today 1: [5-14-2012] [1:1:3:0]
+Adding 3 month to today1
+New today 1: [8-14-2012] [1:1:3:0]
+Adding 17 Months
+New today 1: [1-14-2014] [1:1:3:0]
+-----------Testing addYears-------
+
+New today 1: [1-14-2014] [1:1:3:0]
+Adding 1 year to today1:
+New today 1: [1-14-2015] [1:1:3:0]
+adding 6 years to today1
+New today 1: [1-14-2021] [1:1:3:0]
+------------Hours Test-------------
+Adding 26hours to today1
+New today 1: [1-15-2021] [3:1:3:0]
+
+Adding 24hours to today1
+New today 1: [1-16-2021] [3:1:3:0]
+
+Adding 23hours to today1
+New today 1: [1-17-2021] [2:1:3:0]
+
+Adding 2200 hours to today1
+New today 1: [4-18-2021] [18:1:3:0]
+
+------------Minutes Test---------
+
+Adding 1minute to today1
+New today 1: [4-18-2021] [18:2:3:0]
+
+Adding 60minutes to today1
+New today 1: [4-18-2021] [19:2:3:0]
+
+Adding 13000 minute to today1
+New today 1: [4-27-2021] [19:42:3:0]
+
+----------Testing isBefore()-----------
+
+Is [1-29-2014] [8:25:23:0] before [4-27-2021] [19:42:3:0] ? should be true result: true
+Is [4-27-2021] [19:42:3:0] before [1-29-2014] [8:25:23:0] ? should be false result: false
+Is [4-27-2021] [19:42:3:0] before [4-27-2021] [19:42:3:0] ? should be false result: false
+----------Testing isAfter()------------
+
+Is [1-29-2014] [8:25:23:0] after [4-27-2021] [19:42:3:0] ? should be false result: false
+Is [4-27-2021] [19:42:3:0] after [1-29-2014] [8:25:23:0] ? should be true result: true
+------------Running given test cases--------------
+Testing no arg constructor: [1-29-2014] [8:25:23:0]
+
+
+-------- Testing hours-minutes-seconds 1--------
+
+testing string as input:[2-28-2016] [23:59:59:99]
+Adding 26 hrs to[2-28-2016] [23:59:59:99] gives [3-1-2016] [1:59:59:99]
+
+
+-------- Testing hours-minutes-seconds 2--------
+Adding 24hrs to [2-27-2017] [23:59:0:0] gives [2-28-2017] [23:59:0:0]
+Adding 7 min to [2-28-2017] [23:59:0:0]gives [3-1-2017] [0:6:0:0]
+
+
+-------- Testing hours-minutes-seconds 3--------
+Adding 13 hrs to [12-31-2013] [11:30:0:0] gives [1-1-2014] [0:30:0:0]
+Adding 31 min to [1-1-2014] [0:30:0:0]gives [1-1-2014] [1:1:0:0]
+
+
+-------- Testing hours-minutes-seconds 4--------
+Adding 86400 sec to [1-1-2012] [23:59:0:0] gives [1-2-2012] [23:59:0:0]
+Adding 3600 sec to [1-2-2012] [23:59:0:0]gives [1-3-2012] [0:59:0:0]
+
+
+-------- Testing hours-minutes-seconds 5--------
+Adding 4 sec to [1-11-2014] [23:59:57:0] gives [1-12-2014] [0:0:1:0]
+
+
+-------- Testing hours-minutes-seconds 6--------
+testing 7 arg constructor with initial date: [2-28-2015] [12:30:30:0]
+Increasing day by 366 [2-29-2016] [12:30:30:0]
+Increasing  month by 12 [2-28-2017] [12:30:30:0]
+Increasing  year by 2 [2-28-2019] [12:30:30:0]
+
+
+-------- Testing hours-minutes-seconds 7--------
+Initial date is [2-28-2016] [12:30:30:0]
+Increasing day by 365 [2-27-2017] [12:30:30:0]
+Increasing  month by 11 [1-27-2018] [12:30:30:0]
+Increasing  year by 30 [1-27-2048] [12:30:30:0]
+
+
+--------------Test 1 isBefore isAfter ------------------
+checking [12-31-2013] [12:45:30:0] is before [12-31-2013] [12:45:29:99] gives false
+checking [12-31-2013] [12:45:30:0] is after [12-31-2013] [12:45:29:99] gives true
+checking [12-31-2013] [12:45:29:99] is before [12-31-2013] [12:45:30:0] gives true
+checking [12-31-2013] [12:45:29:99] is after [12-31-2013] [12:45:30:0] gives false
+
+
+--------------Test 2 isBefore isAfter ------------------
+checking [12-30-2013] [12:45:30:0] is before [12-31-2013] [12:45:29:99] gives true
+checking [12-30-2013] [12:45:30:0] is after [12-31-2013] [12:45:29:99] gives false
+
+
+--------------Test 3 isBefore isAfter ------------------
+checking [12-31-2012] [12:45:30:0] is before [8-31-2013] [12:45:29:99] gives true
+checking [12-31-2012] [12:45:30:0] is after [8-31-2013] [12:45:29:99] gives false
+
+
+--------------Test 4 isBefore isAfter ------------------
+checking [12-31-2013] [11:45:29:99] is before [12-31-2013] [12:45:29:99] gives true
+checking [12-31-2013] [11:45:29:99] is after [12-31-2013] [12:45:29:99] gives false
+
+
+--------------Test 5 isBefore isAfter ------------------
+checking [12-31-2013] [12:44:59:0] is before [12-31-2013] [12:45:0:0] gives true
+checking [12-31-2013] [12:44:59:0] is after [12-31-2013] [12:45:0:0] gives false
+--------------Test 6 isBefore isAfter ------------------
+checking [12-31-2013] [12:45:29:98] is before [12-31-2013] [12:45:29:99] gives true
+checking [12-31-2013] [12:45:29:98] is after [12-31-2013] [12:45:29:99] gives false
+
+
+--------------Test 7 isBefore isAfter ------------------
+
+
+checking [12-31-2013] [13:50:30:0] is before [12-29-2014] [12:45:29:0] gives true
+checking [12-31-2013] [13:50:30:0] is after [12-29-2014] [12:45:29:0] gives false
+Comparing dateTimes now
+
+
+--------------Test 1 compareTo() ------------------
+Comparing [12-31-2013] [13:50:30:0] with [12-29-2014] [12:45:29:0] gives -1
+
+
+--------------Test 2 compareTo() ------------------
+Comparing [12-31-2013] [13:50:30:0] with [12-29-2013] [12:45:29:0] gives 1
+
+
+--------------Test 3 compareTo() ------------------
+Comparing [12-29-2014] [12:45:29:0] with [12-29-2014] [12:45:29:0] gives 0
+
+
+--------------Test 4 compareTo() ------------------
+Comparing [12-29-2014] [12:45:31:0] with [12-29-2014] [12:45:29:0] gives 2
+
+
+--------------Test 5 compareTo() ------------------
+Comparing [12-29-2014] [12:44:31:0] with [12-29-2014] [12:45:29:0] gives -1
+]0;san1465@omega:~/CSE1325/Project1[san1465@omega Project1]$ exit
+exit
+
+Script done on Wed 29 Jan 2014 08:25:29 PM CST

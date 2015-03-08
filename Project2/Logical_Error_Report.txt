@@ -1,0 +1,45 @@
+Scott Nidell
+ID:1000921465
+
+Logical Error 1
+
+When adding an employee with a null release date errors were popping up and a comparison in the if statement was not working
+I was taking it as the null value instead of the "null" string. 
+
+-To fix this the DateTime was taken in as a string and evaluation was made: If it .equals("Null"); then create a
+release DateTime= null; //the value null.
+
+Logical Error 2
+Another logical error was passing in this release date as a DateTime object.
+
+-To fix this i changed it to a String so i could do valution checking as describe in logic error 1
+
+Logical Error 2
+
+Parsing the scanner input proved difficult switching between strings and intergers that had to be lexigraphically
+evaluated. This was encountered while creating the menu with an option of * or a number. The number was used to 
+print a range above the given number.
+-The fix. I emailed you and spoke with the professor on how to the attack the problem and research a bit more.
+I finally checked created a string scanner and checked first if it was a *star, if not i did a try catch to do an
+Integer parse on the String scanner if it failed. I prompted the user as invalid input. if correct i took it in
+as a number given.
+
+Logical Error 3
+Several Constructors had to be appended to take in the correct info from the dataFile. For instance  i didn't expect
+for Customer class that we would be taking in the state as a seperate string. 
+
+-To fix this I added this to the constructor parameters along with an attribute to hold it
+
+Logigical Error 4
+
+Accessing private attributes of classes. This happened multiple times. As i want take the professors suggestion
+in keeping as many attributes as private I made get methods as necessary for that attribute instead of setting the attribute
+to public. This way i had communication between the classes but the attributes were hidden from the world.
+
+
+Time Spent on Project: 29.5 hours
+
+
+
+Thank you for your time,
+Scott Nidell

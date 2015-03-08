@@ -1,0 +1,237 @@
+/*************************************************************************
+ *  Compilation:  javac Customer.java <br>
+ *  Execution:    java Customer <br>
+ *************************************************************************/
+
+/**
+ * A simple data type Customer for use in Project 2 (CSE 1325, Fall 2010)
+ * <br>
+ * Useful for creating Customer objects to hold Infromation of a customer
+ * Name, address, buyer/seller classification
+ * 
+ * @author Scott Nidell 
+ */
+import java.math.*;
+import java.text.*;
+import java.util.*;
+public class Customer implements Proj2Constants,DateConstants{
+  
+ private enum Status{GOLD,SILVER};
+ private enum Classification{SELLER,BUYER,BOTH};
+ 
+ private String firstName;
+ private String lastName;
+ private int uID;
+ private Date dob;
+ private String address;
+ private String state;
+ private String zipcode;
+ private Status customerStatus;
+ private Classification customerClass;
+ private DecimalFormat three= new DecimalFormat("#000");
+ 
+ /**
+  * Constructor: Default constructor that builds a Customer
+  * with default values.
+  */ 
+ 
+ public Customer(){
+   this.firstName      = DEFAULT_FIRST_NAME;
+   this.lastName       = DEFAULT_LAST_NAME;
+   this.uID            = DEFAULT_CUSTOMER_NUMBER;
+   this.dob            = new Date();
+   this.address        = null;
+   this.zipcode        = null;
+   this.state          = null;
+   this.customerStatus = customerStatus.SILVER;
+   this.customerClass  = customerClass.BOTH;
+   
+ }
+ 
+ /**
+  * Constructor: Does bounds-checking to ensure string represents a valid
+  * date
+  * 
+  * @param customerInfo    represents a customer info by comma seperated
+  * first, last, dob, address, zip
+  */
+ 
+ public Customer(String customerInfo){
+   
+   String [] splitResult= customerInfo.split(",");
+   this.firstName= splitResult[ZEROI];
+   this.lastName= splitResult[ONEI]; 
+   this.dob= new Date(splitResult[TWOI]);
+   this.address= splitResult[THREEI];
+   this.zipcode= splitResult[FOURI];   
+   this.state= splitResult[FIVEI];
+   this.uID=ZEROI;
+   this.customerStatus=customerStatus.SILVER;
+   this.customerClass= customerClass.BOTH;
+ }
+ 
+ /**
+  * Constructor: Creates a Customer given correct inputs
+  * 
+  * @param id    ID of customer
+  * @param fn    First Name of customer
+  * @param ln    Last Name of customer
+  * @param db    Date of Birth
+  * @param ad    Address of customer
+  * @param st    State of Customer
+  * @param zip   Zipcode of customer
+  * 
+  * first, last, dob, address, zip
+  */
+ public Customer(int id, String fn, String ln, Date db,String ad, String st, String zip){
+   
+   this.uID=id;
+   this.firstName=fn;
+   this.lastName=ln;
+   this.dob= db;
+   this.address=ad;
+   this.state=st;
+   this.zipcode=zip;
+   this.customerStatus=customerStatus.SILVER;
+   this.customerClass= customerClass.BOTH;   
+ }
+ 
+ 
+ /**
+  * is the first and last name a valid one
+  * 
+  * @param first   first name to be validated
+  * @param last    last name to be validated
+  * 
+  * @return false if the name is less than 1 letter
+  *                
+  */
+ private static boolean isValid(String first, String last){
+   
+  if(first.length()<1 || last.length()<1)
+    return false;
+    
+    return true;    
+ }
+ 
+ /**
+  * sets the first name
+  * 
+  * @param newName   new name to be updated
+  * 
+  */
+ public void changeFirst(String newName){
+   
+   this.firstName=newName;
+ }
+
+ /**
+  * change the last name of customer
+  * 
+  * @param newName  new name to be updated            
+  */
+ public void changeLast(String newName){
+   this.lastName=newName;
+ }
+ 
+  /**
+  * Change the address of the customer
+  * 
+  * @param newAddr the new address to be changed           
+  */
+ public void changeAddress(String newAddr){
+   
+   this.address=newAddr;
+ }
+ 
+ /**
+  * Change the zip code of customer
+  * 
+  * @param newZip the Zipcode to change to         
+  */
+ public void changeZip(String newZip){
+   
+   this.zipcode=newZip;
+ }
+ 
+ /**
+  * Change date of birth
+  * 
+  * @param newZip the Zipcode to change to         
+  */
+ 
+ public void changeDob(String newDate){
+   
+   this.dob= new Date(newDate);   
+ }
+
+ /**
+  * Change Silver/Gold status
+  * 
+  *       
+  */
+ public void changeStatus(){
+   if(this.customerStatus.equals(Status.SILVER)){
+    this.customerStatus=Status.GOLD;
+   }else if(this.customerStatus.equals(Status.GOLD)){
+    this.customerStatus=Status.SILVER;
+   }
+ }
+ 
+ /**
+  * Change seller buyer class
+  * 
+  * @param newClass String representation of new class    
+  */
+ public void changeClass(String newClass){
+   
+   if(newClass.toLowerCase().equals(BUYERCLASS)){
+     this.customerClass = Classification.BUYER;
+   }else if(newClass.equals(SELLERCLASS)){
+     this.customerClass = Classification.SELLER;
+   }else if(newClass.equals(BOTHCLASS))
+     this.customerClass = Classification.BOTH;
+   else
+     System.out.println("Invalid selection");
+ } 
+ 
+ /**
+  * Change seller buyer class
+  * 
+  * @return String that represents a Customer Object   
+  */
+ public String toString(){
+   
+   
+  String customerIDF= three.format(this.uID);
+   
+   return "{ UserID: "+customerIDF+"| Name: "+this.firstName+" "+this.lastName+"| D.O.B.: "+this.dob+
+     "| Address: "+ this.address+" "+this.zipcode+"| Sales Status: "+this.customerStatus+
+     "| Customer Class: "+this.customerClass+" }";   
+ }
+ 
+ public static void main(String args[]){
+   
+   
+   //Testing default constructor
+   Customer myCustomer= new Customer();
+   System.out.println(myCustomer);
+   myCustomer.changeFirst("Bill Ray");
+   System.out.println(myCustomer);
+   myCustomer.changeLast("Cyrus");
+   System.out.println(myCustomer);
+   myCustomer.changeDob("09-28-1983");
+   System.out.println(myCustomer);
+   myCustomer.changeStatus();
+   System.out.println(myCustomer);
+   myCustomer.changeStatus();
+   System.out.println(myCustomer);
+   myCustomer.changeClass("blue");
+   myCustomer.changeClass("Buyer");
+   System.out.println(myCustomer);
+   
+   Customer myCustomer2= new Customer("Scott,Nidell,08-28-1983,5316 Stephanie Drive,Tx,76117");
+   System.out.println(myCustomer2);
+   System.out.println(myCustomer2);
+ } 
+}

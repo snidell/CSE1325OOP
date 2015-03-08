@@ -1,0 +1,120 @@
+/*************************************************************************
+ *  Compilation:  javac Bid.java <br>
+ *  Execution:    java Bid <br>
+ *************************************************************************/
+
+/**
+ * A simple data type Item for use in Project 2 (CSE 1325, Fall 2010)
+ * <br>
+ * Useful for creating Bid objects to hold Infromation of a Bid
+ * user, item, bid Amount
+ * 
+ * @author Scott Nidell 
+ */
+
+import java.math.*;
+import java.text.*;
+import java.util.*;
+
+public class Bid implements Proj2Constants,DateConstants{
+  
+  private int userID;
+  private int itemID;
+  private DateTime bidDate;
+  private double bidAmount;
+  private int bidQTY;
+  private DateTime auctionEnd;
+  private DateTime timeLeft=new DateTime();
+  private DecimalFormat three= new DecimalFormat("#000");
+  
+  
+  public Bid(int uID,int iID, DateTime bidDate, double bidAmt,int qty){
+    
+    this.userID=uID;
+    this.itemID=iID;
+    this.bidDate= bidDate;
+    this.bidAmount=bidAmt;
+    this.bidQTY=qty;      
+  }
+  
+  public boolean validBid(Bid b){
+    
+    if(this.bidDate.isAfter(b.bidDate))
+      return false;
+    
+      return true;
+  }
+  
+  public DateTime calculateEnd(int days){
+    
+    auctionEnd= bidDate.addDays(days);
+    timeLeft= bidDate.addDays(days);
+    return auctionEnd;    
+  }
+  
+  public void timeLeft(){
+    
+    timeLeft.subtractDateTime(bidDate);    
+    System.out.println(timeLeft);    
+  }
+  
+  public int getItemID(){
+   
+    return this.itemID;
+  }
+  public String toString(){
+    
+    String formatID=three.format(this.userID);
+   
+    return "UserID: "+formatID+"|ItemID: "+"|Bid Date: "+this.bidDate+"|Bid Amount: "
+      +this.bidAmount+"|Bid QTY: "+this.bidQTY;
+  }
+  
+  public static void main(String []args){
+    
+   int userID1=011;
+  int itemID1=100;
+  DateTime bidDate1= new DateTime("2-12-2014,00:00:45");
+  double bidAmount1=200.00;
+  int bidQTY1= 3;
+  
+  int userID2=012;
+  int itemID2=120;
+  DateTime bidDate2= new DateTime("2-13-2014,13:45:00");
+  double bidAmount2=203.00;
+  int bidQTY2= 3;
+  
+  int userID3=013;
+  int itemID3=110;
+  DateTime bidDate3= new DateTime("2-11-2014,11:00:00");
+  double bidAmount3=900.00;
+  int bidQTY3= 1;
+  
+  int userID4=014;
+  int itemID4=190;
+  DateTime bidDate4= new DateTime("2-11-2014,14:00:00");
+  double bidAmount4=233.00;
+  int bidQTY4= 9;
+  
+  Bid bid1= new Bid(userID1,itemID1,bidDate1,bidAmount1,bidQTY1);
+  Bid bid2= new Bid(userID2,itemID2,bidDate2,bidAmount2,bidQTY2);
+  Bid bid3= new Bid(userID3,itemID3,bidDate3,bidAmount3,bidQTY3);
+  Bid bid4= new Bid(userID4,itemID4,bidDate4,bidAmount4,bidQTY4);
+  
+  System.out.println(bid1);
+  System.out.println(bid2);
+  System.out.println(bid3);
+  System.out.println(bid4);
+  
+  bid1.timeLeft();
+  bid2.timeLeft();
+  bid3.timeLeft();
+  bid4.timeLeft();
+  
+  System.out.println(bid1.validBid(bid4));
+  System.out.println(bid1.validBid(bid2));
+    
+    
+  }
+  
+}

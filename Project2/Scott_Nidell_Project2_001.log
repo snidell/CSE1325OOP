@@ -1,0 +1,4351 @@
+Script started on Sat 22 Feb 2014 12:10:05 AM CST
+]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ ls -l
+[00mtotal 240
+-rw-r--r-- 1 san1465 students  3445 Feb 21 02:13 [00mBid.java[00m
+-rw-r--r-- 1 san1465 students  3016 Feb 19 21:08 [00mBid.java~[00m
+-rw-r--r-- 1 san1465 students  6297 Feb 21 02:17 [00mCustomer.java[00m
+-rw-r--r-- 1 san1465 students  5907 Feb 19 19:43 [00mCustomer.java~[00m
+-rw-r--r-- 1 san1465 students  5088 Feb 19 19:26 [00mdataFile-proj2-final.txt[00m
+-rw-r--r-- 1 san1465 students   997 Feb  6 11:37 [00mDateConstants.java[00m
+-rw-r--r-- 1 san1465 students 14848 Feb 18 19:49 [00mDate.java[00m
+-rw-r--r-- 1 san1465 students 14816 Feb  6 11:37 [00mDate.java~[00m
+-rw-r--r-- 1 san1465 students 15371 Feb 21 02:32 [00mDateTime.java[00m
+-rw-r--r-- 1 san1465 students 15357 Feb 19 01:20 [00mDateTime.java~[00m
+-rw-r--r-- 1 san1465 students  9148 Feb 21 02:23 [00mEmployee.java[00m
+-rw-r--r-- 1 san1465 students  8290 Feb 19 21:47 [00mEmployee.java~[00m
+-rw-r--r-- 1 san1465 students 12731 Feb 21 02:37 [00mEnterprise.java[00m
+-rw-r--r-- 1 san1465 students  6916 Feb 19 23:15 [00mEnterprise.java~[00m
+-rw-r--r-- 1 san1465 students 18210 Feb 21 02:50 [00mItem.java[00m
+-rw-r--r-- 1 san1465 students  7041 Feb 19 23:02 [00mItem.java~[00m
+drwxr-xr-x 3 san1465 students  4096 Feb 22 00:02 [00;34mJavaDoc[00m
+-rw-r--r-- 1 san1465 students 13890 Feb 21 01:08 [00mMavBayMgmtTest.java[00m
+-rw-r--r-- 1 san1465 students 13230 Feb 19 23:58 [00mMavBayMgmtTest.java~[00m
+-rw-r--r-- 1 san1465 students  2818 Feb 20 23:27 [00mProj2Constants.java[00m
+-rw-r--r-- 1 san1465 students  2517 Feb 19 18:58 [00mProj2Constants.java~[00m
+-rw-r--r-- 1 san1465 students     0 Feb 22 00:10 [00mScott_Nidell_Project2_001.log[00m
+-rw-r--r-- 1 san1465 students 17592 Feb  6 11:37 [00mTime.java[00m
+[m]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ cat Time.jaa[Kva[K[K[K[K[K[K[K[K[KBid.java
+/*************************************************************************
+ *  Compilation:  javac Bid.java <br>
+ *  Execution:    java Bid <br>
+ *************************************************************************/
+
+/**
+ * A simple data type Item for use in Project 2 (CSE 1325, Fall 2010)
+ * <br>
+ * Useful for creating Bid objects to hold Infromation of a Bid
+ * user, item, bid Amount
+ * 
+ * @author Scott Nidell 
+ */
+
+import java.math.*;
+import java.text.*;
+import java.util.*;
+
+public class Bid implements Proj2Constants,DateConstants{
+  
+  private int userID;
+  private int itemID;
+  private DateTime bidDate;
+  private double bidAmount;
+  private int bidQTY;
+  private DecimalFormat three= new DecimalFormat("#000");
+  
+  
+  
+  /**
+  * Constructor: Creates a bidding object
+  * 
+  * @param uID         User ID who is bidding
+  * @param iID         Item id that the bid belongs to
+  * @param bidDate     Date the bid was placed
+  * @param bidAmt      Amount the bid will be placed for
+  * @param qty         Quanity of items to be bid on
+  * @exception RuntimeException
+  *                if the date is invalid
+  */
+  public Bid(int uID,int iID, DateTime bidDate, double bidAmt,int qty){
+    
+    this.userID=uID;
+    this.itemID=iID;
+    this.bidDate= bidDate;
+    this.bidAmount=bidAmt;
+    this.bidQTY=qty;      
+  }
+  
+  
+  /**
+  * Getter for itemID
+  * 
+  * @return int itemIDs
+  */
+  public int getItemID(){
+   
+    return this.itemID;
+  }  
+  
+  /**
+  * Getter for BidAmount
+  * 
+  * @return double current bid amount
+  */
+  public double getBidAmount(){
+   
+    return this.bidAmount;
+  }
+  
+  /**
+  * Getter bid quanity
+  * 
+  * @return int quanity of bid
+  */
+  public int getBidQty(){
+    
+    return this.bidQTY;
+  }
+  
+  /**
+  * Getter for bid date
+  * 
+  * @return DateTime of the bid that is trying to be placed
+  */
+  public DateTime getBidDate(){
+   
+    return this.bidDate;
+  }
+  
+  /**
+  * Overloaded toString method
+  * 
+  * @return String that represents a bidding object
+  */
+  public String toString(){
+    
+    String formatID=three.format(this.userID);
+   
+    return "UserID: "+formatID+"|ItemID: "+"|Bid Date: "+this.bidDate+"|Bid Amount: "
+      +this.bidAmount+"|Bid QTY: "+this.bidQTY;
+  }
+  
+  public static void main(String []args){
+    
+  /********Various test cases******/
+    int userID1=011;
+  int itemID1=100;
+  DateTime bidDate1= new DateTime("2-12-2014,00:00:45");
+  double bidAmount1=200.00;
+  int bidQTY1= 3;
+  
+  int userID2=012;
+  int itemID2=120;
+  DateTime bidDate2= new DateTime("2-13-2014,13:45:00");
+  double bidAmount2=203.00;
+  int bidQTY2= 3;
+  
+  int userID3=013;
+  int itemID3=110;
+  DateTime bidDate3= new DateTime("2-11-2014,11:00:00");
+  double bidAmount3=900.00;
+  int bidQTY3= 1;
+  
+  int userID4=014;
+  int itemID4=190;
+  DateTime bidDate4= new DateTime("2-11-2014,14:00:00");
+  double bidAmount4=233.00;
+  int bidQTY4= 9;
+  
+  Bid bid1= new Bid(userID1,itemID1,bidDate1,bidAmount1,bidQTY1);
+  Bid bid2= new Bid(userID2,itemID2,bidDate2,bidAmount2,bidQTY2);
+  Bid bid3= new Bid(userID3,itemID3,bidDate3,bidAmount3,bidQTY3);
+  Bid bid4= new Bid(userID4,itemID4,bidDate4,bidAmount4,bidQTY4);
+  
+  System.out.println(bid1);
+  System.out.println(bid2);
+  System.out.println(bid3);
+  System.out.println(bid4);
+  
+
+    
+    
+  }
+  
+}]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ cat Customer.java
+/*************************************************************************
+ *  Compilation:  javac Customer.java <br>
+ *  Execution:    java Customer <br>
+ *************************************************************************/
+
+/**
+ * A simple data type Customer for use in Project 2 (CSE 1325, Fall 2010)
+ * <br>
+ * Useful for creating Customer objects to hold Infromation of a customer
+ * Name, address, buyer/seller classification
+ * 
+ * @author Scott Nidell 
+ */
+import java.math.*;
+import java.text.*;
+import java.util.*;
+public class Customer implements Proj2Constants,DateConstants{
+  
+ private enum Status{GOLD,SILVER};
+ private enum Classification{SELLER,BUYER,BOTH};
+ 
+ private String firstName;
+ private String lastName;
+ private int uID;
+ private Date dob;
+ private String address;
+ private String state;
+ private String zipcode;
+ private Status customerStatus;
+ private Classification customerClass;
+ private DecimalFormat three= new DecimalFormat("#000");
+ 
+ /**
+  * Constructor: Default constructor that builds a Customer
+  * with default values.
+  */ 
+ 
+ public Customer(){
+   this.firstName      = DEFAULT_FIRST_NAME;
+   this.lastName       = DEFAULT_LAST_NAME;
+   this.uID            = DEFAULT_CUSTOMER_NUMBER;
+   this.dob            = new Date();
+   this.address        = null;
+   this.zipcode        = null;
+   this.state          = null;
+   this.customerStatus = customerStatus.SILVER;
+   this.customerClass  = customerClass.BOTH;
+   
+ }
+ 
+ /**
+  * Constructor: Does bounds-checking to ensure string represents a valid
+  * date
+  * 
+  * @param customerInfo    represents a customer info by comma seperated
+  * first, last, dob, address, zip
+  */
+ 
+ public Customer(String customerInfo){
+   
+   String [] splitResult= customerInfo.split(",");
+   this.firstName= splitResult[ZEROI];
+   this.lastName= splitResult[ONEI]; 
+   this.dob= new Date(splitResult[TWOI]);
+   this.address= splitResult[THREEI];
+   this.zipcode= splitResult[FOURI];   
+   this.state= splitResult[FIVEI];
+   this.uID=ZEROI;
+   this.customerStatus=customerStatus.SILVER;
+   this.customerClass= customerClass.BOTH;
+ }
+ 
+ /**
+  * Constructor: Creates a Customer given correct inputs
+  * 
+  * @param id    ID of customer
+  * @param fn    First Name of customer
+  * @param ln    Last Name of customer
+  * @param db    Date of Birth
+  * @param ad    Address of customer
+  * @param st    State of Customer
+  * @param zip   Zipcode of customer
+  * 
+  * first, last, dob, address, zip
+  */
+ public Customer(int id, String fn, String ln, Date db,String ad, String st, String zip){
+   
+   this.uID=id;
+   this.firstName=fn;
+   this.lastName=ln;
+   this.dob= db;
+   this.address=ad;
+   this.state=st;
+   this.zipcode=zip;
+   this.customerStatus=customerStatus.SILVER;
+   this.customerClass= customerClass.BOTH;   
+ }
+ 
+ 
+ /**
+  * is the first and last name a valid one
+  * 
+  * @param first   first name to be validated
+  * @param last    last name to be validated
+  * 
+  * @return false if the name is less than 1 letter
+  *                
+  */
+ private static boolean isValid(String first, String last){
+   
+  if(first.length()<1 || last.length()<1)
+    return false;
+    
+    return true;    
+ }
+ 
+ /**
+  * sets the first name
+  * 
+  * @param newName   new name to be updated
+  * 
+  */
+ public void changeFirst(String newName){
+   
+   this.firstName=newName;
+ }
+
+ /**
+  * change the last name of customer
+  * 
+  * @param newName  new name to be updated            
+  */
+ public void changeLast(String newName){
+   this.lastName=newName;
+ }
+ 
+  /**
+  * Change the address of the customer
+  * 
+  * @param newAddr the new address to be changed           
+  */
+ public void changeAddress(String newAddr){
+   
+   this.address=newAddr;
+ }
+ 
+ /**
+  * Change the zip code of customer
+  * 
+  * @param newZip the Zipcode to change to         
+  */
+ public void changeZip(String newZip){
+   
+   this.zipcode=newZip;
+ }
+ 
+ /**
+  * Change date of birth
+  * 
+  * @param newZip the Zipcode to change to         
+  */
+ 
+ public void changeDob(String newDate){
+   
+   this.dob= new Date(newDate);   
+ }
+
+ /**
+  * Change Silver/Gold status
+  * 
+  *       
+  */
+ public void changeStatus(){
+   if(this.customerStatus.equals(Status.SILVER)){
+    this.customerStatus=Status.GOLD;
+   }else if(this.customerStatus.equals(Status.GOLD)){
+    this.customerStatus=Status.SILVER;
+   }
+ }
+ 
+ /**
+  * Change seller buyer class
+  * 
+  * @param newClass String representation of new class    
+  */
+ public void changeClass(String newClass){
+   
+   if(newClass.toLowerCase().equals(BUYERCLASS)){
+     this.customerClass = Classification.BUYER;
+   }else if(newClass.equals(SELLERCLASS)){
+     this.customerClass = Classification.SELLER;
+   }else if(newClass.equals(BOTHCLASS))
+     this.customerClass = Classification.BOTH;
+   else
+     System.out.println("Invalid selection");
+ } 
+ 
+ /**
+  * Change seller buyer class
+  * 
+  * @return String that represents a Customer Object   
+  */
+ public String toString(){
+   
+   
+  String customerIDF= three.format(this.uID);
+   
+   return "{ UserID: "+customerIDF+"| Name: "+this.firstName+" "+this.lastName+"| D.O.B.: "+this.dob+
+     "| Address: "+ this.address+" "+this.zipcode+"| Sales Status: "+this.customerStatus+
+     "| Customer Class: "+this.customerClass+" }";   
+ }
+ 
+ public static void main(String args[]){
+   
+   
+   //Testing default constructor
+   Customer myCustomer= new Customer();
+   System.out.println(myCustomer);
+   myCustomer.changeFirst("Bill Ray");
+   System.out.println(myCustomer);
+   myCustomer.changeLast("Cyrus");
+   System.out.println(myCustomer);
+   myCustomer.changeDob("09-28-1983");
+   System.out.println(myCustomer);
+   myCustomer.changeStatus();
+   System.out.println(myCustomer);
+   myCustomer.changeStatus();
+   System.out.println(myCustomer);
+   myCustomer.changeClass("blue");
+   myCustomer.changeClass("Buyer");
+   System.out.println(myCustomer);
+   
+   Customer myCustomer2= new Customer("Scott,Nidell,08-28-1983,5316 Stephanie Drive,Tx,76117");
+   System.out.println(myCustomer2);
+   System.out.println(myCustomer2);
+ } 
+}]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ cat Date.java
+/*************************************************************************
+ *  Compilation:  javac Date.java <br>
+ *  Execution:    java Date <br>
+ *************************************************************************/
+
+/**
+ * A simple data type Date for use in Project 2 (CSE 1325, Fall 2010)
+ * <br>
+ * Useful for creating Date objects to hold calendar date
+ * 
+ * @author Sharma Chakravarhty (Extended Robert Sedgewick and Kevin Wayne code,
+ *         Copyright 2007)
+ * @author extended by Yuanzhe Cai (10/8/2010)
+ * @see java.util.Calendar
+ * @since 02/13/2010 Fixed a logical error/bug for addMonths on 2/22/2010 (Cai)
+ * @since 08/2012 Fixed a logical error in the constructor with m and y (sharma)
+ * @since 08/2012 Fixed a logical error in the methid addMonths (sharma)
+ * @since 09/2012  fixed bugs in Date (m, y) and daysBetween (sharma)
+ * @since 01/2014 revised to make it mutable
+ */
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+public class Date implements DateConstants {
+
+ private static final int[] DAYS = { 0, 31, 29, 31, 30, 31, 30, 31, 31,
+   30, 31, 30, 31 };
+        private static final int LEAP_YEAR = 366;
+        private static final int NON_LEAP_YEAR = 365;
+
+ private int month; // month (between 1 and 12)
+ private int day; // day (between 1 and DAYS[month])
+ private int year; // year
+
+/**
+  * Constructor: default; returns today's date
+  */
+    public Date() {
+        GregorianCalendar c = new GregorianCalendar();
+        month = c.get(Calendar.MONTH)+1;  //our month starts from 1
+        day = c.get(Calendar.DAY_OF_MONTH);
+        year = c.get(Calendar.YEAR);
+    }
+
+ /**
+  * Constructor: Does bounds-checking to ensure object represents a valid
+  * date
+  * 
+  * @param m    represents the month between 1 and 12
+  * @param d    represents the date between 1 and the corresponding number
+  *             from array DAYS
+  * @param y    represents the year
+  * @exception RuntimeException
+  *                if the date is invalid
+  */
+ public Date(int m, int d, int y) {
+  if (!isValid(m, d, y))
+   throw new RuntimeException("Date 1: Invalid date, incorrect input"  + m + ":" + d + ":" + y);
+  this.month = m;
+  this.day = d;
+  this.year = y;
+ }
+
+ /**
+  * Constructor: Does bounds-checking to ensure string represents a valid
+  * date
+  * 
+  * @param sDate    represents a date given in format mm-dd-yyyy as a string
+  * @exception RuntimeException if the date is invalid
+  */
+ public Date(String sDate) {
+  int m, d, y;
+  String[] chopDate = sDate.split("-");
+  m = Integer.parseInt(chopDate[ZEROI]);
+  d = Integer.parseInt(chopDate[ONEI]);
+  y = Integer.parseInt(chopDate[TWOI]);
+  if (!isValid(m, d, y))
+   throw new RuntimeException("Date 2:Invalid date: correct input" + m + "-" + d + "-" + y);
+  month = m;
+  day = d;
+  year = y;
+ }
+
+ /**
+  * constructor:    creates a date with a given year; fills in valid last 
+     * month and day;
+  * 
+  * @param y    represents a date for a  year supplied as an integer
+  */
+ public Date(int y) {
+
+  month = LAST_MONTH;
+  day = DAYS[LAST_MONTH];
+  year = y;
+ }
+
+ /**
+  * create a date with a given month and year; fills in valid day;
+  * 
+  * @param m    represents the month between 1 and 12
+  * @param y    represents the year
+  * @exception  RuntimeException if the date is invalid
+  */
+ public Date(int m, int y) {
+
+  if (m < FIRST_MONTH || m > LAST_MONTH) throw new RuntimeException("Date 3:Invalid date; correct input" + m + ":" + y);
+        else month = m;
+  if (!isLeapYear(y) && m == FEB) day = DAYS[m]-1;
+        else day = DAYS[m];
+        year = y;
+        if (!isValid(month, day, year))
+   throw new RuntimeException("4::Invalid date; correct input" + m + ":" + y);
+ }
+
+ /**
+  * Is the given date valid?
+  * 
+  * @param month, day, and year
+  * @return false if month exceeds 12 or is less than 1
+  * @return false if day exceeds the corresponding days for a month from
+  *         array DAYS
+  * @return false if the year is not a leap year and has 29 days
+  */
+ private static boolean isValid(int m, int d, int y) {
+  if (y < 0) return false; //will not handle negative years!
+        if (m < FIRST_MONTH || m > LAST_MONTH)
+   return false;
+  if (d < FIRST_DAY || d > DAYS[m])
+   return false;
+  if (m == FEB && d == DAYS[FEB] && !isLeapYear(y))
+   return false;
+  return true;
+ }
+
+ public int getMonth(){
+            return month;
+        }
+        public int getYear(){
+            return year;
+        }
+        public int getDay(){
+            return day;
+        }
+        
+        /**
+  * is y a leap year?
+  * 
+  * @param y
+  *            represents the year specified
+  * @return true if year divisible by 400
+  * @return false if year divisible by 100 and not by 400
+  */
+ private static boolean isLeapYear(int y) {
+  if (y % 400 == 0)
+   return true;
+  if (y % 100 == 0)
+   return false;
+  return (y % 4 == 0);
+ }
+
+ /**
+  * does a given date belong to the given year y ?
+  * 
+  * @param y
+  *            represents the year specified
+  * @return true if date belongs to that Calendar year
+  * @return false if date DOES NOT belongs to that Calendar year
+  */
+    
+ public boolean dateBelongsTo(int y) {
+  
+        if (this.year != y) return false;
+        else return true;
+ }
+
+/**
+  * is (m, y) a leap month?
+  * 
+     * @param m represents the month specified
+  * @param y represents the year specified
+  * @return true if it is a leap month
+  * @return false otherwise
+  */
+ private static boolean isLeapMonth(int m, int y) {
+  if (isLeapYear(y)) return ((m == 2) ? true : false);
+  return false;
+ }
+        
+        public Date previous(){
+            if (isValid(month, day - 1, year)){
+                this.day -=1;
+  return this;
+            }
+            else if (isValid(month - 1, 1, year)){
+                this.month -= 1;
+                this.day = 1;
+  return this;
+            }
+            else{
+                this.day = 1;
+                this.month =1;
+                this.year -=1;
+  return this;
+            }
+            //return this;
+        }
+
+ // return the next Date
+ /**
+  * adds a day and returns the same Date object
+  * 
+  * @return returns the same Date object adding a day
+  */
+ public Date next() {
+  if (isValid(month, day + 1, year)){
+            this.day +=1;
+   return this;
+        }
+  else if (isValid(month + 1, 1, year)){
+            this.month += 1;
+            this.day = 1;
+   return this;
+        }
+  else{
+            this.day = 1;
+            this.month =1;
+            this.year +=1;
+   return this;
+        }
+ }
+
+ // is this Date after b?
+ /**
+  * compares two Date objects
+  * 
+  * @param b Date object
+  * @return true if this Date is after Date b
+  */
+ public boolean isAfter(Date b) {
+  return compareTo(b) > 0;
+ }
+
+ // is this Date a before b?
+ /**
+  * compares two date objects
+  * 
+  * @param b Date object
+  * @return true if this Date is before Date b
+  */
+ public boolean isBefore(Date b) {
+  return compareTo(b) < 0;
+ }
+
+
+ // comparison function between two dates
+ /**
+  * compares two Date objects
+  * 
+  * @param b    Date object
+  * @return     0 if this Date is the same as Date b <br>
+  *             negative integer if this Date is earlier than Date b <br>
+  *             positive integer if this Date is after Date b
+  */
+ public int compareTo(Date b) {
+  if (year != b.year)
+   return year - b.year;
+  if (month != b.month)
+   return month - b.month;
+  return day - b.day;
+ }
+
+ 
+ // advance date by number of months
+ /**
+  * advances the date by m months (fixed a bug on 2/22/2010)
+  * 
+  * @param m    represents the  months to advance
+  * @return     modifies the same Date object)
+  */
+ public Date addMonths(int m) {
+        int td;
+  int tm = (month + (m % 12)) > 12 ? ((month + (m % 12)) % 12) : month
+    + (m % 12);
+  int ty = (month + (m % 12)) > 12 ? year + (m / 12) + 1 : year + (m / 12);
+        td = day;
+  if (isLeapYear(ty) && (day > DAYS[tm]))  td = DAYS[tm];
+        if (!isLeapYear(ty) && tm == FEB && day > DAYS[tm] -1) td = DAYS[tm]-1;
+        this.month = tm; this.day = td; this.year = ty;
+        return this;
+    }         
+ 
+    // returns the number of days between two dates
+ /**
+     * @ param  endDate is the second date
+  * @ return the number of days between two dates
+     *          - 1 if start date is after the end date
+     *          +ve #days if the start date is before end date
+  * 
+  */
+ public int daysBetween(Date endDate) {
+
+  if (this.isAfter(endDate)) return -1;
+        int totDays = 0;
+        for (int y = this.year; y < endDate.year; y++) 
+   totDays += (isLeapYear(y) ? LEAP_YEAR : NON_LEAP_YEAR);
+   
+  int daysBeforeFirst = 0;
+  for (int m = 1; m < this.month; m++)
+   daysBeforeFirst +=  (m == 2 && !isLeapMonth(m, this.year)) ? DAYS[m]-1 : DAYS[m];
+  daysBeforeFirst += this.day;
+
+  int daysInSecond = 0;
+  for (int me = 1; me < endDate.month; me++)
+   daysInSecond += (me ==2 && !isLeapMonth(me, endDate.year) ? DAYS[me]-1  : DAYS[me]);
+  daysInSecond += endDate.day; 
+   
+  return totDays - daysBeforeFirst + daysInSecond;
+ }
+
+ // return a string representation of this date
+ /**
+  * replaces the default toString of Object class
+     * @override
+  */
+ public String toString() {
+  return "[" + month + "-" + day + "-" + year + "]";
+ }
+
+    public void toString(String s){
+        System.out.println("in a different toString\n");
+    }
+
+
+ /**
+  * Code for testing the Date class
+  * 
+  * @param args Array of String arguments
+  */
+
+ public static void main(String[] args) {
+        int count;
+  Date today = new Date(1, 26, 2011);
+        today.toString("cse");
+  System.out.println(today);
+  for (int i = 0; i < 14; i++) {
+   today = today.next();
+   System.out.println(today);
+  }
+  Date myNull= new Date(null);
+        Date expiry = new Date(2011);
+  System.out.println("testing 2011 as input:" + expiry);
+        expiry = new Date(2012);
+        System.out.println("testing 2012 as input:" + expiry);
+        expiry = new Date(2, 2013);
+        System.out.println("testing [2, 2013] as input:" + expiry);
+        expiry = new Date(2, 2012);
+        System.out.println("testing [2, 2012] as input:" + expiry);
+        expiry = new Date(8, 2013);
+        System.out.println("testing [8, 2013] as input:" + expiry);
+        expiry = new Date(7, 2012);
+        System.out.println("testing [7, 2012] as input:" + expiry);
+        
+                
+  Date todayDate = new Date();
+  System.out.println("todays date: " + todayDate);
+  System.out.println("current month:" + todayDate.month);
+
+        todayDate = new Date(2, 2010);
+        System.out.println("todays date: " + todayDate);
+  System.out.println("current month: " + todayDate.month);
+        System.out.println("current day: " + todayDate.day);
+
+        //testing dateBelongsTo method
+        Date lease = new Date("08-01-2010");
+  expiry = new Date("12-31-2011");
+        Date expiry1 = new Date("1-01-2012");
+        System.out.println(lease + " belongs to " + "2012: " + lease.dateBelongsTo(2012));
+        System.out.println(lease + " belongs to " + "2010: " + lease.dateBelongsTo(2010));
+        System.out.println(lease + " belongs to " + "2000: " + lease.dateBelongsTo(2000));
+        System.out.println(expiry +  " belongs to " + "2011: " + expiry.dateBelongsTo(2011));
+        System.out.println(expiry + " belongs to " + "2012: " + expiry.dateBelongsTo(2012));
+        System.out.println(expiry + " belongs to " + "201: " + expiry.dateBelongsTo(201));
+        System.out.println(expiry1 + " belongs to " + "2012: " + expiry1.dateBelongsTo(2012));
+        System.out.println(expiry1 + " belongs to " + "2011: " + expiry1.dateBelongsTo(2011));
+        System.out.println(expiry1 + " belongs to " + "2056: " + expiry1.dateBelongsTo(2056));
+
+        lease = new Date("08-01-2010");
+  expiry = new Date("08-01-2011");
+        expiry1 = new Date("08-01-2012");
+
+  // testing daysBetween
+        System.out.println("\nTESTING daysBetween method\n------------------------------");
+  count = lease.daysBetween(expiry);
+  System.out.println("Days between "  + lease + " and " + expiry + "is: " + count);
+        count = lease.daysBetween(expiry1);
+        System.out.println("Days between "  + lease + " and " + expiry1 + "is: " + count);
+  count = lease.daysBetween(new Date("12-31-2016"));
+  System.out.println("Days between "  + lease + " and [12-31-2016] " + "is: " + count);
+        count = lease.daysBetween(lease);
+  System.out.println("Days between "  + lease + " and " + lease + "is: " + count);
+
+        //testin isBefore
+        System.out.println("\nTESTING isBefore method\n------------------------------");
+        today = new Date();
+        Date today1 = new Date();
+        Date tomorrow = today1.next();
+  System.out.println(today + " is before " + tomorrow + ": " + today.isBefore(tomorrow));
+        System.out.println(tomorrow + " is before " + today + ": " + tomorrow.isBefore(today));
+        System.out.println(today + " is before " + today + ": " + today.isBefore(today));
+        
+        //testing  addMonths
+        System.out.println("\nTESTING addMonths method\n------------------------------");
+        today = new Date("1-31-2011");
+        today1 = new Date("1-31-2011");
+        System.out.println("adding 1 months to " + today + " gives: " + today1.addMonths(1));
+        today = new Date("1-31-2012");
+        System.out.println("adding 1 months to " + today + " gives: " + new Date("1-31-2012").addMonths(1));
+        System.out.println("adding 24 months to " + today + " gives: " + new Date("1-31-2012").addMonths(24));
+        today = new Date("12-15-2012");
+        System.out.println("adding 2 months to " + today + " gives: " + new Date("12-15-2012").addMonths(2));
+        today = new Date("2-29-2012");
+        System.out.println("adding 15 months to " + today + " gives: " + new Date("2-29-2012").addMonths(15));
+        System.out.println("adding 23 months to " + today + " gives: " + new Date("2-29-2012").addMonths(23));
+        System.out.println("adding 0 months to " + today + " gives: " + new Date("2-29-2012").addMonths(0));
+        System.out.println("adding 48 months to " + today + " gives: " + new Date("2-29-2012").addMonths(48));
+        
+  //following will generate exception
+        //System.out.println(lease.dateBelongsTo(-2));
+  //today = new Date(13, 13, 2010);
+        //expiry = new Date(13, 2012);
+  // expiry = new Date("2-29-2009");
+        // expiry = new Date("3-32-2009");
+  // System.out.println(expiry); 
+ }
+}
+
+]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ cat DateConstants.java
+/*****************************************************************************
+ @author Sharma Chakravarthy
+ LANGUAGE   : Java version 6
+ OS         : Windows 7 (Ultimate)
+ PLATFORM   : PC
+ Compiler   : javac
+ 
+ CONCEPTS   : classes and methods
+ PURPOSE    : defines the "Constants" interface
+******************************************************************************/
+
+/* These defaults should be used in your projects; let me know if something you need is missing */
+
+public interface DateConstants
+ {
+  int     ABNORMAL_EXIT                 = 1; //static or final or both can be specified
+  int     BASE_INDEX                    = 0;
+  
+  int     FIRST_MONTH                    = 1;
+  int     FIRST_DAY                      = 1;
+  int     LAST_MONTH                     = 12;
+  int     FEB                            = 2;
+  int     ZEROI                          = 0;
+  int     ONEI                           = 1;
+  int     TWOI                           = 2; 
+ }
+]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ cat DateTime.java
+/*************************************************************************
+ *  Compilation:  javac DateTime.java <br>
+ *  Execution:    java DateTime <br>
+ *************************************************************************/
+
+/**
+ * A simple data type DateTime to be fleshed out for Project 1 (CSE 1325, Spring 2014)
+ * <br>
+ * Useful for creating DateTime objects (a la DATETIME type supported in Oracle)
+ * 
+ * @author skeleton developed by Sharma Chakravarhty 
+ * @author To be completed by the student
+ * @see java.util.Calendar
+ * 
+ */
+import java.util.ArrayList;
+public class DateTime {
+
+ private Date date; // from Date Class
+ private Time time; // from Time class
+ 
+        /**
+         * Constructor: default; returns today's date and time
+         */
+        public DateTime() {
+            date = new Date();
+            time = new Time();
+        }
+        
+        public Date getDate(){
+            return date;
+        }
+        
+        public Time getTime(){
+            return time;
+        }
+ /**
+  * Constructor: Does bounds-checking to ensure object represents a valid
+  * date and time
+  * 
+  * @param m    represents the month between 1 and 12
+  * @param d    represents the date between 1 and the corresponding number
+  *             from array DAYS
+  * @param y    represents the year
+  * @exception RuntimeException
+  *                if the date is invalid
+  */
+ public DateTime(int mo, int d, int y, int h, int mi, int s, int hun) {
+  date = new Date(mo, d, y);
+                time = new Time(h, mi, s, hun);
+ }
+
+ /**
+  * Constructor: Does bounds-checking to ensure string represents a valid
+  * date
+  * 
+  * @param sDate    represents a date given in format mm-dd-yyyy,hh:mm:ss:hund as a string
+  * @exception RuntimeException if the date is invalid
+  */
+ public DateTime(String sDateTime) {
+  int m, d, y;
+  String[] chopDateTime = sDateTime.split(",");
+                //System.out.println(chopDateTime[0] + "," + chopDateTime[1]);
+                date = new Date(chopDateTime[0]);
+                time = new Time(chopDateTime[1]);
+ }
+
+    
+ // is this DateTime after b?
+ /**
+  * compares two DateTime objects
+  * 
+  * @param b DateTime object
+  * @return true if this DateTime is after DateTime b
+  */
+ public boolean isAfter(DateTime b) {
+  if (this.compareTo(b) > 0)
+                    return true;
+        return false; 
+ }
+
+ // is this DateTime a before b?
+ /**
+  * compares two date objects
+  * 
+  * @param b DateTime object
+  * @return true if this DateTime is before DateTime b
+  */
+ public boolean isBefore(DateTime b) {
+  if (this.compareTo(b) <= 0)
+            return true;
+        return false; 
+ }
+
+
+ // comparison function between two dates
+ /**
+  * compares two DateTime objects
+  * 
+  * @param b    DateTime object
+  * @return     0 if this DateTime is the same as DateTime b <br>
+  *             negative integer if this DateTime is earlier than DateTime b <br>
+  *             positive integer if this DateTime is after DateTime b
+  */
+ public int compareTo(DateTime b) {
+  //need to flesh out
+            //if (this.getDate().compareTo(b.getDate()) < 0)
+            if (date.compareTo(b.date) < 0)
+                return -1;
+            else if (date.compareTo(b.date) > 0)
+                return 1;
+            if (date.compareTo(b.date) == 0){
+                if(date.compareTo(b.date) < 0)
+                    return -1;
+                else if(time.compareTo(b.time) > 0)
+                    return 1;
+                     
+                    return 0;
+            }
+            return 0; //not actually needed
+ }
+
+ 
+ // advance DateTime by days
+ /**
+  * advances the datetime by days
+  * 
+  * @param d    represents the  days to advance
+  * @return     modifies the same DateTime object)
+  */
+ 
+        public DateTime addDays(int d){
+            for (int i = 0; i < d; i++) 
+                this.date.next();
+            return this;  
+ }
+        
+        public DateTime addMonths(int m){
+            this.date.addMonths(m);
+            return this;
+        }
+        
+        public DateTime addYears(int y){
+            this.date.addMonths(y*12);
+            return this;
+        }
+        
+        public DateTime addHours(int h){
+            int overflow = this.time.addHours(h);
+            if (overflow > 0)
+                addDays(overflow);
+            return this;
+        }
+        
+        public DateTime addMinutes(int m){
+            int overflow = this.time.addMinutes(m);
+            if (overflow > 0) addDays(overflow);
+      
+            return this;   
+ }
+        
+        public DateTime addSeconds(int s){
+            int overflow = this.time.addSeconds(s);
+            if(overflow > 0)
+                addDays(overflow);
+            return this;
+        }
+
+ // return a string representation of this date
+ /**
+  * replaces the default toString of Object class
+         * @override
+  */
+ public String toString() {
+            //need to flesh out
+      
+            return date + "," + time;
+ }
+        
+    public DateTime addTime(Time t1){
+            time.addTime(t1);
+            return this;
+    }
+        
+    public DateTime subtractTime(Time t1){
+            time.subtractTime(t1);
+            return this;
+    }
+        
+    public DateTime addDateTime(DateTime date1){
+            //add the date first
+            addDays(date1.date.getDay());
+            addMonths(date1.date.getMonth());
+            addYears(date1.date.getYear());
+            //add the time then and update the date if overflow happens
+            int overflow = time.addTime(date1.time);
+            if(overflow > 0)
+                addDays(overflow);
+            return this;
+        }
+        /*
+         * sdas: This has been implemented as discussed below:
+         * If first date is after the second date only then subtraction can go through
+         * The days between the two days are evaluated
+         * the days are added to the start of calender at 1-1-0 (mm-dd-yy) to find the subtracted date
+         * subtract 29 as we have added 1 month and 1 day at the start
+         * for subtracting time if first time is less than second
+         * we find the difference from 2nd time to 1st time and subtract it from 23:59:59:0 and finally add 1 sec
+         * one day is decremented as 1st time < 2nd time by using function previous in Date class
+         * this function needs to be reevaluated critically
+         */
+        public DateTime subtractDateTime(DateTime date1){
+            //subtracting the date first
+            if(date.isBefore(date1.date)){
+                System.out.println("Can not subtract");
+                return this;
+                
+            }
+            else{
+                int daysBetwn = date1.date.daysBetween(date);
+                System.out.println("Days between ="+daysBetwn);
+                Date base = new Date(1,1,0);
+                for(int i=0;i<daysBetwn-29;i++){
+                    this.date = base.next();
+                }
+                //now subtract time
+                if(this.time.isBefore(date1.time)){
+                    date1.time.subtractTime(time);
+                    //int overflow = 1;
+                    Time t1 = new Time(23,59,59,0);
+                    t1.subtractTime(date1.time);
+                    this.time = t1;
+                    this.time.addSeconds(1);
+                    this.date.previous();
+                    return this;
+                }
+                else{
+                    this.time.subtractTime(date1.time);
+                    return this;
+                }
+                
+                //System.out.println("overflow ="+overflow);
+                //return this;
+            }
+        }
+ /**
+  * Code for testing the DateTime class
+  * 
+  * @param args Array of String arguments
+  */
+
+ public static void main(String[] args) {
+
+        DateTime today = new DateTime();
+     System.out.println("Testing no arg constructor: "+today);
+    
+        DateTime dateTime1 = new DateTime("2-28-2016,23:59:59:99");
+        System.out.println("testing string as input:" + dateTime1);
+        System.out.println("Adding 26 hrs to"+dateTime1+" gives "+dateTime1.addHours(26));
+        
+        DateTime dateTime2 = new DateTime("2-27-2017,23:59:00:00");
+        System.out.println("Adding 24hrs to "+dateTime2+" gives "+dateTime2.addHours(24));
+        System.out.println("Adding 7 min to "+dateTime2+ "gives "+dateTime2.addMinutes(7));
+        
+        dateTime2 = new DateTime("12-31-2013,11:30:00:00");
+        System.out.println("Adding 13 hrs to "+dateTime2+" gives "+dateTime2.addHours(13));
+        System.out.println("Adding 31 min to "+dateTime2+ "gives "+dateTime2.addMinutes(31));
+        
+        dateTime2 = new DateTime("1-1-2012,23:59:00:00");
+        System.out.println("Adding 86400 sec to "+dateTime2+" gives "+dateTime2.addSeconds(86400));
+        System.out.println("Adding 3600 sec to "+dateTime2+ "gives "+dateTime2.addSeconds(3600));
+        
+        DateTime dateTime3 = new DateTime("1-11-2014,23:59:57:00");
+        System.out.println("Adding 4 sec to "+dateTime3+" gives "+dateTime3.addSeconds(4));
+        
+        dateTime1 = new DateTime(2,28,2015,12,30,30,0);
+        System.out.println("testing 7 arg constructor with initial date: "+dateTime1);
+        System.out.println("Increasing day by 366 "+dateTime1.addDays(366));
+        System.out.println("Increasing  month by 12 "+dateTime1.addMonths(12));
+        System.out.println("Increasing  year by 2 "+dateTime1.addYears(2));
+        
+        dateTime1 = new DateTime(2,28,2016,12,30,30,0);
+        System.out.println("Initial date is "+dateTime1);
+        System.out.println("Increasing day by 365 "+dateTime1.addDays(365));
+        System.out.println("Increasing  month by 11 "+dateTime1.addMonths(11));
+        System.out.println("Increasing  year by 30 "+dateTime1.addYears(30));
+        
+        dateTime2 = new DateTime(12,31,2013,12,45,30,0);
+        dateTime3 = new DateTime(12,31,2013,12,45,29,99);
+        
+        System.out.println("checking "+dateTime2+" is before "+dateTime3+" gives "+dateTime2.isBefore(dateTime3));
+        System.out.println("checking "+dateTime2+" is after "+dateTime3+" gives "+dateTime2.isAfter(dateTime3));
+        
+        dateTime2 = new DateTime(12,30,2013,12,45,30,0);
+        dateTime3 = new DateTime(12,31,2013,12,45,29,99);
+        
+        System.out.println("checking "+dateTime2+" is before "+dateTime3+" gives "+dateTime2.isBefore(dateTime3));
+        System.out.println("checking "+dateTime2+" is after "+dateTime3+" gives "+dateTime2.isAfter(dateTime3));
+        
+        dateTime2 = new DateTime(12,31,2012,12,45,30,0);
+        dateTime3 = new DateTime(8,31,2013,12,45,29,99);
+        
+        System.out.println("checking "+dateTime2+" is before "+dateTime3+" gives "+dateTime2.isBefore(dateTime3));
+        System.out.println("checking "+dateTime2+" is after "+dateTime3+" gives "+dateTime2.isAfter(dateTime3));
+        
+        dateTime2 = new DateTime(12,31,2013,11,45,29,99);
+        dateTime3 = new DateTime(12,31,2013,12,45,29,99);
+        
+        System.out.println("checking "+dateTime2+" is before "+dateTime3+" gives "+dateTime2.isBefore(dateTime3));
+        System.out.println("checking "+dateTime2+" is after "+dateTime3+" gives "+dateTime2.isAfter(dateTime3));
+        
+        dateTime2 = new DateTime(12,31,2013,12,44,59,0);
+        dateTime3 = new DateTime(12,31,2013,12,45,0,0);
+        
+        System.out.println("checking "+dateTime2+" is before "+dateTime3+" gives "+dateTime2.isBefore(dateTime3));
+        System.out.println("checking "+dateTime2+" is after "+dateTime3+" gives "+dateTime2.isAfter(dateTime3));
+        
+        dateTime2 = new DateTime(12,31,2013,12,45,29,98);
+        dateTime3 = new DateTime(12,31,2013,12,45,29,99);
+        
+        System.out.println("checking "+dateTime2+" is before "+dateTime3+" gives "+dateTime2.isBefore(dateTime3));
+        System.out.println("checking "+dateTime2+" is after "+dateTime3+" gives "+dateTime2.isAfter(dateTime3));
+        
+        dateTime2 = new DateTime(12,31,2013,13,50,30,0);
+        dateTime3 = new DateTime("12-29-2014,12:45:29:0");
+        
+        System.out.println("checking "+dateTime2+" is before "+dateTime3+" gives "+dateTime2.isBefore(dateTime3));
+        System.out.println("checking "+dateTime2+" is after "+dateTime3+" gives "+dateTime2.isAfter(dateTime3));
+        
+        System.out.println("Comparing dateTimes now");
+        
+        dateTime2 = new DateTime(12,31,2013,13,50,30,0);
+        dateTime3 = new DateTime("12-29-2014,12:45:29:0");
+        
+        System.out.println("Comparing "+dateTime2+" with "+dateTime3+" gives "+dateTime2.compareTo(dateTime3));
+        
+        dateTime2 = new DateTime(12,31,2013,13,50,30,0);
+        dateTime3 = new DateTime("12-29-2013,12:45:29:0");
+        
+        System.out.println("Comparing "+dateTime2+" with "+dateTime3+" gives "+dateTime2.compareTo(dateTime3));
+        
+        dateTime2 = new DateTime(12,29,2014,12,45,29,0);
+        dateTime3 = new DateTime("12-29-2014,12:45:29:0");
+        
+        System.out.println("Comparing "+dateTime2+" with "+dateTime3+" gives "+dateTime2.compareTo(dateTime3));
+        
+        dateTime2 = new DateTime(12,29,2014,12,45,31,0);
+        dateTime3 = new DateTime("12-29-2014,12:45:29:0");
+        
+        System.out.println("Comparing "+dateTime2+" with "+dateTime3+" gives "+dateTime2.compareTo(dateTime3));
+        
+        dateTime2 = new DateTime(12,29,2014,12,44,31,0);
+        dateTime3 = new DateTime("12-29-2014,12:45:29:0");
+        
+        System.out.println("Comparing "+dateTime2+" with "+dateTime3+" gives "+dateTime2.compareTo(dateTime3));
+        
+        System.out.println("Adding dateTime");
+        dateTime2 = new DateTime(1,20,2014,11,46,31,0);
+        dateTime3 = new DateTime("2-20-2013,10:45:29:0");
+        System.out.println(dateTime2+" + "+dateTime3);
+        System.out.println(dateTime2.addDateTime(dateTime3));
+        
+        dateTime2 = new DateTime(8,31,2014,11,46,31,0);
+        dateTime3 = new DateTime("7-31-2013,10:45:29:0");
+        System.out.println(dateTime2+" + "+dateTime3);
+        System.out.println(dateTime2.addDateTime(dateTime3));
+        
+        dateTime2 = new DateTime(8,31,2014,11,46,31,0);
+        dateTime3 = new DateTime("7-31-2013,20:30:30:0");
+        System.out.println(dateTime2+" + "+dateTime3);
+        System.out.println(dateTime2.addDateTime(dateTime3));
+        
+        System.out.println("Subtracting dateTime");
+        
+        dateTime2 = new DateTime(6,21,2014,10,45,29,0);
+        dateTime3 = new DateTime("4-20-2013,11:46:31:0");
+        System.out.println(dateTime2+" - "+dateTime3);
+        System.out.println(dateTime2.subtractDateTime(dateTime3));
+        
+        dateTime2 = new DateTime(4,20,2014,14,45,29,0);
+        dateTime3 = new DateTime("5-21-2013,11:46:31:0");
+        System.out.println(dateTime2+" - "+dateTime3);
+        System.out.println(dateTime2.subtractDateTime(dateTime3));
+ }
+}
+
+]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ cat Employee.java
+/*************************************************************************
+ *  Compilation:  javac Employee.java <br>
+ *  Execution:    java Employee <br>
+ *************************************************************************/
+
+/**
+ * A simple data type Employees for use in Project 2 (CSE 1325, Fall 2010)
+ * <br>
+ * Useful for creating Customer objects to hold Infromation of a employee
+ * Name, address, Gender, hire date, release date, salary, employee type
+ * 
+ * @author Scott Nidell 
+ */
+import java.math.*;
+import java.text.*;
+import java.util.*;
+public class Employee implements Proj2Constants,DateConstants{
+  
+ private enum Gender{MALE,FEMALE};
+ private enum EmployeeType{WD,ACCT,CUST_SUPPORT};
+ 
+ private int empID;
+ private EmployeeType empType; 
+ private String firstName;
+ private String lastName;
+ private Date dob;
+ private Gender empGender; 
+ private Date hireDate;
+ private Date releaseDate;
+ private double salary;
+ private NumberFormat dollars= NumberFormat.getCurrencyInstance(Locale.US);
+ private DecimalFormat three= new DecimalFormat("#000");
+ 
+/**
+  * Constructor: Default constructor that builds a Customer
+  * with default values.
+  */ 
+ public Employee(){
+ 
+   this.empID=ZEROI;
+   this.empType= EmployeeType.CUST_SUPPORT; 
+   this.firstName=DEFAULT_FIRST_NAME;
+   this.lastName=DEFAULT_LAST_NAME;
+   this.dob= null;
+   this.empGender=Gender.FEMALE;
+   this.hireDate= new Date();
+   this.releaseDate=null;
+   this.salary= ZEROD;
+   
+ }
+ 
+  /**
+  * Constructor: creates a employee given correct objects
+  * 
+  * @param id     employee id
+  * @param eType  Web Dev, Accountant, Customer Support
+  * @param fn     first name of the employee
+  * @param ln     last name of the employee
+  * @param db     Date of Birth
+  * @param g      String rep of gender
+  * @param hd     Date of Hire
+  * @param rd     Date of Release
+  * @param es     Employee salary
+  * @exception RuntimeException
+  *                if the date is invalid
+  */ 
+ 
+ public Employee(String fn, String ln,String g, Date hd, String rd, double es, String eType,Date db){   
+   
+   this.firstName=fn;
+   this.lastName=ln;
+   this.dob=db;
+   if(!validGender(g))
+     throw new RuntimeException("Employee 2: error not valid Gender type");
+   this.empGender= Gender.valueOf(g.toUpperCase());
+   this.hireDate=hd;
+   if(rd.equals("null")){
+   this.releaseDate=null;
+   }else{   
+   this.releaseDate= new Date(rd); 
+   }
+   if(!validType(eType))
+     throw new RuntimeException("Employee 1: error not valid employee type");
+   this.empType= EmployeeType.valueOf(eType.toUpperCase());
+   this.salary=es;
+ }
+ 
+  /**
+  * Constructor: Does bounds-checking to ensure string represents a valid
+  * date
+  * 
+  * @param customerInfo    represents a customer info by comma seperated
+  * first, last, Gender, Hire Date, Release Date, salary, employee Type
+  * @exception RuntimeException if the date is invalid
+  */
+ public Employee(String emp){
+   
+   String [] splitResult= emp.split(",");   
+   
+   if(!validType(splitResult[ZEROI]))
+     throw new RuntimeException("Employee 3: error not valid employee type");
+   
+   this.empType= EmployeeType.valueOf(splitResult[ZEROI]);
+   this.firstName= splitResult[ONEI];
+   this.lastName= splitResult[TWOI]; 
+   this.dob= new Date(splitResult[THREEI]);
+   
+   if(!validGender(splitResult[FOURI]))
+     throw new RuntimeException("Employee 4: error not valid Gender type");
+   System.out.println("split result: "+splitResult[FOURI].toUpperCase());
+   this.empGender= Gender.valueOf(splitResult[FOURI].toUpperCase());
+   this.hireDate= new Date(splitResult[FIVEI]);
+   this.releaseDate= null;
+   this.salary=Double.parseDouble(splitResult[SIXI]);
+ }
+ 
+ private static boolean validGender(String g){
+   
+   if(g.toUpperCase().equals("MALE"))
+     return true;
+   if(g.toUpperCase().equals("FEMALE"))
+     return true;
+   
+   return false;
+ }
+ 
+ /**
+  * Is the employee type valid?
+  * 
+  * @param String literal of the enum object
+  * @return false if a valid string is not compared to enum type
+  */
+ 
+ private static boolean validType(String et){
+   
+   if(et.toUpperCase().equals(WEBDESIGNER)){
+     return true;
+   }else if(et.toUpperCase().equals(ACCOUNTANT)){
+     return true;
+   }else if(et.toUpperCase().equals(CUSTOMER_SUPPORT)){
+     return true;
+   }else
+     return false;     
+ }
+ 
+ 
+ /**
+  * Raise pay given if employee is still employed
+  * 
+  * @param amount to be increased
+  * @return false if employee is not employed
+  */
+ public boolean raisePay(double p){
+  
+   double possibleSalary= this.salary+p;
+   if(this.releaseDate!=null){
+    System.out.println("**********Employee no longer on staff, cannot give raise");
+    return false;
+   }
+   if(possibleSalary> MAX_SALARY){
+     System.out.println("Salary limit reached");
+     return false;
+   }
+   
+   this.salary+=p;
+   return true;
+ }
+ 
+ /**
+  * releases Employee and sets salary to zero  * 
+  * 
+  */
+ public void releaseEmp(){
+  
+   this.releaseDate= new Date();
+   this.salary= ZEROD;
+ }
+ 
+ /**
+  * changes first Name of Employee
+  * 
+  */
+ public void changeFirstName(String first){
+  
+   this.firstName=first;
+ }
+ 
+ /**
+  * Change last name of Employee
+  * 
+  */
+ public void changeLastName(String last){
+   
+   this.lastName=last;
+ }
+ 
+ /**
+  * Sets Employee ID to the new one passed in
+  * 
+  * @param id new id to be set to
+  */
+ public void setEmpID(int id){
+  
+   this.empID=id;
+ }
+ 
+ /**
+  * Changes the Employee type of given the correct string representation
+  * 
+  * @param et new Employee Type
+  */ 
+ public void changeEmpType(String et){
+   
+   if(et.toUpperCase().equals(WEBDESIGNER)){
+     this.empType= EmployeeType.WD;
+   }else if(et.toUpperCase().equals(ACCOUNTANT)){
+     this.empType= EmployeeType.ACCT; 
+   }else if(et.toUpperCase().equals(CUSTOMER_SUPPORT)){
+     this.empType= EmployeeType.CUST_SUPPORT;
+   }else
+       System.out.println("Invalid Selection for Employee Type");     
+ }
+ 
+ /**
+  * Change Gender of Employee
+  *  
+  */
+ public void changeGender(){
+   if(this.empGender.equals(Gender.FEMALE)){
+     this.empGender=Gender.MALE;
+   }else if(this.empGender.equals(Gender.MALE))
+     this.empGender=Gender.FEMALE;   
+ }
+ 
+ /**
+  * Returns the employee ID of give employee
+  * 
+  * @return returns the ID of current employee
+  */
+ public int getEmpID(){
+   
+   return this.empID;
+ }
+ 
+ /**
+  * Gets the release Date of current employee
+  * 
+  * @return date of the release else null
+  */
+ public Date getReleaseDate(){
+   
+   return this.releaseDate;
+ }
+ 
+ /**
+  * A String representation of a Employee Object
+  * 
+  * @return returns a string of Employee object
+  */
+ public String toString(){
+  String dollarSalary=dollars.format(this.salary);
+  String empIDformat= three.format(this.empID);
+  return "{ ID: "+empIDformat+"| Name: "+this.firstName+" "+this.lastName+"|Gender: "+
+    this.empGender+"| HireDate: "+this.hireDate+"| Release Date: "+this.releaseDate+
+    "|Salary: "+dollarSalary+"|Job: "+this.empType;
+ }
+ 
+ public static void main(String [] args){
+   
+   System.out.println("Start Test Employee 1 default Employee");
+   Employee myEmp1= new Employee();
+   System.out.println(myEmp1);
+   myEmp1.raisePay(3000);
+   System.out.println(myEmp1);
+   myEmp1.releaseEmp();
+   System.out.println(myEmp1);
+   myEmp1.changeFirstName("Bill Do");
+   System.out.println(myEmp1);
+   myEmp1.changeLastName("Hey yall");
+   System.out.println(myEmp1);
+   myEmp1.changeGender();
+   System.out.println(myEmp1);
+   myEmp1.changeGender();
+   System.out.println(myEmp1);
+   myEmp1.setEmpID(2000);
+   System.out.println(myEmp1);
+   System.out.println("------------------EMP2----------------\n");
+   Employee myEmp2= new Employee("WD,Scott,Nidell,08-28-1983,male,08-15-2002,4000");
+   System.out.println(myEmp2);
+   myEmp2.raisePay(3000);
+   System.out.println(myEmp2);
+   myEmp2.releaseEmp();
+   myEmp2.raisePay(3000);
+   System.out.println(myEmp2);
+   myEmp2.changeFirstName("Bill Do");
+   System.out.println(myEmp2);
+   myEmp2.changeLastName("Hey yall");
+   System.out.println(myEmp2);
+   myEmp2.changeGender();
+   System.out.println(myEmp2);
+   myEmp2.changeGender();
+   System.out.println(myEmp2);
+   myEmp2.setEmpID(2);
+   System.out.println(myEmp2);
+ 
+   System.out.println("------------------EMP3----------------\n\n");
+   
+ int empID=002;
+ String myEmpType="Acct";
+ String firstName="Johnny";
+ String lastName="Folizie";
+ Date myDob= new Date("01-21-1991"); 
+ String myMale= "MALe";
+ Date hireDate= new Date("03-22-1998"); 
+ String releaseDate= "null";
+ double salary= 14000;
+ 
+ Employee myEmp3= new Employee(firstName, lastName, myMale,hireDate, releaseDate, salary,myEmpType,myDob);
+ System.out.println(myEmp3);
+ myEmp3.raisePay(1000);
+ System.out.println(myEmp3);
+ myEmp3.changeEmpType("wd");
+ System.out.println(myEmp3);
+ myEmp3.releaseEmp();
+ System.out.println(myEmp3);
+
+ }  
+}]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ cat Enterprise.java
+/*************************************************************************
+ *  Compilation:  javac Enterprise.java <br>
+ *  Execution:    java Enterprise <br>
+ *************************************************************************/
+
+/**
+ * A simple data type Enterprise for use in Project 2 (CSE 1325, Fall 2010)
+ * <br>
+ * Useful for creating Enterprise Objects  to hold Infromation of a Customers, employees
+ * bids, name of enterprise, 
+ * 
+ * @author Scott Nidell 
+ */
+
+import java.io.*;
+import java.math.*;
+import java.text.*;
+import java.util.*;
+public class Enterprise implements Proj2Constants, DateConstants{
+  
+ private String name;
+ private ArrayList<Item> items;
+ private ArrayList<Employee> employees;
+ private ArrayList<Customer> customers;
+ private NumberFormat dollars= NumberFormat.getCurrencyInstance(Locale.US);
+ private enum SaleType{FIX_PRICE,AUCTION,BOTH};
+ private int numEmployees=ZEROI;
+ 
+ 
+ /**
+  * Constructor: Creates a enterprise object that holds customers, employees, items, and bids
+  * 
+  * @param nm The name of the Enterprise
+  */
+ Enterprise(String nm){
+   this.name=nm; 
+   items=new ArrayList<Item> ();
+   employees= new ArrayList<Employee>();
+   customers= new ArrayList<Customer>();  
+   
+ }
+ 
+ /**
+  * Adds an employee to ArrayList
+  * 
+  * @param e Employee to be added
+  */
+ public void addEmployee(Employee e){
+   
+  employees.add(e);
+  if(e.getReleaseDate()==null){
+    numEmployees++;
+  }
+ }
+ 
+ /**
+  * Adds an item to the ArrayList
+  * 
+  * @param it Item to be added to the list
+  */
+ public void addItem(Item it){
+  
+   items.add(it);
+ }  
+  /**
+  * Adds customers to ArrayList
+  * 
+  * @param c The Customer to be added
+  */
+ public void addCustomer(Customer c){
+   
+  customers.add(c); 
+ }
+ 
+ /**
+  * Releases a employee if it is not already released or exists
+  * 
+  * @param eid Employees ID to be released
+  */
+ public void releaseEmployee(int eid){   
+   int flag=0;
+    for(int i=0;i<items.size();i++){
+      
+      if(employees.get(i).getEmpID()==eid){
+        if(employees.get(i).getReleaseDate()==null){
+          employees.get(i).releaseEmp();
+          System.out.println("Employee has been found and released: "+employees.get(i));
+          numEmployees--;
+          return;
+        }else{
+         System.out.println("Employee Has already been released");
+         System.out.println(employees.get(i));
+         return;
+        }
+      }
+    }      
+      System.out.println("Employee ID not found");  
+ }
+   
+ /**
+  * Prints all Employees past and present
+  * 
+  */
+ public void printEmployees(){
+   
+  for(int i=0;i<employees.size();i++)
+    System.out.println(employees.get(i));
+   
+ }
+ 
+ /**
+  * Prints all Items of the Enterprise
+  * 
+  */
+ public void printItems(){
+  
+   for(int i=0;i<items.size();i++)    
+     System.out.println(items.get(i));
+   }
+ 
+ /**
+  * Prints all items given a lower bound range
+  * 
+  * @param val the lower bound range value
+  */
+ public void printItemsRange(int val){
+   
+   for(int i=0;i<items.size();i++){ 
+     if(val<=items.get(i).getReserveAmount())
+     System.out.println(items.get(i).printByReserve());
+   }   
+ }
+   
+ /**
+  * Prints all customers in the Enterprise
+  *
+  */
+ public void printCustomers(){
+    
+     for(int i=0;i<customers.size();i++)
+       System.out.println(customers.get(i));    
+ }
+ 
+ /**
+  * Adds a bid to item in the list
+  * 
+  * @param bid Bid to be added to Item List
+  */
+ public void addBid(Bid bid){
+    
+    int flag=0;
+    for(int i=0;i<items.size();i++){
+      if(items.get(i).getItemID()==bid.getItemID()){
+        items.get(i).addBid(bid);
+        flag++;
+        return;
+      }      
+    }   
+    if(flag==0)
+      System.out.println("Item ID not found");
+  }
+ 
+ /**
+  * Prints total Fees taken in dollar format
+  * 
+  */
+ public void totalFees(){
+    double totalCost=0;
+    
+    for(int i=0;i<items.size();i++){
+     totalCost+= items.get(i).checkSold();
+    }
+    String dollarCost=dollars.format(totalCost);
+    System.out.println("Total Fees collected: "+dollarCost);
+  }
+ 
+ /**
+  * Print all bids given an Item ID
+  * 
+  * @param id Item Id to be printed bids
+  */
+ public void printBids(int id){
+   
+    for(int i=0;i<items.size();i++){
+      
+      if(items.get(i).getItemID()==id){
+        items.get(i).printBids();
+        return;
+      }
+    }
+  }
+    
+ /**
+  * prints all Bids for all Items
+  * 
+  */ 
+ public void printAllBids(){
+   
+    for(int i=0;i<items.size();i++){ 
+      
+        items.get(i).printBids();        
+    }    
+  }
+ 
+ /**
+  * Prints Main menu for User Interface
+  *
+  */
+ public void printMenu(){
+    System.out.println(this);
+    System.out.println("Welcome to MavBay!");
+    System.out.println("Main Menu:");
+    System.out.println(  "1) List all employees");
+    System.out.println(  "2) List items");
+    System.out.println(  "3) List all customers");
+    System.out.println(  "4) Display items sold");
+    System.out.println(  "5) Display total fee collection");
+    System.out.println(  "6) Display Items that received max bid");
+    System.out.println(  "7) Release an employee");
+    System.out.println(  "0) Exit Program");    
+  }
+  /**
+  * Prints a submenu for items
+  * 
+  */
+  public void itemsMenu(){
+    
+    Scanner scan= new Scanner(System.in);
+    String menuScan=EMPTY_STRING;
+    
+    System.out.println("Which items do you want to Display?");
+    System.out.println("Type:* for all items");
+    System.out.println("Give an amount and auction equal to or over that amount will be printed");
+    
+    menuScan=scan.next();
+    int itemValue;
+    
+    if(menuScan.equals("*")){
+      System.out.println("Printing All Items...");  
+      this.printItems();
+                 
+    }else{
+        try {
+          itemValue = Integer.parseInt(menuScan);
+          printItemsRange(itemValue);
+          
+          
+        }catch (Exception e){       
+          this.itemsMenu();
+        }
+    }
+  }
+  /**
+  * Prints the Max Number of bids and the Item with that max bid
+  * 
+  */
+  public void maxBid(){
+   int maxBid=ZEROI;
+   int index=ZEROI;
+    for(int i=0;i<items.size();i++){     
+      if(items.get(i).getNumBids()>maxBid){
+        maxBid=items.get(i).getNumBids();
+        index=i;
+      }
+    } 
+   System.out.println("Item with most amount of Bids: "+items.get(index));
+   System.out.println("Number of Bids: "+maxBid);
+  }
+  
+  /**
+  * Sub Menu to release and Employee
+  *
+  */
+  public void releaseEmpMenu(){
+   
+   Scanner scan= new Scanner(System.in);
+   String menuScan=EMPTY_STRING;
+   int empIDSelection=ZEROI;
+   
+   System.out.println("Please enter an Emplyee ID to release");
+   menuScan=scan.next();
+   try {
+          empIDSelection = Integer.parseInt(menuScan);
+          this.releaseEmployee(empIDSelection);
+          
+        }catch (Exception e){       
+          System.out.println("Invalid input");
+          this.releaseEmpMenu();
+        }
+    
+  }
+  
+  /**
+  * Prints the Items sold in the Enterprise
+  *
+  */
+  public void soldItemsMenu(){
+   
+   Scanner scan= new Scanner(System.in);
+   String menuScan=EMPTY_STRING;
+   
+   for(int i=0;i<items.size();i++){//time has eslapsed check to see if anything new has been sold
+     items.get(i).checkSold(); 
+   }
+   System.out.println("To print All prices type: *");
+   System.out.println("To print fixed amount prices type: FIX_PRICE");
+   System.out.println("To print auction only items type: AUCTION");
+   System.out.println("To print all sold items type: BOTH"); 
+   menuScan=scan.next();
+   
+   if(menuScan.equals("*")){
+     
+     for(int i=0;i<items.size();i++){    
+       if(this.items.get(i).getQtySold()>=ONEI){//if an item has been sold print it
+         System.out.println(this.items.get(i));
+       }
+     }
+     
+   }else if(menuScan.toUpperCase().equals(FIXED)){
+     for(int i=0;i<items.size();i++){    
+       if(this.items.get(i).getQtySold()>=ONEI && this.items.get(i).getType().equals(FIXED)){
+         //if the item has been sold and its a Fixed Price. Print it.
+         System.out.println(this.items.get(i));
+       }
+     }
+     
+   }else if(menuScan.toUpperCase().equals(AUCTION)){
+     for(int i=0;i<items.size();i++){    
+       if(this.items.get(i).getQtySold()>=ONEI && this.items.get(i).getType().equals(AUCTION)){
+       //if the item has been sold and its a Auction Price. Print it.
+        System.out.println(items.get(i));
+        }
+      }     
+   }else if(menuScan.toUpperCase().equals(BOTH_ITEM)){
+     for(int i=0;i<items.size();i++){
+       if(this.items.get(i).getQtySold()>=ONEI && this.items.get(i).getType().equals(BOTH_ITEM)){
+         System.out.println(items.get(i));
+       }       
+     }    
+   }else{
+    System.out.println("Invalid selection");
+    this.soldItemsMenu();
+   }
+  }
+                         
+  /**
+  * A String method that represents a Enterprise Object
+  * 
+  * @return Returns a string of Enterprise Object
+  */
+  public String toString(){
+    
+    return "Enterprise: "+name+"Employees: "+numEmployees;     
+  }
+ 
+ 
+ public static void main(String [] args){
+
+   /***************Create EMPLOYEES***************/ 
+ Employee myEmp1= new Employee("WD,Bill,Compton,06-28-1981,male,08-15-2004,1000");
+ Employee myEmp2= new Employee("WD,Scott,Nidell,08-28-1983,male,08-15-2002,4000"); 
+ Employee myEmp3= new Employee("WD,Sookie,Stackhouse,01-26-1979,female,08-16-2006,900");
+ Employee myEmp4= new Employee("WD,Jessica,Hamby,02-26-1976,female,01-11-2006,1900");
+   
+ 
+   
+ int empID=002;
+ String myEmpType="Acct";
+ String firstName="Johnny";
+ String lastName="Folizie";
+ Date myDob= new Date("01-21-1991"); 
+ String myMale= "MALe";
+ Date hireDate= new Date("03-22-1998"); 
+ String releaseDate= "null";
+ double salary= 14000;
+ 
+ Employee myEmp5= new Employee(firstName, lastName, myMale,hireDate, releaseDate, salary,myEmpType,myDob);
+ 
+ /***********************Adding Employees to Enterprise****************/
+ Enterprise myent= new Enterprise("Yo dog");  
+ myent.addEmployee(myEmp1);
+ myent.addEmployee(myEmp2);
+ myent.addEmployee(myEmp3);
+ myent.addEmployee(myEmp4);
+ myent.addEmployee(myEmp5);
+ myent.printEmployees();
+ System.out.println(myent);
+ 
+ /***********************Create Bids******************/
+  int userID1=011;
+  int itemID1=003;
+  DateTime bidDate1= new DateTime("2-12-2014,00:00:45");
+  double bidAmount1=200.00;
+  int bidQTY1= 3;
+  
+  int userID2=012;
+  int itemID2=120;
+  DateTime bidDate2= new DateTime("2-13-2014,13:45:00");
+  double bidAmount2=203.00;
+  int bidQTY2= 3;
+  
+  int userID3=013;
+  int itemID3=110;
+  DateTime bidDate3= new DateTime("2-11-2014,11:00:00");
+  double bidAmount3=900.00;
+  int bidQTY3= 1;
+  
+  int userID4=014;
+  int itemID4=190;
+  DateTime bidDate4= new DateTime("2-11-2014,14:00:00");
+  double bidAmount4=233.00;
+  int bidQTY4= 9;
+  
+  Bid bid1= new Bid(userID1,itemID1,bidDate1,bidAmount1,bidQTY1);
+  Bid bid2= new Bid(userID2,itemID2,bidDate2,bidAmount2,bidQTY2);
+  Bid bid3= new Bid(userID3,itemID3,bidDate3,bidAmount3,bidQTY3);
+  Bid bid4= new Bid(userID4,itemID4,bidDate4,bidAmount4,bidQTY4);
+  
+  /******************Create Items************************************/
+  
+    int itemID01= 003;
+    String itemCat1= "Antique";
+    String itName1="Camera";
+    String itemType1= "FIX_PRICE";
+    int itemQty1= 5;
+    String condition1= "USED";
+    double minStart1= 30.00;
+    double bidInc1= 5.00;
+    double reserveAmt1= 400.00;
+    String startD1= "1-1-2014,21:49:00";
+    int days1= 71;
+    int sellerID1= 200;
+    int feedback1=1000;
+    String desc1= "Old Ass Camera"; 
+    
+    Item myItem1= new Item(itemID01,itemCat1,itName1,itemType1,itemQty1,condition1,minStart1,bidInc1,reserveAmt1,
+                           startD1,days1,sellerID1,feedback1,desc1);
+    
+    
+    int itemID02= 004;
+    String itemCat2= "Antique";
+    String itName2="Camera";
+    String itemType2= "AUCTION";
+    int itemQty2= 1;
+    String condition2= "NEW";
+    double minStart2= 35.00;
+    double bidInc2= 5.00;
+    double reserveAmt2= 450.00;
+    String startD2= "1-5-2010,21:49:00";
+    int days2= 2;
+    int sellerID2= 200;
+    int feedback2=1000;
+    String desc2= "Old Ass Camera"; 
+    
+    Item myItem2= new Item(itemID02,itemCat2,itName2,itemType2,itemQty2,condition2,minStart2,bidInc2,reserveAmt2,
+                           startD2,days2,sellerID2,feedback2,desc2);
+   
+   }
+   
+ 
+ 
+ 
+ 
+ 
+}]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ cat Item.java
+/*************************************************************************
+ *  Compilation:  javac Item.java <br>
+ *  Execution:    java Item <br>
+ *************************************************************************/
+
+/**
+ * A simple data type Item for use in Project 2 (CSE 1325, Fall 2010)
+ * <br>
+ * Useful for creating Item objects to hold Infromation of an Item
+ * Item ID, category, name, description, sale type, quanity, condition, minimum bid,
+ * Increment, Reserve amount, Start date, number of days, seller ID, Feedback score
+ * 
+ * @author Scott Nidell 
+ */
+
+import java.util.ArrayList;
+public class Item implements Proj2Constants,DateConstants{
+  
+  private enum Condition{NEW,USED};
+  private enum SaleType{FIX_PRICE,AUCTION,BOTH};
+  
+  private int itemID;
+  private String category;
+  private String name;
+  private SaleType type;
+  private int qty;
+  private int qtySold=ZEROI;
+  private Condition condition;
+  private double minStart;
+  private double increment;
+  private double reserveAmount;
+  private DateTime startD;
+  private int numDays;
+  private int sellerID;
+  private int feedback;
+  private int shipID;
+  private String description;
+  private ArrayList<Bid> bids = new ArrayList<Bid>();
+  private DateTime endDate;
+  private double costCollected;
+  
+  /**
+  * Constructor: Default constructor that builds a Item
+  * with default values.
+  */
+  
+  public Item(){
+   this.itemID=ZEROI;
+   this.category=null;
+   this.name=DEFAULT_ITEM;
+   this.qty=ZEROI;
+   this.condition= Condition.NEW;
+   this.minStart= ZEROD;
+   this.increment= ZEROD;
+   this.reserveAmount=ZEROD;
+   this.startD= new DateTime();
+   this.numDays= ZEROI;
+   this.sellerID=ZEROI;
+   this.feedback=ZEROI;
+   this.description=null;
+  }
+  
+  /**
+  * Constructs Item given data
+  * 
+  * @param id       id of the item
+  * @param cat      category of item
+  * @param n        name of item
+  * @param ty       sale type of Item
+  * @param qt       quanity of items to be sold
+  * @param cond     condition in terms of  a string
+  * @param minS     minimum start of auction
+  * @param inc      increment of bids
+  * @param reserveA amount of item
+  * @param sd       Start Date
+  * @param sid      Seller ID
+  * @param fb       Seller Feedback
+  * @param desc     Description of Item
+  * 
+  */
+  public Item(int id, String cat, String n, String ty, int qt, String cond, double minS,
+               double inc, double reserveA, String sd, int nd,int sid, int fb,String desc){
+    
+   
+    this.itemID=id;
+    this.category=cat;
+    this.name=n;
+    if(!isValidType(ty))
+      throw new RuntimeException("Item 1: error not valid item type");
+    this.type= SaleType.valueOf(ty.toUpperCase());
+    this.qty=qt;
+    if(!isValidCond(cond))
+      throw new RuntimeException("Item 2: error not valid item condition");
+    this.condition= condition.valueOf(cond.toUpperCase());
+    this.minStart= minS;
+    this.increment=inc;
+    this.reserveAmount=reserveA;
+    this.startD= new DateTime(sd);
+    this.numDays=nd;
+    this.sellerID=sid;
+    this.feedback=fb;
+    this.description=desc;
+    this.endDate=new DateTime(sd);
+    this.endDate.addDays(nd);
+  }
+  
+  /**
+  * checks if a Sale type is valid
+  * 
+  * @return false if item does not fall in Enum sale type    
+  * 
+  */
+  
+  private static boolean isValidType(String t){
+    
+    if(t.toUpperCase().equals(FIXED)){
+     return true;
+   }else if(t.toUpperCase().equals(AUCTION)){
+     return true;
+   }else if(t.toUpperCase().equals(BOTH_ITEM)){
+     return true;
+   }else
+     return false; 
+  }
+  
+  /**
+  * checks if a condition type is valid
+  * 
+  * @return false if item does not fall in Enum condition    
+  */
+  private static boolean isValidCond(String c){
+    
+    if(c.toUpperCase().equals(NEW)){
+     return true;
+   }else if(c.toUpperCase().equals(USED)){
+     return true;
+   }
+     return false;
+  }
+    
+  /**
+  * creates new description for Item
+  * 
+  * @param d new description of the item  
+  * 
+  */
+  public void setDescription(String d){
+    
+    this.description=d;    
+  }
+  
+  /**
+  * Change quantity of Item
+  * 
+  * @param q new quanitity for the item
+  *                
+  */
+  public void setQuanity(int q){
+    
+    this.qty=q;    
+  }
+  
+  /**
+  * Increase feedback of Item
+  * 
+  * @param fb amount of rating to be increased
+  *                
+  */
+  public void increaseFeedback(int fb){
+    
+    this.feedback+=fb;  
+  }
+  
+  /**
+  * Decrease feedback of Item
+  * 
+  * @param fb amount of rating to be decreased
+  *                
+  */
+  
+  public void decreaseFeedback(int fb){
+    
+    this.feedback-=fb;    
+  }
+  
+  /**
+  * Returns the Quanity sold of this Item
+  *
+  * 
+  * @return 0 to Max of the quanity sold of this item
+  */
+  public int getQtySold(){
+    
+   return qtySold; 
+  }
+  
+  /**
+  * Returns the String representation of a SaleType object of this Item
+  * 
+  * @param b DateTime object
+  * @return String of the SaleType 
+  */
+  public String getType(){
+    String typeConversion=EMPTY_STRING;
+        
+    if(this.type==SaleType.FIX_PRICE){
+      typeConversion=FIXED;
+    }else if(this.type==SaleType.AUCTION){
+      typeConversion=AUCTION;     
+    }else if(this.type==SaleType.BOTH){
+      typeConversion=BOTH_ITEM;     
+    }    
+    return typeConversion;    
+  }
+  
+  /**
+  * Adds a bid to the Arraylist
+  * 
+  * @param bid is the bid trying to be added
+  */
+  public void addBid(Bid bid){
+    if(bids.size()>=MAX_BIDS){ //is bid less than 500?
+      System.out.println("Max bids reached for this item");
+      return;
+    }else if(isValid(bid)){ //Is it valid?
+      bids.add(bid);
+    }else{
+    System.out.println("Not a Valid Bid");
+    //System.out.println("Bid Given: "+bid+" Previous bid: "+bids.get(i-1));
+    }
+    
+  }
+  
+  /**
+  * Returns the ID of the Item
+  *
+  * @return Int of the current item ID
+  */
+  public int getItemID(){
+   
+    return this.itemID;    
+  }
+  
+  /**
+  * Checks to see if a Bid is Valid
+  * 
+  * @param b Bid object beiung validated
+  * @return true DateTime,QTY,and TYPE correct
+  */
+  public  boolean isValid(Bid b){
+    int lastIndex=this.bids.size()-ONEI;
+    if(!(b.getBidQty()<=this.qty))
+        return false;
+    if(this.bids.size()==ZEROI){//if this is the first bid going in
+      if(b.getBidDate().isBefore(this.endDate)&& b.getBidDate().isAfter(this.startD)){
+        //then check to see if the date is within the start and end date
+        return true;        
+      }
+    }else if(this.bids.size()>=ONEI){//if there is at least one active bid
+      if(b.getBidDate().isAfter(this.bids.get(lastIndex).getBidDate()) && b.getBidDate().isBefore(this.endDate)){
+        return true;
+      }else{
+         return false; 
+        }
+    }
+      
+    if(this.type==SaleType.FIX_PRICE){
+      if(b.getBidAmount()==this.reserveAmount && b.getBidQty()<=this.qty){        
+        this.qty-=b.getBidQty();//because it is a valid item remove qty immediately
+        this.qtySold=b.getBidQty();         
+        return true;
+      }else{
+        System.out.println("Invalid price or bid qty for FIXED item");
+      }
+    }else if(this.type==SaleType.AUCTION){ //if auction type
+      if(this.bids.size()==ZEROI && b.getBidAmount()>=this.minStart){//if this is the first bid&its higher than min bid
+        return true;
+      }else if(this.bids.size()>ZEROI && b.getBidAmount()>=(this.bids.get(lastIndex).getBidAmount())+this.increment){
+        //If bids>0 and new bid amount is higher than last bid +icnrement
+        return true;
+      }else{
+       System.out.println("Invalid price for Auction item"); 
+      }      
+    }else if(this.type==SaleType.BOTH){//has attributes of fixed and auction type
+      if(b.getBidAmount()==this.reserveAmount && b.getBidQty()<=this.qty){        
+        this.qty-=b.getBidQty();//because it is a valid item remove qty immediately
+        this.qtySold=b.getBidQty();         
+        return true;
+      }else if(this.bids.size()==ZEROI && b.getBidAmount()>=this.minStart){//if this is the first bid&its higher than min bid
+        return true;
+      }else if(this.bids.size()>ZEROI && b.getBidAmount()>=(this.bids.get(lastIndex).getBidAmount())+this.increment){
+        //If bids>0 and new bid amount is higher than last bid +icnrement
+        return true;
+      }else{        
+        System.out.println("Invalid price for Both item"); 
+      }
+      
+    }else{     
+      System.out.println("Invalid Type");
+    }    
+    return false;    
+  }
+  
+  /**
+  * Prints all bids in the Current Item
+  * 
+  */
+  public void printBids(){
+   
+    System.out.println("ItemID: "+this.itemID+"|Description: "+this.description);
+    System.out.println("   CurrentBids:");
+    for(int i=0;i<bids.size();i++){
+     System.out.println("   "+bids.get(i));
+    }
+  }
+  
+  /**
+  * Returns the ReserveAmount
+  * 
+  * @param double reserve amount
+  */
+  public double getReserveAmount(){
+    return this.reserveAmount;
+  }
+  
+  /**
+  * Gets the End Date of the given Item
+  *
+  * @return String representation of End Date
+  */
+  public String getEndDate(){
+    return this.endDate.toString();
+  }
+  
+  /**
+  * Check to See if any items have been sold in the time lapsed
+  *
+  * @return cost of fees collected
+  */
+  public double checkSold(){
+   int lastIndex=this.bids.size()-ONEI;
+    DateTime today= new DateTime();
+   if(today.isAfter(this.endDate) && bids.get(lastIndex).getBidAmount()>= (this.reserveAmount*.95)){
+     this.qty-=bids.get(lastIndex).getBidQty();
+     this.qtySold+=bids.get(lastIndex).getBidQty();     
+   }
+    
+   return this.calcCost(qtySold);
+  }
+  
+  /**
+  * Calculates the cost of bids processed in the Item
+  * 
+  * @param it quanity of of this item sold
+  * @return Cost calculation of the quanity passed
+  */
+  public double calcCost(int it){
+    int lastIndex=this.bids.size()-ONEI;
+    double cost=ZEROI;
+    double insertionFee= this.minStart*ONE_PERCENT;
+    double finalValFee=  this.bids.get(lastIndex).getBidAmount()*TEN_PERCERNT;//fee if item is sold
+    
+    if(this.qtySold==ONEI){//fee for 1 item sold
+      cost+= (SHIPPING_COST +finalValFee);      
+    }else if(this.qtySold>ONEI){//fee for multiple items sold
+      cost+= (SHIPPING_COST +finalValFee+((this.qtySold-ONEI)*MULTIPLE_FEE));
+    }
+      cost+=insertionFee;//everyone gets an insertion fee
+      
+   return cost; 
+  }
+  
+  /**
+  * Returns the number of bids in the current Item
+  * 
+  * @return int number of bids
+  */
+  public int getNumBids(){    
+   return bids.size(); 
+  }
+  
+  /**
+  * A helper method that prints by Reserve price for easier reading
+  *
+  * @return String representation more easily read with reserveAmount in Front
+  */
+  public String printByReserve(){
+   return "ReserveAmount: "+this.reserveAmount+" ID: "+this.itemID+" Description: "+this.description;
+  }
+  
+  /**
+  * Prints the current attributes of the object
+  *   
+  * @return string that describes the Item object.
+  *                
+  */
+  public String toString(){
+    
+    return "{ID: "+this.itemID+"| Name: "+this.name+"| Description: "+this.description+"| QTY: "
+      +this.qty+"|Condition: "+this.condition+" Auction TYPE: "+this.type+"|Min Start: "+this.minStart+"|Seller Feedback: "+this.feedback;   
+  }
+  
+  public static void main(String []args){
+    
+    
+    Item myItem= new Item();
+    System.out.println(myItem);
+   
+    //Testing bids FIXED Auction
+   /* int itemID= 003;
+    String itemCat= "Antique";
+    String itName="Camera";
+    String itemType= "FIX_PRICE";
+    int itemQty= 5;
+    String condition= "USED";
+    double minStart= 30.00;
+    double bidInc= 5.00;
+    double reserveAmt= 400.00;
+    String startD= "1-1-2014,21:49:00";
+    int days= 7;
+    int sellerID= 200;
+    int feedback=1000;
+    String desc= "Old Ass Camera"; 
+    
+    Item myItem3= new Item(itemID,itemCat,itName,itemType,itemQty,condition,minStart,bidInc,reserveAmt,startD,days,sellerID,feedback,desc);
+    
+    System.out.println(myItem3);
+    
+    
+  int userID1=120;
+  int itemID1=003;
+  DateTime bidDate1= new DateTime("2-12-2014,00:00:45");
+  double bidAmount1=200.00;
+  int bidQTY1= 3;
+  
+  int userID2=112;
+  int itemID2=003;
+  DateTime bidDate2= new DateTime("2-13-2014,13:45:00");
+  double bidAmount2=207.00;
+  int bidQTY2= 3;
+  
+  int userID3=111;
+  int itemID3=003;
+  DateTime bidDate3= new DateTime("2-11-2014,11:00:00");
+  double bidAmount3=400.00;
+  int bidQTY3= 1;
+  
+  int userID4=154;
+  int itemID4=003;
+  DateTime bidDate4= new DateTime("2-11-2014,14:00:00");
+  double bidAmount4=401.00;
+  int bidQTY4= 1;
+  
+  Bid bid1= new Bid(userID1,itemID1,bidDate1,bidAmount1,bidQTY1);
+  Bid bid2= new Bid(userID2,itemID2,bidDate2,bidAmount2,bidQTY2);
+  Bid bid3= new Bid(userID3,itemID3,bidDate3,bidAmount3,bidQTY3);
+  Bid bid4= new Bid(userID4,itemID4,bidDate4,bidAmount4,bidQTY4);
+  
+  System.out.println("Adding bid1");
+  myItem3.addBid(bid1);//not valid
+  myItem3.addBid(bid2);//not valid
+  myItem3.addBid(bid3);//valid
+  myItem3.addBid(bid4);//not valid
+  
+  myItem3.printBids();
+  System.out.println("QTY: "+myItem3.qty+" Sold Item: "+myItem3.qtySold);*/
+  
+     //*****************Testing bids Auction type****************
+    /*
+    int itemID= 003;
+    String itemCat= "Antique";
+    String itName="Camera";
+    String itemType= "AUCTION";
+    int itemQty= 5;
+    String condition= "USED";
+    double minStart= 30.00;
+    double bidInc= 5.00;
+    double reserveAmt= 400.00;
+    String startD= "1-1-2014,21:49:00";
+    int days= 7;
+    int sellerID= 200;
+    int feedback=1000;
+    String desc= "Old Ass Camera"; 
+    
+    Item myItem3= new Item(itemID,itemCat,itName,itemType,itemQty,condition,minStart,bidInc,reserveAmt,startD,days,sellerID,feedback,desc);
+    
+    System.out.println(myItem3);
+    
+  
+  int userID1=120;
+  int itemID1=003;
+  DateTime bidDate1= new DateTime("2-12-2014,00:00:45");
+  double bidAmount1=20.00;
+  int bidQTY1= 2;
+  
+  int userID2=112;
+  int itemID2=003;
+  DateTime bidDate2= new DateTime("2-13-2014,13:45:00");
+  double bidAmount2=35.00;
+  int bidQTY2= 2;
+  
+  int userID3=111;
+  int itemID3=003;
+  DateTime bidDate3= new DateTime("2-11-2014,11:00:00");
+  double bidAmount3=32.00;
+  int bidQTY3= 2;
+  
+  int userID4=154;
+  int itemID4=003;
+  DateTime bidDate4= new DateTime("2-11-2014,14:00:00");
+  double bidAmount4=30.00;
+  int bidQTY4= 3;
+  
+  int userID5=136;
+  int itemID5=003;
+  DateTime bidDate5= new DateTime("2-18-2014,14:00:00");
+  double bidAmount5=40.00;
+  int bidQTY5= 1;
+  
+  System.out.println("Size of bids list: "+myItem3.bids.size());
+  Bid bid1= new Bid(userID1,itemID1,bidDate1,bidAmount1,bidQTY1);
+  Bid bid2= new Bid(userID2,itemID2,bidDate2,bidAmount2,bidQTY2);
+  Bid bid3= new Bid(userID3,itemID3,bidDate3,bidAmount3,bidQTY3);
+  Bid bid4= new Bid(userID4,itemID4,bidDate4,bidAmount4,bidQTY4);
+  Bid bid5= new Bid(userID5,itemID5,bidDate5,bidAmount5,bidQTY5);
+  System.out.println("Number of bids: "+myItem3.bids.size());
+  System.out.println("Adding bid1");
+  
+  myItem3.addBid(bid1);//invalid
+  myItem3.addBid(bid2);//valid
+  myItem3.addBid(bid3);//invalid
+  myItem3.addBid(bid4);//invalid
+  myItem3.addBid(bid5);//invalid
+  
+  System.out.println("Number of bids: "+myItem3.bids.size());
+  
+  
+  myItem3.printBids();
+  System.out.println("QTY: "+myItem3.qty+" Sold Item: "+myItem3.qtySold);  */
+    
+   int itemID= 003;
+    String itemCat= "Antique";
+    String itName="Camera";
+    String itemType= "BOTH";
+    int itemQty= 5;
+    String condition= "USED";
+    double minStart= 30.00;
+    double bidInc= 5.00;
+    double reserveAmt= 400.00;
+    String startD= "1-1-2014,21:49:00";
+    int days= 7;
+    int sellerID= 200;
+    int feedback=1000;
+    String desc= "Old Ass Camera"; 
+    
+    Item myItem3= new Item(itemID,itemCat,itName,itemType,itemQty,condition,minStart,bidInc,reserveAmt,startD,days,sellerID,feedback,desc);
+    
+    System.out.println(myItem3);
+    
+  
+  int userID1=120;
+  int itemID1=003;
+  DateTime bidDate1= new DateTime("2-12-2014,00:00:45");
+  double bidAmount1=20.00;
+  int bidQTY1= 2;
+  
+  int userID2=112;
+  int itemID2=003;
+  DateTime bidDate2= new DateTime("2-13-2014,13:45:00");
+  double bidAmount2=35.00;
+  int bidQTY2= 2;
+  
+  int userID3=111;
+  int itemID3=003;
+  DateTime bidDate3= new DateTime("2-11-2014,11:00:00");
+  double bidAmount3=400.00;
+  int bidQTY3= 2;
+  
+  int userID4=154;
+  int itemID4=003;
+  DateTime bidDate4= new DateTime("2-11-2014,14:00:00");
+  double bidAmount4=55.00;
+  int bidQTY4= 3;
+  
+  int userID5=136;
+  int itemID5=003;
+  DateTime bidDate5= new DateTime("2-18-2014,14:00:00");
+  double bidAmount5=500.00;
+  int bidQTY5= 1;
+  
+  System.out.println("Size of bids list: "+myItem3.bids.size());
+  Bid bid1= new Bid(userID1,itemID1,bidDate1,bidAmount1,bidQTY1);
+  Bid bid2= new Bid(userID2,itemID2,bidDate2,bidAmount2,bidQTY2);
+  Bid bid3= new Bid(userID3,itemID3,bidDate3,bidAmount3,bidQTY3);
+  Bid bid4= new Bid(userID4,itemID4,bidDate4,bidAmount4,bidQTY4);
+  Bid bid5= new Bid(userID5,itemID5,bidDate5,bidAmount5,bidQTY5);
+  System.out.println("Number of bids: "+myItem3.bids.size());
+  System.out.println("Adding bid1");
+  
+  myItem3.addBid(bid1);//invalid
+  myItem3.addBid(bid2);//valid auction
+  myItem3.addBid(bid3);//valid Fixed
+  myItem3.addBid(bid4);//invalid
+  myItem3.addBid(bid5);//valid
+  
+  System.out.println("Number of bids: "+myItem3.bids.size());
+  
+  
+  myItem3.printBids();
+  System.out.println("QTY: "+myItem3.qty+" Sold Item: "+myItem3.qtySold);
+  System.out.println("StartDate:"+myItem3.startD+" End Date: "+myItem3.getEndDate());
+  double cost= myItem3.checkSold();
+  System.out.println("cost: "+cost);
+  System.out.println("QTY: "+myItem3.qty+" Sold Item: "+myItem3.qtySold);
+  }
+  
+}]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ cat MavBayMgmtTest.java
+/**
+ * Programmer:  Sharma Chakravarthy
+ * Language: Java
+ * date:        09/10/2013
+ * Purpose: This program uses MayBayMgmtTest class to read data from a text file to initialize
+ *   employees, items for sale, customers who bid, and actual bids
+ *     
+ *              It checks and recovers from some exceptions while reading the input file
+ * 
+ * USAGE:       You need to initialize your data structures (creation of objects) as the first step. 
+ *              once the values are read into local variables, 
+ *              it  is YOUR responsibility to add code at proper places to create objects and manage them!
+ *
+ *              filename is given as a command line argument (e.g, java MayBayMgmtTest dataFile-proj2.txt)
+ *              for the naming convention used in this file. if you forget to give the data 
+ *              file as a command line argument, it will prompt you for that. 
+ *          
+ *              you can remove or comment out print staatements once you are sure it is reading the input correctly
+ *
+ * MAKE SURE:   your program is completely case in-sensitive (for gender, employee type etc.)
+ */
+
+import java.io.*;
+import java.util.Scanner;
+
+/**
+ * @param fileName
+ *            as input data filename containing input items with  as item separators
+ *  Note that multiple interfaces can be used with a class
+ */
+
+public class MavBayMgmtTest implements Proj2Constants, DateConstants {
+
+ // define your (class and instance) attributes here
+    // if you are not using a  separate Test driver class for that
+
+ private static Scanner finput, cp;
+ private String companyName;
+ 
+
+ /**
+  * @param fileName
+  *            is the input data file name
+  */
+
+ public static Scanner openFile(String fileName) {
+  Scanner sc = null;
+  try {
+   sc = new Scanner(new File(fileName));
+  } catch (FileNotFoundException FNFE) {
+   sc = null;
+  } finally {
+   return sc;
+  }
+ }
+
+ // add here constructors and methods as needed for this class
+
+ /**
+  * @param takes
+  *            fineName as command line argument. prompts if not given
+  */
+ public static void main(String[] args) {
+
+  // declare variables used for input handling
+  String enterprisename = EMPTY_STRING;
+  String inputLine =  EMPTY_STRING, fName;
+
+  // determine if correct input file is provided
+
+  cp = new Scanner(System.in);
+  if (args.length < 1) {
+   System.out.println("Input Data file name was not supplied");
+   System.out.printf("Please input data file name: ");
+   fName = cp.nextLine();
+  } else
+   fName = args[ZEROI];
+
+  // See HOW RECOVERY is done (will cover this in module II)
+
+  finput = openFile(fName);
+  while (finput == null) {
+   System.out.printf("Error: FILE %s %s", fName,
+     " does not exist.\nEnter correct input data file name: ");
+   fName = cp.nextLine();
+   finput = openFile(fName);
+  }
+
+  /* GET MavBay DETAILS */
+  // start reading from data file
+  // get name
+  try {
+   inputLine = finput.nextLine();
+            System.out.println(inputLine);
+   while (inputLine.charAt(BASE_INDEX) == '/'){
+    inputLine = finput.nextLine();
+                System.out.println(inputLine);
+            }
+   String enterpriseName = inputLine;
+   System.out.printf("\n%s %s \n", "Enterprise name is: ",
+     enterpriseName);
+   
+   // add code: you need to store enterprise name in some aobject!
+   Enterprise myEnt= new Enterprise(enterpriseName);
+
+   /* GET numbers of empoyees*/
+   inputLine = finput.nextLine();
+            System.out.println(inputLine);
+   while (inputLine.charAt(BASE_INDEX) == '/'){
+    inputLine = finput.nextLine();
+                System.out.println(inputLine);
+            }
+
+   // reading 1 value from a single line
+   
+            int numEmployees = Integer.parseInt(inputLine);                      
+   
+   System.out.printf("\nnumEmployees: [%5d]\n",
+       numEmployees);
+
+   // add code here: use the above to initialize your arrays as needed;
+            // arraylists do not need a size; they expand/contract
+   
+   /* GET EMPLOYEE DETAILS */
+
+   // reading details for each employee from the data file
+   System.out.printf("\nEmployees: %d\n", numEmployees);
+   int employeeID=001;
+   for (int i = 0; i < numEmployees; i++) {
+    inputLine = finput.nextLine();
+                System.out.println(inputLine);
+    while (inputLine.charAt(BASE_INDEX) == '/'){
+     inputLine = finput.nextLine();
+                    System.out.println(inputLine);
+                }
+    String[] chopEmp = inputLine.split("!");
+
+    // fill all fields for a single employee from a single line
+    String empType = chopEmp[ZEROI].toUpperCase();
+    String empFName = chopEmp[ONEI];
+    String empLName = chopEmp[TWOI];
+    String empBDate = chopEmp[THREEI];
+    String empGender = chopEmp[FOURI].toLowerCase();
+    String empHireDate = chopEmp[FIVEI];
+                String empReleaseDate = chopEmp[SIXI];
+    double empBaseSalary = Double.parseDouble(chopEmp[SEVENI]);
+
+    // add code here: in order to convert a date string to a Date object,
+    // invoke the appropriate constructor of the Date class (shown below)
+    Date dob = new Date(empBDate); // dob is a local variable
+    Date hireD = new Date(empHireDate);    
+    Employee myEmp= new Employee(empFName,empLName,empGender,hireD,empReleaseDate, empBaseSalary,empType,dob);
+    myEmp.setEmpID(employeeID);
+    employeeID++;
+    myEnt.addEmployee(myEmp);
+    
+    
+
+    // also, empType is read as a string; if you are using a
+    // enum, you need to convert it  using a switch 
+                //or if statement or enum valueOf() method
+
+                //create employee object here using Employee class constructors
+                //make sure you set the release date properly (will be used later)
+   }
+   myEnt.printEmployees();
+   /* GET ITEM to be sold DETAILS */
+
+            // reading details for each item from the data file
+            // note that numItems is computed, not input!
+
+            System.out.printf("\nReading Items: \n");
+            int numItems = 0;
+            inputLine = finput.nextLine();
+            System.out.println(inputLine);
+            while (inputLine.charAt(BASE_INDEX) == '/'){
+                inputLine = finput.nextLine();
+                System.out.println(inputLine);
+            } 
+                   
+            while ( (!inputLine.toLowerCase().equals("end"))){            
+                String[] chopItems = inputLine.split("!");
+            
+            // get fields of a item from one line of input
+   
+                int  itemId = Integer.parseInt(chopItems[ZEROI]);
+                String  itemCategory = chopItems[ONEI];
+                String itemName = chopItems[TWOI];
+                String itemSaleType = chopItems[THREEI];
+                int itemQty = Integer.parseInt(chopItems[FOURI]);
+                String itemCondition = chopItems[FIVEI];
+                double itemMinStartBid = Double.parseDouble(chopItems[SIXI]);
+                double itemBidIncrement = Double.parseDouble(chopItems[SEVENI]);
+                double itemReserveAmt = Double.parseDouble(chopItems[EIGHTI]);
+                String itemAuctionStartDate = chopItems[NINEI];
+                int    itemAuctionDays      = Integer.parseInt(chopItems[TENI]);
+                int    itemSellerId      = Integer.parseInt(chopItems[ELEVENI]);
+                int    sellerFeedbackScore      = Integer.parseInt(chopItems[TWELVEI]);               
+                String itemDescription      =chopItems[THIRTEENI];
+                
+                // added code to Build objects
+                Item item= new Item(itemId,itemCategory,itemName,itemSaleType, itemQty, itemCondition,
+                    itemMinStartBid,itemBidIncrement, itemReserveAmt, itemAuctionStartDate,
+                    itemAuctionDays, itemSellerId, sellerFeedbackScore,itemDescription);
+                myEnt.addItem(item);
+               
+                
+                // convert strings to enum as needed
+             
+                inputLine = finput.nextLine();
+                System.out.println(inputLine);
+                while (inputLine.charAt(BASE_INDEX) == '/'){
+      inputLine = finput.nextLine();
+                    System.out.println(inputLine);
+                }
+                numItems += 1;
+             }
+              myEnt.printItems();    
+              
+                        
+            /* GET CUSTOMER/USER DETAILS */
+
+            // reading details for each user from the data file
+            // note that numUsers is computed, not input!
+   
+            int numUsers =0;
+            inputLine = finput.nextLine();
+            System.out.println(inputLine);
+            while (inputLine.charAt(BASE_INDEX) == '/'){
+                inputLine = finput.nextLine();
+                System.out.println(inputLine);
+            }
+            
+            while ( (!inputLine.toLowerCase().equals("end"))){
+                
+                String[] chopUser = inputLine.split("!");
+                // fill all fields for a single user/customer from a single line
+                int userId = Integer.parseInt(chopUser[ZEROI]);
+                String userFName = chopUser[ONEI];
+                String userLName = chopUser[TWOI];
+                String userDob = chopUser[THREEI];
+                String userAddress = chopUser[FOURI];
+                String userState = chopUser[FIVEI].toUpperCase();
+                String userZipcode = chopUser[SIXI];
+                
+                // code added building customers
+                Date dobUser = new Date(userDob);                
+                Customer customer= new Customer(userId,userFName, userLName,dobUser, userAddress, userState, 
+                    userZipcode);      
+                myEnt.addCustomer(customer);
+                
+
+                inputLine = finput.nextLine();
+                System.out.println(inputLine);
+                while (inputLine.charAt(BASE_INDEX) == '/'){
+        inputLine = finput.nextLine();
+                    System.out.println(inputLine);
+                }
+                numUsers += 1;
+   }
+            myEnt.printCustomers();
+                        
+            //bid information for items
+                        
+            inputLine = finput.nextLine();
+            System.out.println(inputLine);
+   while (inputLine.charAt(BASE_INDEX) == '/'){
+     inputLine = finput.nextLine();
+              System.out.println(inputLine);
+            }
+            
+            while ( (!inputLine.toLowerCase().equals("end"))){
+                String[] chopBiddingInfo = inputLine.split("!");      
+                            
+                int itemId = Integer.parseInt(chopBiddingInfo[ZEROI]);
+                int userId = Integer.parseInt(chopBiddingInfo[ONEI]);
+                String bidDateTime = chopBiddingInfo[TWOI];
+                double bidAmount = Double.parseDouble(chopBiddingInfo[THREEI]);
+                int bidQty = Integer.parseInt(chopBiddingInfo[FOURI]);
+                
+                //code added
+                DateTime bidTime= new DateTime(bidDateTime);
+                Bid bid= new Bid(userId,itemId,bidTime,bidAmount,bidQty);                
+                myEnt.addBid(bid);
+                
+                
+                inputLine = finput.nextLine();
+                System.out.println(inputLine);
+                while (inputLine.charAt(BASE_INDEX) == '/'){                 
+                    inputLine = finput.nextLine();
+                    System.out.println(inputLine);  
+                }
+            } 
+             
+            Scanner scan= new Scanner(System.in);
+             String menuScan=EMPTY_STRING;
+             
+             while(!menuScan.equals("0")){
+               myEnt.printMenu();
+                menuScan=scan.next();
+               if(menuScan.equals("1")){
+                 System.out.println("Listing All Employees...");
+                 myEnt.printEmployees();
+                 
+               }else if(menuScan.equals("2")){
+                 myEnt.itemsMenu();
+                 
+               }else if(menuScan.equals("3")){
+                 System.out.println("Printing All Users...");
+                 myEnt.printCustomers();
+                 
+               }else if(menuScan.equals("4")){                 
+                 myEnt.soldItemsMenu();
+                 
+               }else if(menuScan.equals("5")){
+                 myEnt.totalFees();               
+                   
+               }else if(menuScan.equals("6")){
+                 myEnt.maxBid();
+                 
+               }else if(menuScan.equals("7")){
+                 myEnt.releaseEmpMenu();
+                 
+               }else if(menuScan.equals("0")){
+                System.out.println("Exiting System"); 
+                System.exit(CLEAN_EXIT);
+               }else{
+                System.out.println("Invalid Selection\n"); 
+               }
+             }
+
+            // you will be adding MOST of your code for menu and processing here
+            // add code for menu display, accept input, and process commands
+             // and display output
+            // DO NOT REMOVE or DISTURB the REST OF THE CODE; 
+            // it will not compile if you do!!!
+
+  } catch (NumberFormatException NFE) {
+   System.out.println("I/O Error in File: " + fName + "\ncheck for: "
+     + NFE.getMessage() + " and correct it in: " + inputLine);
+  } catch (RuntimeException RE) {
+   System.out.println("Invalid Data error in File: " + fName
+     + "\nPlease correct " + RE.getMessage() + " in the file!" + inputLine);
+  } finally {
+   finput.close();
+  }
+ }
+}
+]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ cat Proj2Constants.java
+/*****************************************************************************
+ @author Sharma Chakravarthy
+ LANGUAGE   : Java version 6
+ OS         : Windows 7 (Ultimate)
+ PLATFORM   : PC
+ Compiler   : javac
+ ASSIGNED   : Spring 2013
+ 
+ CONCEPTS   : classes and methods
+ PURPOSE    : defines the "Constants" interface
+******************************************************************************/
+
+/* These defaults can be used in your projects; let me know if something 
+you need is missing */
+
+public interface Proj2Constants
+ { 
+  String  DEFAULT_ENTERPRISE_NAME        = "MayBay Auction House";
+  int     DEFAULT_EMPLOYEE_NUMBER        = 0;
+  int     DEFAULT_CUSTOMER_NUMBER        = 0;
+  
+  String  DEFAULT_FIRST_NAME             = "John";
+  String  DEFAULT_LAST_NAME              = "Doe";
+  String  DEFAULT_ITEM                   = "DEFUALT";
+  double  MAX_SALARY                     = 30000.00;
+  String  BUYERCLASS                     = "buyer";
+  String  SELLERCLASS                    = "seller";
+  String  BOTHCLASS                      = "both";
+  
+  String  WEBDESIGNER                    ="WD";
+  String  ACCOUNTANT                     ="ACCT";
+  String  CUSTOMER_SUPPORT               ="CUST_SUPPORT";
+  
+  String  FIXED                          ="FIX_PRICE";
+  String  AUCTION                        ="AUCTION";
+  String  BOTH_ITEM                      ="BOTH";
+  
+  String NEW                             ="NEW";
+  String USED                            ="USED";
+  
+  String  EMPTY_STRING                   = "";
+  
+  int CLEAN_EXIT                         = 0;
+  double ONE_PERCENT                     = .001;
+  double NINETY_FIVE_PERCERNT            = .95;
+  double SHIPPING_COST                   =  29.95;
+  double MULTIPLE_FEE                    = 2.99;
+  double TEN_PERCERNT                    = .10;
+  
+//these max numbers only for project 2; will remove this constraint 
+// for subsequent projects 
+  int     MAX_EMPLOYEES                 = 15;
+  int     MAX_CUSTOMERS                 = 100; 
+  int     MAX_ITEMS                     = 15;
+  int     MAX_BIDS                      = 500;
+//end
+     
+  double  ZEROD                          = 0.000;
+  
+  
+  
+  int   THREEI                           = 3;
+  int   FOURI                            = 4;
+  int   FIVEI                            = 5;
+  int   SIXI                             = 6;
+  int   SEVENI                           = 7;
+  int   EIGHTI                           = 8;
+  int   NINEI                            = 9;
+  int   TENI                             = 10;
+  int   ELEVENI                          = 11;
+  int   TWELVEI                          = 12;
+  int   THIRTEENI                        = 13;
+  int   FOURTEENI                        = 13;
+ }
+]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ cat Time.java
+/*************************************************************************
+ *  Compilation:  javac Time.java <br>
+ *  Execution:    java Time <br>
+ *************************************************************************/
+
+/**
+ * A simple time type (CSE 1325, Fall 2012)
+ * <br>
+ * Useful for creating Time objects
+ * 
+ * @author Sharma Chakravarhty (Sent the skeleton 08/25/2012)
+ * @author extended by Yuanzhe Cai & Das (08/27/2012)
+ * @see java.util.Calendar
+ * @since 09/04/2012, Fixed a logical error to wrapping around 24 hour and add 
+ *  addHour(), addMinute(), addSecond() (Cai)
+ */
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+public class Time implements DateConstants{
+
+	private  int hour; // hour (larger or equal to than 0)
+	private  int minute; // minute (between 0 and 59)
+	private  int second; // second (between 0 and 59)
+	private  int hundredth; // hundredth (between 0 and 99)
+
+	static private final int HOUR_CHANGE_TIME = 60 * 60 * 100;
+	static private final int MINUTE_CHANGE_TIME = 60 * 100;
+	static private final int SECOND_CHANGE_TIME = 100;
+	static private final int HOURS_FOR_DAY = 24;
+
+	/**
+	 * Constructor: default; returns today's Time
+	 */
+	public Time() {
+		GregorianCalendar c = new GregorianCalendar();
+		hour = c.get(Calendar.HOUR); 
+		minute = c.get(Calendar.MINUTE);
+		second = c.get(Calendar.SECOND);
+		hundredth = 0;
+	}
+
+	/**
+	 * Constructor: create a time with a given hour, minute, second and
+	 * hundredth ; fills in valid time;
+	 * 
+	 * @param hour
+	 *            represents the hour
+	 * @param minute
+	 *            represents the minute between 0 and 59
+	 * @param second
+	 *            represents the second between 0 and 59
+	 * @param hundredth
+	 *            represents the hundredth between 0 and 99
+	 */
+	public Time(int hour, int minute, int second, int hundredth) {
+
+		if (!isValid(hour, minute, second, hundredth))
+			throw new RuntimeException("Time 1: Invalid time " + hour + ":" + 
+                            minute + ":" + second + ":" + hundredth);
+
+		this.hour = hour;
+		this.minute = minute;
+		this.second = second;
+		this.hundredth = hundredth;
+	}
+
+/**
+	 * Constructor: creates a valid time object with a string in hh:mm:ss format as a string;
+	 * 
+	 * @param hour
+	 *            represents the hour
+	 * @param minute
+	 *            represents the minute between 0 and 59
+	 */
+	public Time(String aTime) {
+
+        this(Integer.parseInt(aTime.split(":")[ZEROI]), 
+                Integer.parseInt(aTime.split(":")[ONEI]), 
+                Integer.parseInt(aTime.split(":")[TWOI]), ZEROI);	
+	}
+
+	// return hundredth
+	/**
+	 * change a time to hundredth;
+	 * 
+	 */
+	private int timeToHundredth() {
+		return this.hour * this.HOUR_CHANGE_TIME + this.minute
+				* this.MINUTE_CHANGE_TIME + this.second
+				* this.SECOND_CHANGE_TIME + this.hundredth;
+	}
+
+	// return hundredths
+	/**
+	 * change hundredths to a time;
+	 * returns extra days obtained in that conversion
+     * 
+	 */
+	private int hundredthToTime(int hundredths) {
+
+		int tmpHour = ((int) (hundredths / this.HOUR_CHANGE_TIME));
+
+		int tmpMinute = (int) (hundredths - tmpHour * this.HOUR_CHANGE_TIME)
+				/ this.MINUTE_CHANGE_TIME;
+
+		int tmpSecond = (int) (hundredths - tmpHour * this.HOUR_CHANGE_TIME - tmpMinute
+				* this.MINUTE_CHANGE_TIME)
+				/ this.SECOND_CHANGE_TIME;
+
+		int tmpHundredth = hundredths - tmpHour * this.HOUR_CHANGE_TIME
+				- tmpMinute * this.MINUTE_CHANGE_TIME - tmpSecond
+				* this.SECOND_CHANGE_TIME;
+
+		int daysToAdd = tmpHour / this.HOURS_FOR_DAY;
+        tmpHour = tmpHour % this.HOURS_FOR_DAY;
+        
+		//if (!isValid(tmpHour, tmpMinute, tmpSecond, tmpHundredth))
+		//	throw new RuntimeException("Time 2: Invalid time" + hour + ":" + minute + ":" + second + ":" + hundredth);
+
+        this.hour = tmpHour;
+        this.minute = tmpMinute;
+        this.second = tmpSecond;
+        this.hundredth = tmpHundredth;
+		return daysToAdd;
+	}
+
+	// return add one hour
+	/**
+	 * add an hour and returns a new Time object
+	 * 
+	 * @return returns a new Time object adding an hour
+	 */
+	int addHours() {
+		return addHours(1);
+	}
+
+	// return add hours
+	// This approach does not support to add the negative values.
+	/**
+	 * adds hours and returns a new Time object
+	 * 
+	 * @return returns a new Time object adding hours
+	 */
+	int addHours(int hours) {
+
+		if (hours < 0)
+			throw new RuntimeException("Time 3: Invalid hours:" + hour);
+
+		int originalHundredths = timeToHundredth();
+
+		int hundredths = originalHundredths + hours * this.HOUR_CHANGE_TIME;
+
+		return hundredthToTime(hundredths);
+	}
+
+	// return add one minute
+	/**
+	 * add a minute and returns a new Time object
+	 * 
+	 * @return returns a new Time object adding an hour
+	 */
+	int addMinutes() {
+		return addMinutes(1);
+	}
+
+	// return add minutes
+	// This approach does not support to add the negative values.
+	/**
+	 * adds minutes and returns a new Time object
+	 * 
+	 * @return returns a new Time object adding minutes
+	 */
+	int addMinutes(int minutes) {
+
+		if (minutes < 0)
+			throw new RuntimeException("Time 4: Invalid minutes:" + minute );
+
+		int originalHundredths = timeToHundredth();
+
+		int hundredths = originalHundredths + minutes * this.MINUTE_CHANGE_TIME;
+
+		return hundredthToTime(hundredths);
+
+	}
+
+	// return add one second
+	/**
+	 * add a second and returns a new Time object
+	 * 
+	 * @return returns a new Time object adding an hour
+	 */
+	int addSeconds() {
+		return addSeconds(1);
+	}
+
+	// return add seconds
+	// This approach does not support to add the negative values.
+	/**
+	 * adds seconds and returns a new Time object
+	 * 
+	 * @return returns a new Time object adding seconds
+	 */
+	int addSeconds(int seconds) {
+
+		if (seconds < 0)
+			throw new RuntimeException("Time 5: Invalid seconds:" + second);
+
+		int originalHundredths = timeToHundredth();
+
+		int hundredths = originalHundredths + seconds * this.SECOND_CHANGE_TIME;
+
+		return hundredthToTime(hundredths);
+
+	}
+
+    int addHundredths() {
+		return addHundredths(1);
+	}
+
+    int addHundredths(int hundredth) {
+
+		if (hundredth < 0)
+			throw new RuntimeException("Time 6: Invalid hundredths of a second" + hundredth);
+
+		int originalHundredths = timeToHundredth();
+
+		int hundredths = originalHundredths + hundredth;
+
+		return hundredthToTime(hundredths);
+
+	}
+
+	// is this Time after t?
+	/**
+	 * compares two Time objects
+	 * 
+	 * @param t
+	 *            Time object
+	 * @return true if this Time is after Time t
+	 */
+	public boolean isAfter(Time t) {
+		return compareTo(t) > 0;
+	}
+
+	// is this Time before t?
+	/**
+	 * compares two Time objects
+	 * 
+	 * @param t
+	 *            Time object
+	 * @return true if this Time is after Time t
+	 */
+	public boolean isBefore(Time t) {
+		return compareTo(t) < 0;
+	}
+
+	// comparison function between two Times
+	/**
+	 * compares two Time objects
+	 * 
+	 * @param t
+	 *            Time object
+	 * @return 0 if this Time is the same as Time t <br>
+	 *         negative integer if this Time is earlier than Time t <br>
+	 *         positive integer if this Time is after Time t
+	 */
+	public int compareTo(Time t) {
+		if (this.hour != t.hour)
+			return this.hour - t.hour;
+		if (this.minute != t.minute)
+			return this.minute - t.minute;
+		if (this.second != t.second)
+			return this.second - t.second;
+
+		return this.hundredth - t.hundredth;
+	}
+
+	// substract of Times
+	/**
+	 * substract two Time objects
+	 * 
+	 * @param t
+	 *            Time object
+	 * @return new Time object
+	 */
+	int subtractTime(Time t) {
+
+		if (t.isAfter(this)) {
+			System.out.println("T2 is greater than T1; -1 is returned");
+            return -1;
+		}
+
+		int originalHundredths = timeToHundredth();
+
+		int hundredths = originalHundredths - t.timeToHundredth();
+
+		return hundredthToTime(hundredths);
+
+	}
+
+	// add  two Times
+	/**
+	 * add two Time objects
+	 * 
+	 * @param t
+	 *            Time object
+	 * @return new Time object
+	 */
+	int addTime(Time t) {
+
+		int originalHundredths = timeToHundredth();
+
+		int hundredths = originalHundredths + t.timeToHundredth();
+
+		return hundredthToTime(hundredths);
+
+	}
+
+	// return a string representation of this Time
+	/**
+	 * replaces the default toString of Object class
+	 */
+	public String toString() {
+		return "[" + this.hour + ":" + this.minute + ":" + this.second + ":"
+				+ this.hundredth + "]";
+	}
+
+	/**
+	 * Is the given time valid?
+	 * 
+	 * @param hour
+	 *            , minute, second and hundredth
+	 * @return false if hour exceeds 24 or is less than 1
+	 * @return false if day exceeds the corresponding days for a month from
+	 *         array DAYS
+	 * @return false if the year is not a leap year and has 29 days
+	 */
+	private static boolean isValid(int hour, int minute, int second,
+			int hundredth) {
+		if (hour < 0 || hour > 24)
+			return false;
+		if (minute < 0 || minute > 60)
+			return false;
+		if (second < 0 || second > 60)
+			return false;
+		if (hundredth < 0 || hundredth > 99)
+			return false;
+
+		return true;
+	}
+
+	// return hour
+	/**
+	 * return hour
+	 * 
+	 */
+	public int getHour() {
+		return this.hour;
+	}
+
+	// return minute
+	/**
+	 * return minute
+	 * 
+	 */
+	public int getMinute() {
+		return this.minute;
+	}
+
+	// return second
+	/**
+	 * return second
+	 * 
+	 */
+	public int getSecond() {
+		return this.second;
+	}
+
+	// return hundredth
+	/**
+	 * return hundredth
+	 * 
+	 */
+	public int getHundredth() {
+		return this.hundredth;
+	}
+
+	public static void main(String[] args) {
+
+		System.out.println("Test Default Constructor: ");
+
+		Time current = new Time();
+		System.out.println("Current Time is " + current);
+		System.out.println("Current hour is " + current.getHour());
+		System.out.println("Current minute is " + current.getMinute());
+		System.out.println("Current second is " + current.getSecond());
+		System.out.println("Current hundredth is " + current.getHundredth());
+
+		System.out.println("\nTest Constructor (4 params): ");
+
+		Time t1 = new Time(0, 20, 31, 12);
+		System.out.println("Input t1 Time is " + t1);
+
+		Time t2 = new Time(13, 0, 1, 1);
+		System.out.println("Input t2 Time is " + t2);
+
+		Time t3 = new Time(23, 59, 59, 99);
+		System.out.println("Input t3 Time is " + t3);
+
+		Time t4 = new Time(0, 0, 0, 0);
+		System.out.println("Input t4 Time is " + t4);
+
+        System.out.println("\nTest Constructor (hh:mm): ");
+
+		t1 = new Time("10:34");
+		System.out.println("Input t1 Time is " + t1);
+
+		 t2 = new Time("13:45");
+		System.out.println("Input t2 Time is " + t2);
+
+		t3 = new Time("23:59");
+		System.out.println("Input t3 Time is " + t3);
+
+		t4 = new Time("0:1");
+		System.out.println("Input t4 Time is " + t4);
+
+
+		// testing addHours, addMinutes, addSeconds, and addHundredths
+		System.out.println("\nTESTING add hour method");
+		
+		current = new Time(12, 59, 30, 99);
+        System.out.println("Current Time: " + current);
+        int daysToAdd = current.addHours();
+		System.out.println("adding 1 hours to current means, adding: " + 
+                    daysToAdd + " days and new time is: " + current);
+        current = new Time(12, 59, 59, 99);
+        System.out.println("Current Time: " + current);
+		daysToAdd= current.addHours(14);
+		System.out.println("adding 14 hours to current means, adding: " + 
+                    daysToAdd + " days and new time is: " + current);
+		
+		System.out.println("\nTESTING addMinutes method");
+		
+		current = new Time(12, 59, 30, 99);
+        System.out.println("Current Time: " + current);
+        daysToAdd = current.addMinutes();
+		System.out.println("adding 1 min to current means, adding: " + 
+                                daysToAdd + " days and new time is: " + current);
+		daysToAdd = current.addMinutes(1440);
+		System.out.println("adding 1440 mins to current means, adding: " + 
+                                daysToAdd + " days and new time is: " + current);
+		
+		System.out.println("\nTESTING addSeconds");
+		current = new Time(23, 59, 59, 99);
+        System.out.println("Current Time: " + current);
+        daysToAdd = current.addSeconds();
+		System.out.println("adding 1 sec to current means, adding: " + 
+                                daysToAdd + " days and new time is: " + current);
+		current = new Time(23, 59, 59, 99);
+        System.out.println("Current Time: " + current);
+        daysToAdd = current.addSeconds(86401);
+		System.out.println("adding 86401 secs to current means, adding: " + 
+                                daysToAdd + " days and new time is: " + current);
+        
+        System.out.println("\nTESTING addHundredths");
+		current = new Time(12, 59, 59, 99);
+        System.out.println("Current Time: " + current);
+        daysToAdd = current.addHundredths();
+		System.out.println("adding 1 hundredth to current means, adding: " + 
+                                daysToAdd + " days and new time is: " + current);
+		daysToAdd = current.addHundredths(10000);
+		System.out.println("adding 10000 hundredths to current means, adding: " + 
+                                daysToAdd + " days and new time is: " + current);
+
+		// testing isAfter
+		System.out.println("\nTESTING isAfter");
+		t2 = new Time(23, 59, 59, 99);
+
+		boolean isAfter = t2.isAfter(new Time(23, 59, 59, 99));
+		System.out.println(t2 + " is after " + new Time(23, 59, 59, 99) + ": " + isAfter);
+
+		t1 = new Time(23, 59, 59, 99);
+        t2 = new Time(23, 59, 59, 98);
+        System.out.println(t1 + " is after " + t2 + ":" + t1.isAfter(t2));
+
+		// test isBefore
+		System.out.println("\nTESTING isBefore");
+		t1 = new Time(1, 20, 31, 12);
+		t2 = new Time(0, 18, 11, 13);
+
+		boolean isBefore = t2.isBefore(t1);
+		System.out.println(t2 + " is before " + t1 + ": " + isBefore);
+
+		t1 = new Time(1, 0, 0, 0);
+		t2 = new Time(0, 59, 59, 59);
+		System.out.println(t2 + " is before " + t1 + ": " + t2.isBefore(t1));
+
+		t1 = new Time(0, 0, 0, 0);
+		t2 = new Time(1, 59, 59, 59);
+		isBefore = t2.isBefore(t1);
+		System.out.println(t2 + " is before " + t1 + ": " + isBefore);
+
+        t1 = new Time(0, 0, 0, 1);
+		t2 = new Time(0, 0, 0, 2);
+		System.out.println(t2 + " is before " + t1 + ": " + t2.isBefore(t1));
+
+		// test subtractTime
+		System.out.println("\nTESTING subtractTime");
+		t1 = new Time(1, 58, 31, 12);
+        t3 = new Time(1, 58, 31, 12);
+		t2 = new Time(0, 58, 30, 11);
+		int interval = t3.subtractTime(t2);
+		System.out.println(t1 + " - " + t2 + " is " + t3 + " and subtract " + interval + " days");
+
+/*
+		t1 = new Time(1, 20, 31, 12);
+		t2 = new Time(0, 0, 0, 0);
+		interval = t1.subtractTime(t2);
+		System.out.println(t1 + " - " + t2 + " is " + interval);
+
+		t1 = new Time(23, 59, 59, 99);
+		t2 = new Time(1, 59, 59, 99);
+		interval = t1.subtractTime(t2);
+		System.out.println(t1 + " - " + t2 + " is " + interval);
+
+		t1 = new Time(1, 0, 0, 0);
+		t2 = new Time(0, 59, 59, 59);
+		interval = t1.subtractTime(t2);
+		System.out.println(t1 + " - " + t2 + " is " + interval);
+
+		t1 = new Time(0, 0, 0, 0);
+		t2 = new Time(0, 0, 0, 0);
+		interval = t1.subtractTime(t2);
+		System.out.println(t1 + " - " + t2 + " is " + interval);
+
+        t1 = new Time(0, 0, 0, 5);
+		t2 = new Time(0, 0, 0, 4);
+		interval = t1.subtractTime(t2);
+		System.out.println(t1 + " - " + t2 + " is " + interval);
+
+        t1 = new Time(0, 0, 0, 4);
+		t2 = new Time(0, 0, 0, 5);
+		interval = t1.subtractTime(t2);
+		System.out.println(t1 + " - " + t2 + " is " + interval);
+
+		System.out.println("\nTESTING addTime");
+		t1 = new Time(1, 20, 31, 99);
+		t2 = new Time(1, 1, 1, 1);
+		Time totalTime = t1.addTime(t2);
+		System.out.println(t1 + " + " + t2 + " is " + totalTime);
+
+        t1 = new Time(23, 59, 59, 99);
+		t2 = new Time(0, 0, 0, 1);
+		totalTime = t1.addTime(t2);
+		System.out.println(t1 + " + " + t2 + " is " + totalTime);
+
+		t1 = new Time(1, 20, 31, 12);
+		t2 = new Time(0, 0, 0, 0);
+
+		totalTime = t1.addTime(t2);
+		System.out.println(t1 + " add " + t2 + " is " + totalTime);
+
+		t1 = new Time(1, 0, 0, 1);
+		t2 = new Time(23, 59, 59, 99);
+		totalTime = t1.addTime(t2);
+		System.out.println(t1 + " add " + t2 + " is " + totalTime);
+
+		t1 = new Time(23, 59, 59, 99);
+		t2 = new Time(0, 0, 1, 0);
+		totalTime = t1.addTime(t2);
+		System.out.println(t1 + " add " + t2 + " is " + totalTime);
+
+		t1 = new Time(1, 59, 59, 59);
+		t2 = new Time(0, 1, 0, 0);
+
+		totalTime = t1.addTime(t2);
+		System.out.println(t1 + " add " + t2 + " is " + totalTime);
+
+		t1 = new Time(0, 0, 0, 99);
+		t2 = new Time(0, 0, 0, 1);
+
+		totalTime = t1.addTime(t2);
+		System.out.println(t1 + " add " + t2 + " is " + totalTime);
+*/
+		// test compareTo
+		System.out.println("\nTESTING compareTo ");
+		t1 = new Time(0, 0, 0, 99);
+		t2 = new Time(0, 0, 0, 99);
+
+		System.out.println(t1 + " compare to " + t2 + " is " + t1.compareTo(t2));
+
+		t1 = new Time(23, 5, 8, 99);
+		t2 = new Time(23, 5, 8, 98);
+
+		System.out.println(t1 + " compare to " + t2 + " is " + t1.compareTo(t2));
+
+		t1 = new Time(1, 4, 3, 34);
+		t2 = new Time(8, 23, 13, 31);
+
+		System.out.println(t1 + " compare to " + t2 + " is " + t1.compareTo(t2));
+
+        //the following should generate exceptions
+        //t1 = new Time(25, 0, 0, 0);
+        //t2 = new Time(23, -2, 1, 0);
+        //t2 = new Time(1, 1, 1, 100);
+        
+	}
+}
+]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ javac *.java
+]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ ls -l
+[00mtotal 464
+-rw-r--r-- 1 san1465 students   2061 Feb 22 00:13 [00mBid.class[00m
+-rw-r--r-- 1 san1465 students   3445 Feb 21 02:13 [00mBid.java[00m
+-rw-r--r-- 1 san1465 students   3016 Feb 19 21:08 [00mBid.java~[00m
+-rw-r--r-- 1 san1465 students   3625 Feb 22 00:13 [00mCustomer.class[00m
+-rw-r--r-- 1 san1465 students    970 Feb 22 00:13 [00mCustomer$Classification.class[00m
+-rw-r--r-- 1 san1465 students   6297 Feb 21 02:17 [00mCustomer.java[00m
+-rw-r--r-- 1 san1465 students   5907 Feb 19 19:43 [00mCustomer.java~[00m
+-rw-r--r-- 1 san1465 students    866 Feb 22 00:13 [00mCustomer$Status.class[00m
+-rw-r--r-- 1 san1465 students   5088 Feb 19 19:26 [00mdataFile-proj2-final.txt[00m
+-rw-r--r-- 1 san1465 students   7614 Feb 22 00:13 [00mDate.class[00m
+-rw-r--r-- 1 san1465 students    387 Feb 22 00:13 [00mDateConstants.class[00m
+-rw-r--r-- 1 san1465 students    997 Feb  6 11:37 [00mDateConstants.java[00m
+-rw-r--r-- 1 san1465 students  14848 Feb 18 19:49 [00mDate.java[00m
+-rw-r--r-- 1 san1465 students  14816 Feb  6 11:37 [00mDate.java~[00m
+-rw-r--r-- 1 san1465 students   7312 Feb 22 00:13 [00mDateTime.class[00m
+-rw-r--r-- 1 san1465 students  15371 Feb 21 02:32 [00mDateTime.java[00m
+-rw-r--r-- 1 san1465 students  15357 Feb 19 01:20 [00mDateTime.java~[00m
+-rw-r--r-- 1 san1465 students   5714 Feb 22 00:13 [00mEmployee.class[00m
+-rw-r--r-- 1 san1465 students    959 Feb 22 00:13 [00mEmployee$EmployeeType.class[00m
+-rw-r--r-- 1 san1465 students    866 Feb 22 00:13 [00mEmployee$Gender.class[00m
+-rw-r--r-- 1 san1465 students   9148 Feb 21 02:23 [00mEmployee.java[00m
+-rw-r--r-- 1 san1465 students   8290 Feb 19 21:47 [00mEmployee.java~[00m
+-rw-r--r-- 1 san1465 students   8294 Feb 22 00:13 [00mEnterprise.class[00m
+-rw-r--r-- 1 san1465 students  12731 Feb 21 02:37 [00mEnterprise.java[00m
+-rw-r--r-- 1 san1465 students   6916 Feb 19 23:15 [00mEnterprise.java~[00m
+-rw-r--r-- 1 san1465 students    949 Feb 22 00:13 [00mEnterprise$SaleType.class[00m
+-rw-r--r-- 1 san1465 students   7432 Feb 22 00:13 [00mItem.class[00m
+-rw-r--r-- 1 san1465 students    852 Feb 22 00:13 [00mItem$Condition.class[00m
+-rw-r--r-- 1 san1465 students  18210 Feb 21 02:50 [00mItem.java[00m
+-rw-r--r-- 1 san1465 students   7041 Feb 19 23:02 [00mItem.java~[00m
+-rw-r--r-- 1 san1465 students    901 Feb 22 00:13 [00mItem$SaleType.class[00m
+drwxr-xr-x 3 san1465 students   4096 Feb 22 00:02 [00;34mJavaDoc[00m
+-rw-r--r-- 1 san1465 students   5906 Feb 22 00:13 [00mMavBayMgmtTest.class[00m
+-rw-r--r-- 1 san1465 students  13890 Feb 21 01:08 [00mMavBayMgmtTest.java[00m
+-rw-r--r-- 1 san1465 students  13230 Feb 19 23:58 [00mMavBayMgmtTest.java~[00m
+-rw-r--r-- 1 san1465 students   1689 Feb 22 00:13 [00mProj2Constants.class[00m
+-rw-r--r-- 1 san1465 students   2818 Feb 20 23:27 [00mProj2Constants.java[00m
+-rw-r--r-- 1 san1465 students   2517 Feb 19 18:58 [00mProj2Constants.java~[00m
+-rw-r--r-- 1 san1465 students 118784 Feb 22 00:12 [00mScott_Nidell_Project2_001.log[00m
+-rw-r--r-- 1 san1465 students   7406 Feb 22 00:13 [00mTime.class[00m
+-rw-r--r-- 1 san1465 students  17592 Feb  6 11:37 [00mTime.java[00m
+[m]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ java MavBayMgmtTest
+Input Data file name was not supplied
+Please input data file name: dataFile-proj2-final
+Error: FILE dataFile-proj2-final  does not exist.
+Enter correct input data file name: dataFile-         ^^?  dataFile-proj2-final
+Error: FILE dataFile-proj2-final  does not exist.
+Enter correct input data file name: dataFile-proj2-final.txt
+// each item is separated by a ! do not add extra white spaces before or after separators
+// Enterprise  Name
+MavBay Corporation
+
+Enterprise name is:  MavBay Corporation 
+//actual # employees
+6
+
+numEmployees: [    6]
+
+Employees: 6
+// EMPLOYEE DETAILS: 1 LINE EACH; id is system generated!!
+// emp type, fname, lname, dob, gender, hire date, release date, monthly base // salary
+WD!katy!dough!07-01-1982!female!11-09-2006!null!1000.00
+ACCT!sara!Longbottom!11-13-1980!male!01-02-2010!04-25-2013!800.00
+WD!john!smith!04-01-1978!male!04-07-2007!09-20-2012!1000.00
+CUST_SUPPORT!james!bond!12-10-1976!male!02-20-2005!null!800.00
+CUST_SUPPORT!anne!haathaway!08-13-1984!female!10-24-2006!null!2000.00
+ACCT!dave!richardson!04-15-1964!male!11-12-2005!null!1000.00
+{ ID: 001| Name: katy dough|Gender: FEMALE| HireDate: [11-9-2006]| Release Date: null|Salary: $1,000.00|Job: WD
+{ ID: 002| Name: sara Longbottom|Gender: MALE| HireDate: [1-2-2010]| Release Date: [4-25-2013]|Salary: $800.00|Job: ACCT
+{ ID: 003| Name: john smith|Gender: MALE| HireDate: [4-7-2007]| Release Date: [9-20-2012]|Salary: $1,000.00|Job: WD
+{ ID: 004| Name: james bond|Gender: MALE| HireDate: [2-20-2005]| Release Date: null|Salary: $800.00|Job: CUST_SUPPORT
+{ ID: 005| Name: anne haathaway|Gender: FEMALE| HireDate: [10-24-2006]| Release Date: null|Salary: $2,000.00|Job: CUST_SUPPORT
+{ ID: 006| Name: dave richardson|Gender: MALE| HireDate: [11-12-2005]| Release Date: null|Salary: $1,000.00|Job: ACCT
+
+Reading Items: 
+//item details: 1 LINE PER item AS GIVEN BELOW; starts from 100 onwards
+//Itemid!item category!item name!sale type!qty!Item 
+//condition!Minimum starting bid!bid Increment!Reserve 
+//amount!Start date and time in CST!Number of days!Seller 
+//id!seller feedback score!item description
+100!Photography & Camera!Camera!FIX_PRICE!5!new!0.0!0.00!729.95!2-9-2014,21:49:00!7!18!9000!Canon EOS Rebel T3I 600D Body+4 Lens Kit 18-55 IS +75-300 +24GB Flash & More
+101!photography & camera!camera!AUCTION!10!used!300.00!20.00!700.00!2-10-2014,10:30:00!3!18!9000!Nikon D5100 16.2 MP Digital SLR Camera - Black Kit w/ AF-S VR 18-55mm
+102!photography & camera!camera!BOTH!5!new!100.00!10.00!160.00!2-11-2014,10:00:00!5!14!3000!Panasonic LUMIX DMC-ZS25 / DMC-TZ35 16.1 MP 20x Optical Zoom Digital Camera
+200!jewellery & watches!watch!FIX_PRICE!3!used!0.00!0.0!99.85!2-14-2014,9:30:00!2!10!4000!Invicta 1774 Men's Pro Diver Gold Tone Stainless Steel Chronograph Dive Watch
+201!jewellery & watches!watch!AUCTION!3!new!30.45!5.00!84.99!2-15-2014,19:30:00!4!11!3000!Invicta Specialty Chronograph Tachymeter Black Dial Stnls Steel NEW Mens Watch
+202!jewellery & watches!watch!BOTH!10!new!25.45!10.00!94.45!2-9-2014,23:00:00!2!11!3000!Invicta Specialty Chronograph Tachymeter Black Dial Stnls Steel NEW Mens Watch
+300!clothing & accessories!shoe!BOTH!5!new!10.00!5.00!75.00!2-11-2014,00:00:59!3!12!1000!Nike Air Jordan Alpha Mens 12 Basketball Shoes. Blue Black White 392813-103
+301!clothing & accessories!shoe!AUCTION!5!new!10.00!10.00!109.00!2-11-2014,12:00:00!3!12!1000!Reebok Realflex Transition 2 mens athletic running shoes
+302!clothing & accessories!shoe!FIX_PRICE!2!used!0.00!0.00!44.99!2-16-2014,12:00:00!2!13!6000!Adidas Originals Gazelle Men's Shoes Sneakers Canvas
+303!clothing & accessories!shoe!AUCTION!2!new!10.00!5.00!50.00!2-16-2014,11:00:00!2!13!6000!Adidas Originals Gazelle Men's Shoes Sneakers Canvas
+End
+{ID: 100| Name: Camera| Description: Canon EOS Rebel T3I 600D Body+4 Lens Kit 18-55 IS +75-300 +24GB Flash & More| QTY: 5|Condition: NEW Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 9000
+{ID: 101| Name: camera| Description: Nikon D5100 16.2 MP Digital SLR Camera - Black Kit w/ AF-S VR 18-55mm| QTY: 10|Condition: USED Auction TYPE: AUCTION|Min Start: 300.0|Seller Feedback: 9000
+{ID: 102| Name: camera| Description: Panasonic LUMIX DMC-ZS25 / DMC-TZ35 16.1 MP 20x Optical Zoom Digital Camera| QTY: 5|Condition: NEW Auction TYPE: BOTH|Min Start: 100.0|Seller Feedback: 3000
+{ID: 200| Name: watch| Description: Invicta 1774 Men's Pro Diver Gold Tone Stainless Steel Chronograph Dive Watch| QTY: 3|Condition: USED Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 4000
+{ID: 201| Name: watch| Description: Invicta Specialty Chronograph Tachymeter Black Dial Stnls Steel NEW Mens Watch| QTY: 3|Condition: NEW Auction TYPE: AUCTION|Min Start: 30.45|Seller Feedback: 3000
+{ID: 202| Name: watch| Description: Invicta Specialty Chronograph Tachymeter Black Dial Stnls Steel NEW Mens Watch| QTY: 10|Condition: NEW Auction TYPE: BOTH|Min Start: 25.45|Seller Feedback: 3000
+{ID: 300| Name: shoe| Description: Nike Air Jordan Alpha Mens 12 Basketball Shoes. Blue Black White 392813-103| QTY: 5|Condition: NEW Auction TYPE: BOTH|Min Start: 10.0|Seller Feedback: 1000
+{ID: 301| Name: shoe| Description: Reebok Realflex Transition 2 mens athletic running shoes| QTY: 5|Condition: NEW Auction TYPE: AUCTION|Min Start: 10.0|Seller Feedback: 1000
+{ID: 302| Name: shoe| Description: Adidas Originals Gazelle Men's Shoes Sneakers Canvas| QTY: 2|Condition: USED Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 6000
+{ID: 303| Name: shoe| Description: Adidas Originals Gazelle Men's Shoes Sneakers Canvas| QTY: 2|Condition: NEW Auction TYPE: AUCTION|Min Start: 10.0|Seller Feedback: 6000
+// customers 1 line per user; from 1 to 99
+// First Name!Last Name!User Id!Date of birth!Address!State!Zipcode
+1!Joe!Thompson!2-11-1965!420 Love Lane Arlington!TX!76010
+2!Joseph!richard!2-27-1991!1301 Mitchel Avenue!TX!76010
+3!Subhash!Chand!1-14-1980!620 Michigan Avenue!DC!20064
+4!David!Gotcher!3-1-1978!320 East park row!DC!20098
+5!Javed!Ali!8-30-1987!120 mesquite row!TX!76013
+6!Barney!Stinson!1-1-1965!701 Washington square!NY!10012
+7!Ted!Mosby!9-23-1966!702 Washington drive!NY!10013
+8!Charlie!Sheen!11-30-1964!1915 Davis Trail!CA!94704
+9!James!Pattinson!1-2-1993!176 berkeley blvd!CA!92345
+10!Tobi!Wan!8-31-1988!10!1200 Dallas Parkway!TX!76154
+End
+{ UserID: 001| Name: Joe Thompson| D.O.B.: [2-11-1965]| Address: 420 Love Lane Arlington 76010| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 002| Name: Joseph richard| D.O.B.: [2-27-1991]| Address: 1301 Mitchel Avenue 76010| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 003| Name: Subhash Chand| D.O.B.: [1-14-1980]| Address: 620 Michigan Avenue 20064| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 004| Name: David Gotcher| D.O.B.: [3-1-1978]| Address: 320 East park row 20098| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 005| Name: Javed Ali| D.O.B.: [8-30-1987]| Address: 120 mesquite row 76013| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 006| Name: Barney Stinson| D.O.B.: [1-1-1965]| Address: 701 Washington square 10012| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 007| Name: Ted Mosby| D.O.B.: [9-23-1966]| Address: 702 Washington drive 10013| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 008| Name: Charlie Sheen| D.O.B.: [11-30-1964]| Address: 1915 Davis Trail 94704| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 009| Name: James Pattinson| D.O.B.: [1-2-1993]| Address: 176 berkeley blvd 92345| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 010| Name: Tobi Wan| D.O.B.: [8-31-1988]| Address: 10 TX| Sales Status: SILVER| Customer Class: BOTH }
+//
+//Biddings by customers; from 1st to last bid; each item at a time!
+//Item id!User id!dateTime!bid amount!quantity
+//
+100!1!2-12-2014,00:00:45!729.95!1
+100!9!2-15-2014,10:00:45!729.95!1
+100!2!2-13-2014,13:45:00!729.95!2
+Not a Valid Bid
+101!3!2-11-2014,11:00:00!500.00!2
+101!4!2-11-2014,14:00:00!570.00!2
+101!5!2-11-2014,17:00:00!590.00!3
+101!4!2-12-2014,00:00:59!630.00!2
+101!3!2-12-2014,03:00:00!650.00!2
+101!5!2-12-2014,10:29:50!670.00!3
+102!5!2-12-2014,00:00:00!110.00!1
+102!6!2-12-2014,01:00:00!120.00!2
+102!5!2-12-2014,01:45:00!130.00!3
+102!6!2-12-2014,02:10:00!140.00!3
+200!6!2-14-2014,12:00:00!99.85!1
+200!7!2-14-2014,13:55:00!99.85!1
+200!8!2-15-2014,14:00:00!99.85!1
+201!9!2-15-2014,20:00:00!30.45!3
+201!10!2-15-2014,21:00:00!40.45!3
+201!9!2-15-2014,21:30:00!45.45!3
+201!1!2-16-2014,00:05:00!60.00!3
+201!10!2-16-2014,01:05:00!65.45!3
+201!9!2-15-2014,01:06:00!72.00!3
+Not a Valid Bid
+201!10!2-15-2014,02:05:00!82.00!3
+Not a Valid Bid
+202!9!2-9-2014,23:01:00!30.00!5
+202!8!2-9-2014,23:55:00!50.00!5
+202!9!2-10-2014,00:01:00!60.00!5
+202!8!2-10-2014,01:01:00!80.00!5
+202!1!2-10-2014,01:02:00!94.45!1
+202!9!2-10-2014,13:01:00!90.00!5
+202!3!2-10-2014,23:01:00!94.45!1
+300!5!2-11-2014,01:01:00!30.00!2
+300!6!2-11-2014,01:10:00!45.00!3
+300!5!2-11-2014,01:30:00!55.00!2
+300!6!2-11-2014,02:01:00!60.00!3
+300!5!2-11-2014,03:01:00!69.00!2
+300!4!2-12-2014,11:30:00!75.00!1
+300!5!2-12-2014,19:25:00!75.00!1
+301!3!2-11-2014,13:00:00!55.00!2
+301!7!2-11-2014,14:00:00!65.00!2
+301!3!2-11-2014,14:12:00!80.00!2
+301!7!2-11-2014,14:50:00!95.00!2
+301!3!2-11-2014,17:00:00!105.30!2
+301!10!2-12-2014,13:00:00!109.00!1
+302!2!2-16-2014,13:00:00!44.99!1
+302!9!2-17-2014,00:30:00!44.99!1
+303!1!2-16-2014,12:30:00!12.00!1
+303!2!2-16-2014,13:30:00!17.99!1
+303!2!2-16-2014,13:35:00!22.99!1
+303!2!2-16-2014,14:30:00!28.99!1
+End
+Enterprise: MavBay CorporationEmployees: 4
+Welcome to MavBay!
+Main Menu:
+1) List all employees
+2) List items
+3) List all customers
+4) Display items sold
+5) Display total fee collection
+6) Display Items that received max bid
+7) Release an employee
+0) Exit Program
+1
+Listing All Employees...
+{ ID: 001| Name: katy dough|Gender: FEMALE| HireDate: [11-9-2006]| Release Date: null|Salary: $1,000.00|Job: WD
+{ ID: 002| Name: sara Longbottom|Gender: MALE| HireDate: [1-2-2010]| Release Date: [4-25-2013]|Salary: $800.00|Job: ACCT
+{ ID: 003| Name: john smith|Gender: MALE| HireDate: [4-7-2007]| Release Date: [9-20-2012]|Salary: $1,000.00|Job: WD
+{ ID: 004| Name: james bond|Gender: MALE| HireDate: [2-20-2005]| Release Date: null|Salary: $800.00|Job: CUST_SUPPORT
+{ ID: 005| Name: anne haathaway|Gender: FEMALE| HireDate: [10-24-2006]| Release Date: null|Salary: $2,000.00|Job: CUST_SUPPORT
+{ ID: 006| Name: dave richardson|Gender: MALE| HireDate: [11-12-2005]| Release Date: null|Salary: $1,000.00|Job: ACCT
+Enterprise: MavBay CorporationEmployees: 4
+Welcome to MavBay!
+Main Menu:
+1) List all employees
+2) List items
+3) List all customers
+4) Display items sold
+5) Display total fee collection
+6) Display Items that received max bid
+7) Release an employee
+0) Exit Program
+2
+Which items do you want to Display?
+Type:* for all items
+Give an amount and auction equal to or over that amount will be printed
+*
+Printing All Items...
+{ID: 100| Name: Camera| Description: Canon EOS Rebel T3I 600D Body+4 Lens Kit 18-55 IS +75-300 +24GB Flash & More| QTY: 5|Condition: NEW Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 9000
+{ID: 101| Name: camera| Description: Nikon D5100 16.2 MP Digital SLR Camera - Black Kit w/ AF-S VR 18-55mm| QTY: 10|Condition: USED Auction TYPE: AUCTION|Min Start: 300.0|Seller Feedback: 9000
+{ID: 102| Name: camera| Description: Panasonic LUMIX DMC-ZS25 / DMC-TZ35 16.1 MP 20x Optical Zoom Digital Camera| QTY: 5|Condition: NEW Auction TYPE: BOTH|Min Start: 100.0|Seller Feedback: 3000
+{ID: 200| Name: watch| Description: Invicta 1774 Men's Pro Diver Gold Tone Stainless Steel Chronograph Dive Watch| QTY: 3|Condition: USED Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 4000
+{ID: 201| Name: watch| Description: Invicta Specialty Chronograph Tachymeter Black Dial Stnls Steel NEW Mens Watch| QTY: 3|Condition: NEW Auction TYPE: AUCTION|Min Start: 30.45|Seller Feedback: 3000
+{ID: 202| Name: watch| Description: Invicta Specialty Chronograph Tachymeter Black Dial Stnls Steel NEW Mens Watch| QTY: 10|Condition: NEW Auction TYPE: BOTH|Min Start: 25.45|Seller Feedback: 3000
+{ID: 300| Name: shoe| Description: Nike Air Jordan Alpha Mens 12 Basketball Shoes. Blue Black White 392813-103| QTY: 5|Condition: NEW Auction TYPE: BOTH|Min Start: 10.0|Seller Feedback: 1000
+{ID: 301| Name: shoe| Description: Reebok Realflex Transition 2 mens athletic running shoes| QTY: 5|Condition: NEW Auction TYPE: AUCTION|Min Start: 10.0|Seller Feedback: 1000
+{ID: 302| Name: shoe| Description: Adidas Originals Gazelle Men's Shoes Sneakers Canvas| QTY: 2|Condition: USED Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 6000
+{ID: 303| Name: shoe| Description: Adidas Originals Gazelle Men's Shoes Sneakers Canvas| QTY: 2|Condition: NEW Auction TYPE: AUCTION|Min Start: 10.0|Seller Feedback: 6000
+Enterprise: MavBay CorporationEmployees: 4
+Welcome to MavBay!
+Main Menu:
+1) List all employees
+2) List items
+3) List all customers
+4) Display items sold
+5) Display total fee collection
+6) Display Items that received max bid
+7) Release an employee
+0) Exit Program
+2
+Which items do you want to Display?
+Type:* for all items
+Give an amount and auction equal to or over that amount will be printed
+99
+ReserveAmount: 729.95 ID: 100 Description: Canon EOS Rebel T3I 600D Body+4 Lens Kit 18-55 IS +75-300 +24GB Flash & More
+ReserveAmount: 700.0 ID: 101 Description: Nikon D5100 16.2 MP Digital SLR Camera - Black Kit w/ AF-S VR 18-55mm
+ReserveAmount: 160.0 ID: 102 Description: Panasonic LUMIX DMC-ZS25 / DMC-TZ35 16.1 MP 20x Optical Zoom Digital Camera
+ReserveAmount: 99.85 ID: 200 Description: Invicta 1774 Men's Pro Diver Gold Tone Stainless Steel Chronograph Dive Watch
+ReserveAmount: 109.0 ID: 301 Description: Reebok Realflex Transition 2 mens athletic running shoes
+Enterprise: MavBay CorporationEmployees: 4
+Welcome to MavBay!
+Main Menu:
+1) List all employees
+2) List items
+3) List all customers
+4) Display items sold
+5) Display total fee collection
+6) Display Items that received max bid
+7) Release an employee
+0) Exit Program
+3
+Printing All Users...
+{ UserID: 001| Name: Joe Thompson| D.O.B.: [2-11-1965]| Address: 420 Love Lane Arlington 76010| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 002| Name: Joseph richard| D.O.B.: [2-27-1991]| Address: 1301 Mitchel Avenue 76010| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 003| Name: Subhash Chand| D.O.B.: [1-14-1980]| Address: 620 Michigan Avenue 20064| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 004| Name: David Gotcher| D.O.B.: [3-1-1978]| Address: 320 East park row 20098| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 005| Name: Javed Ali| D.O.B.: [8-30-1987]| Address: 120 mesquite row 76013| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 006| Name: Barney Stinson| D.O.B.: [1-1-1965]| Address: 701 Washington square 10012| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 007| Name: Ted Mosby| D.O.B.: [9-23-1966]| Address: 702 Washington drive 10013| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 008| Name: Charlie Sheen| D.O.B.: [11-30-1964]| Address: 1915 Davis Trail 94704| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 009| Name: James Pattinson| D.O.B.: [1-2-1993]| Address: 176 berkeley blvd 92345| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 010| Name: Tobi Wan| D.O.B.: [8-31-1988]| Address: 10 TX| Sales Status: SILVER| Customer Class: BOTH }
+Enterprise: MavBay CorporationEmployees: 4
+Welcome to MavBay!
+Main Menu:
+1) List all employees
+2) List items
+3) List all customers
+4) Display items sold
+5) Display total fee collection
+6) Display Items that received max bid
+7) Release an employee
+0) Exit Program
+4
+To print All prices type: *
+To print fixed amount prices type: FIX_PRICE
+To print auction only items type: AUCTION
+To print all sold items type: BOTH
+*
+{ID: 100| Name: Camera| Description: Canon EOS Rebel T3I 600D Body+4 Lens Kit 18-55 IS +75-300 +24GB Flash & More| QTY: 4|Condition: NEW Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 9000
+{ID: 101| Name: camera| Description: Nikon D5100 16.2 MP Digital SLR Camera - Black Kit w/ AF-S VR 18-55mm| QTY: 7|Condition: USED Auction TYPE: AUCTION|Min Start: 300.0|Seller Feedback: 9000
+{ID: 200| Name: watch| Description: Invicta 1774 Men's Pro Diver Gold Tone Stainless Steel Chronograph Dive Watch| QTY: 2|Condition: USED Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 4000
+{ID: 202| Name: watch| Description: Invicta Specialty Chronograph Tachymeter Black Dial Stnls Steel NEW Mens Watch| QTY: 9|Condition: NEW Auction TYPE: BOTH|Min Start: 25.45|Seller Feedback: 3000
+{ID: 300| Name: shoe| Description: Nike Air Jordan Alpha Mens 12 Basketball Shoes. Blue Black White 392813-103| QTY: 4|Condition: NEW Auction TYPE: BOTH|Min Start: 10.0|Seller Feedback: 1000
+{ID: 301| Name: shoe| Description: Reebok Realflex Transition 2 mens athletic running shoes| QTY: 4|Condition: NEW Auction TYPE: AUCTION|Min Start: 10.0|Seller Feedback: 1000
+{ID: 302| Name: shoe| Description: Adidas Originals Gazelle Men's Shoes Sneakers Canvas| QTY: 1|Condition: USED Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 6000
+Enterprise: MavBay CorporationEmployees: 4
+Welcome to MavBay!
+Main Menu:
+1) List all employees
+2) List items
+3) List all customers
+4) Display items sold
+5) Display total fee collection
+6) Display Items that received max bid
+7) Release an employee
+0) Exit Program
+4
+To print All prices type: *
+To print fixed amount prices type: FIX_PRICE
+To print auction only items type: AUCTION
+To print all sold items type: BOTH
+FIX_Price    RICE
+{ID: 100| Name: Camera| Description: Canon EOS Rebel T3I 600D Body+4 Lens Kit 18-55 IS +75-300 +24GB Flash & More| QTY: 3|Condition: NEW Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 9000
+{ID: 200| Name: watch| Description: Invicta 1774 Men's Pro Diver Gold Tone Stainless Steel Chronograph Dive Watch| QTY: 1|Condition: USED Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 4000
+{ID: 302| Name: shoe| Description: Adidas Originals Gazelle Men's Shoes Sneakers Canvas| QTY: 0|Condition: USED Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 6000
+Enterprise: MavBay CorporationEmployees: 4
+Welcome to MavBay!
+Main Menu:
+1) List all employees
+2) List items
+3) List all customers
+4) Display items sold
+5) Display total fee collection
+6) Display Items that received max bid
+7) Release an employee
+0) Exit Program
+4
+To print All prices type: *
+To print fixed amount prices type: FIX_PRICE
+To print auction only items type: AUCTION
+To print all sold items type: BOTH
+AUCTION
+{ID: 101| Name: camera| Description: Nikon D5100 16.2 MP Digital SLR Camera - Black Kit w/ AF-S VR 18-55mm| QTY: 1|Condition: USED Auction TYPE: AUCTION|Min Start: 300.0|Seller Feedback: 9000
+{ID: 301| Name: shoe| Description: Reebok Realflex Transition 2 mens athletic running shoes| QTY: 2|Condition: NEW Auction TYPE: AUCTION|Min Start: 10.0|Seller Feedback: 1000
+Enterprise: MavBay CorporationEmployees: 4
+Welcome to MavBay!
+Main Menu:
+1) List all employees
+2) List items
+3) List all customers
+4) Display items sold
+5) Display total fee collection
+6) Display Items that received max bid
+7) Release an employee
+0) Exit Program
+4
+To print All prices type: *
+To print fixed amount prices type: FIX_PRICE
+To print auction only items type: AUCTION
+To print all sold items type: BOTH
+BOTH
+{ID: 202| Name: watch| Description: Invicta Specialty Chronograph Tachymeter Black Dial Stnls Steel NEW Mens Watch| QTY: 6|Condition: NEW Auction TYPE: BOTH|Min Start: 25.45|Seller Feedback: 3000
+{ID: 300| Name: shoe| Description: Nike Air Jordan Alpha Mens 12 Basketball Shoes. Blue Black White 392813-103| QTY: 1|Condition: NEW Auction TYPE: BOTH|Min Start: 10.0|Seller Feedback: 1000
+Enterprise: MavBay CorporationEmployees: 4
+Welcome to MavBay!
+Main Menu:
+1) List all employees
+2) List items
+3) List all customers
+4) Display items sold
+5) Display total fee collection
+6) Display Items that received max bid
+7) Release an employee
+0) Exit Program
+4
+To print All prices type: *
+To print fixed amount prices type: FIX_PRICE
+To print auction only items type: AUCTION
+To print all sold items type: BOTH
+My Invalid Test String
+Invalid selection
+To print All prices type: *
+To print fixed amount prices type: FIX_PRICE
+To print auction only items type: AUCTION
+To print all sold items type: BOTH
+*
+{ID: 100| Name: Camera| Description: Canon EOS Rebel T3I 600D Body+4 Lens Kit 18-55 IS +75-300 +24GB Flash & More| QTY: -1|Condition: NEW Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 9000
+{ID: 101| Name: camera| Description: Nikon D5100 16.2 MP Digital SLR Camera - Black Kit w/ AF-S VR 18-55mm| QTY: -8|Condition: USED Auction TYPE: AUCTION|Min Start: 300.0|Seller Feedback: 9000
+{ID: 200| Name: watch| Description: Invicta 1774 Men's Pro Diver Gold Tone Stainless Steel Chronograph Dive Watch| QTY: -3|Condition: USED Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 4000
+{ID: 202| Name: watch| Description: Invicta Specialty Chronograph Tachymeter Black Dial Stnls Steel NEW Mens Watch| QTY: 4|Condition: NEW Auction TYPE: BOTH|Min Start: 25.45|Seller Feedback: 3000
+{ID: 300| Name: shoe| Description: Nike Air Jordan Alpha Mens 12 Basketball Shoes. Blue Black White 392813-103| QTY: -1|Condition: NEW Auction TYPE: BOTH|Min Start: 10.0|Seller Feedback: 1000
+{ID: 301| Name: shoe| Description: Reebok Realflex Transition 2 mens athletic running shoes| QTY: -1|Condition: NEW Auction TYPE: AUCTION|Min Start: 10.0|Seller Feedback: 1000
+{ID: 302| Name: shoe| Description: Adidas Originals Gazelle Men's Shoes Sneakers Canvas| QTY: -4|Condition: USED Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 6000
+Enterprise: MavBay CorporationEmployees: 4
+Welcome to MavBay!
+Main Menu:
+1) List all employees
+2) List items
+3) List all customers
+4) Display items sold
+5) Display total fee collection
+6) Display Items that received max bid
+7) Release an employee
+0) Exit Program
+5
+Total Fees collected: $559.90
+Enterprise: MavBay CorporationEmployees: 4
+Welcome to MavBay!
+Main Menu:
+1) List all employees
+2) List items
+3) List all customers
+4) Display items sold
+5) Display total fee collection
+6) Display Items that received max bid
+7) Release an employee
+0) Exit Program
+6
+Item with most amount of Bids: {ID: 202| Name: watch| Description: Invicta Specialty Chronograph Tachymeter Black Dial Stnls Steel NEW Mens Watch| QTY: 3|Condition: NEW Auction TYPE: BOTH|Min Start: 25.45|Seller Feedback: 3000
+Number of Bids: 7
+Enterprise: MavBay CorporationEmployees: 4
+Welcome to MavBay!
+Main Menu:
+1) List all employees
+2) List items
+3) List all customers
+4) Display items sold
+5) Display total fee collection
+6) Display Items that received max bid
+7) Release an employee
+0) Exit Program
+7
+Please enter an Emplyee ID to release
+1
+Employee has been found and released: { ID: 001| Name: katy dough|Gender: FEMALE| HireDate: [11-9-2006]| Release Date: [2-22-2014]|Salary: $0.00|Job: WD
+Enterprise: MavBay CorporationEmployees: 3
+Welcome to MavBay!
+Main Menu:
+1) List all employees
+2) List items
+3) List all customers
+4) Display items sold
+5) Display total fee collection
+6) Display Items that received max bid
+7) Release an employee
+0) Exit Program
+0
+Exiting System
+]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ 1
+bash: 1: command not found
+]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ 1java MavBayMgmtTestls -l[Kjava MavBayMgmtTest
+Input Data file name was not supplied
+Please input data file name: ^[OA^[OA^[OA            dataF file-proj2-final.txt
+Error: FILE datafile-proj2-final.txt  does not exist.
+Enter correct input data file name: datafile-proj2-           File-proj2-finl al.txt
+// each item is separated by a ! do not add extra white spaces before or after separators
+// Enterprise  Name
+MavBay Corporation
+
+Enterprise name is:  MavBay Corporation 
+//actual # employees
+6
+
+numEmployees: [    6]
+
+Employees: 6
+// EMPLOYEE DETAILS: 1 LINE EACH; id is system generated!!
+// emp type, fname, lname, dob, gender, hire date, release date, monthly base // salary
+WD!katy!dough!07-01-1982!female!11-09-2006!null!1000.00
+ACCT!sara!Longbottom!11-13-1980!male!01-02-2010!04-25-2013!800.00
+WD!john!smith!04-01-1978!male!04-07-2007!09-20-2012!1000.00
+CUST_SUPPORT!james!bond!12-10-1976!male!02-20-2005!null!800.00
+CUST_SUPPORT!anne!haathaway!08-13-1984!female!10-24-2006!null!2000.00
+ACCT!dave!richardson!04-15-1964!male!11-12-2005!null!1000.00
+{ ID: 001| Name: katy dough|Gender: FEMALE| HireDate: [11-9-2006]| Release Date: null|Salary: $1,000.00|Job: WD
+{ ID: 002| Name: sara Longbottom|Gender: MALE| HireDate: [1-2-2010]| Release Date: [4-25-2013]|Salary: $800.00|Job: ACCT
+{ ID: 003| Name: john smith|Gender: MALE| HireDate: [4-7-2007]| Release Date: [9-20-2012]|Salary: $1,000.00|Job: WD
+{ ID: 004| Name: james bond|Gender: MALE| HireDate: [2-20-2005]| Release Date: null|Salary: $800.00|Job: CUST_SUPPORT
+{ ID: 005| Name: anne haathaway|Gender: FEMALE| HireDate: [10-24-2006]| Release Date: null|Salary: $2,000.00|Job: CUST_SUPPORT
+{ ID: 006| Name: dave richardson|Gender: MALE| HireDate: [11-12-2005]| Release Date: null|Salary: $1,000.00|Job: ACCT
+
+Reading Items: 
+//item details: 1 LINE PER item AS GIVEN BELOW; starts from 100 onwards
+//Itemid!item category!item name!sale type!qty!Item 
+//condition!Minimum starting bid!bid Increment!Reserve 
+//amount!Start date and time in CST!Number of days!Seller 
+//id!seller feedback score!item description
+100!Photography & Camera!Camera!FIX_PRICE!5!new!0.0!0.00!729.95!2-9-2014,21:49:00!7!18!9000!Canon EOS Rebel T3I 600D Body+4 Lens Kit 18-55 IS +75-300 +24GB Flash & More
+101!photography & camera!camera!AUCTION!10!used!300.00!20.00!700.00!2-10-2014,10:30:00!3!18!9000!Nikon D5100 16.2 MP Digital SLR Camera - Black Kit w/ AF-S VR 18-55mm
+102!photography & camera!camera!BOTH!5!new!100.00!10.00!160.00!2-11-2014,10:00:00!5!14!3000!Panasonic LUMIX DMC-ZS25 / DMC-TZ35 16.1 MP 20x Optical Zoom Digital Camera
+200!jewellery & watches!watch!FIX_PRICE!3!used!0.00!0.0!99.85!2-14-2014,9:30:00!2!10!4000!Invicta 1774 Men's Pro Diver Gold Tone Stainless Steel Chronograph Dive Watch
+201!jewellery & watches!watch!AUCTION!3!new!30.45!5.00!84.99!2-15-2014,19:30:00!4!11!3000!Invicta Specialty Chronograph Tachymeter Black Dial Stnls Steel NEW Mens Watch
+202!jewellery & watches!watch!BOTH!10!new!25.45!10.00!94.45!2-9-2014,23:00:00!2!11!3000!Invicta Specialty Chronograph Tachymeter Black Dial Stnls Steel NEW Mens Watch
+300!clothing & accessories!shoe!BOTH!5!new!10.00!5.00!75.00!2-11-2014,00:00:59!3!12!1000!Nike Air Jordan Alpha Mens 12 Basketball Shoes. Blue Black White 392813-103
+301!clothing & accessories!shoe!AUCTION!5!new!10.00!10.00!109.00!2-11-2014,12:00:00!3!12!1000!Reebok Realflex Transition 2 mens athletic running shoes
+302!clothing & accessories!shoe!FIX_PRICE!2!used!0.00!0.00!44.99!2-16-2014,12:00:00!2!13!6000!Adidas Originals Gazelle Men's Shoes Sneakers Canvas
+303!clothing & accessories!shoe!AUCTION!2!new!10.00!5.00!50.00!2-16-2014,11:00:00!2!13!6000!Adidas Originals Gazelle Men's Shoes Sneakers Canvas
+End
+{ID: 100| Name: Camera| Description: Canon EOS Rebel T3I 600D Body+4 Lens Kit 18-55 IS +75-300 +24GB Flash & More| QTY: 5|Condition: NEW Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 9000
+{ID: 101| Name: camera| Description: Nikon D5100 16.2 MP Digital SLR Camera - Black Kit w/ AF-S VR 18-55mm| QTY: 10|Condition: USED Auction TYPE: AUCTION|Min Start: 300.0|Seller Feedback: 9000
+{ID: 102| Name: camera| Description: Panasonic LUMIX DMC-ZS25 / DMC-TZ35 16.1 MP 20x Optical Zoom Digital Camera| QTY: 5|Condition: NEW Auction TYPE: BOTH|Min Start: 100.0|Seller Feedback: 3000
+{ID: 200| Name: watch| Description: Invicta 1774 Men's Pro Diver Gold Tone Stainless Steel Chronograph Dive Watch| QTY: 3|Condition: USED Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 4000
+{ID: 201| Name: watch| Description: Invicta Specialty Chronograph Tachymeter Black Dial Stnls Steel NEW Mens Watch| QTY: 3|Condition: NEW Auction TYPE: AUCTION|Min Start: 30.45|Seller Feedback: 3000
+{ID: 202| Name: watch| Description: Invicta Specialty Chronograph Tachymeter Black Dial Stnls Steel NEW Mens Watch| QTY: 10|Condition: NEW Auction TYPE: BOTH|Min Start: 25.45|Seller Feedback: 3000
+{ID: 300| Name: shoe| Description: Nike Air Jordan Alpha Mens 12 Basketball Shoes. Blue Black White 392813-103| QTY: 5|Condition: NEW Auction TYPE: BOTH|Min Start: 10.0|Seller Feedback: 1000
+{ID: 301| Name: shoe| Description: Reebok Realflex Transition 2 mens athletic running shoes| QTY: 5|Condition: NEW Auction TYPE: AUCTION|Min Start: 10.0|Seller Feedback: 1000
+{ID: 302| Name: shoe| Description: Adidas Originals Gazelle Men's Shoes Sneakers Canvas| QTY: 2|Condition: USED Auction TYPE: FIX_PRICE|Min Start: 0.0|Seller Feedback: 6000
+{ID: 303| Name: shoe| Description: Adidas Originals Gazelle Men's Shoes Sneakers Canvas| QTY: 2|Condition: NEW Auction TYPE: AUCTION|Min Start: 10.0|Seller Feedback: 6000
+// customers 1 line per user; from 1 to 99
+// First Name!Last Name!User Id!Date of birth!Address!State!Zipcode
+1!Joe!Thompson!2-11-1965!420 Love Lane Arlington!TX!76010
+2!Joseph!richard!2-27-1991!1301 Mitchel Avenue!TX!76010
+3!Subhash!Chand!1-14-1980!620 Michigan Avenue!DC!20064
+4!David!Gotcher!3-1-1978!320 East park row!DC!20098
+5!Javed!Ali!8-30-1987!120 mesquite row!TX!76013
+6!Barney!Stinson!1-1-1965!701 Washington square!NY!10012
+7!Ted!Mosby!9-23-1966!702 Washington drive!NY!10013
+8!Charlie!Sheen!11-30-1964!1915 Davis Trail!CA!94704
+9!James!Pattinson!1-2-1993!176 berkeley blvd!CA!92345
+10!Tobi!Wan!8-31-1988!10!1200 Dallas Parkway!TX!76154
+End
+{ UserID: 001| Name: Joe Thompson| D.O.B.: [2-11-1965]| Address: 420 Love Lane Arlington 76010| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 002| Name: Joseph richard| D.O.B.: [2-27-1991]| Address: 1301 Mitchel Avenue 76010| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 003| Name: Subhash Chand| D.O.B.: [1-14-1980]| Address: 620 Michigan Avenue 20064| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 004| Name: David Gotcher| D.O.B.: [3-1-1978]| Address: 320 East park row 20098| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 005| Name: Javed Ali| D.O.B.: [8-30-1987]| Address: 120 mesquite row 76013| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 006| Name: Barney Stinson| D.O.B.: [1-1-1965]| Address: 701 Washington square 10012| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 007| Name: Ted Mosby| D.O.B.: [9-23-1966]| Address: 702 Washington drive 10013| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 008| Name: Charlie Sheen| D.O.B.: [11-30-1964]| Address: 1915 Davis Trail 94704| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 009| Name: James Pattinson| D.O.B.: [1-2-1993]| Address: 176 berkeley blvd 92345| Sales Status: SILVER| Customer Class: BOTH }
+{ UserID: 010| Name: Tobi Wan| D.O.B.: [8-31-1988]| Address: 10 TX| Sales Status: SILVER| Customer Class: BOTH }
+//
+//Biddings by customers; from 1st to last bid; each item at a time!
+//Item id!User id!dateTime!bid amount!quantity
+//
+100!1!2-12-2014,00:00:45!729.95!1
+100!9!2-15-2014,10:00:45!729.95!1
+100!2!2-13-2014,13:45:00!729.95!2
+Not a Valid Bid
+101!3!2-11-2014,11:00:00!500.00!2
+101!4!2-11-2014,14:00:00!570.00!2
+101!5!2-11-2014,17:00:00!590.00!3
+101!4!2-12-2014,00:00:59!630.00!2
+101!3!2-12-2014,03:00:00!650.00!2
+101!5!2-12-2014,10:29:50!670.00!3
+102!5!2-12-2014,00:00:00!110.00!1
+102!6!2-12-2014,01:00:00!120.00!2
+102!5!2-12-2014,01:45:00!130.00!3
+102!6!2-12-2014,02:10:00!140.00!3
+200!6!2-14-2014,12:00:00!99.85!1
+200!7!2-14-2014,13:55:00!99.85!1
+200!8!2-15-2014,14:00:00!99.85!1
+201!9!2-15-2014,20:00:00!30.45!3
+201!10!2-15-2014,21:00:00!40.45!3
+201!9!2-15-2014,21:30:00!45.45!3
+201!1!2-16-2014,00:05:00!60.00!3
+201!10!2-16-2014,01:05:00!65.45!3
+201!9!2-15-2014,01:06:00!72.00!3
+Not a Valid Bid
+201!10!2-15-2014,02:05:00!82.00!3
+Not a Valid Bid
+202!9!2-9-2014,23:01:00!30.00!5
+202!8!2-9-2014,23:55:00!50.00!5
+202!9!2-10-2014,00:01:00!60.00!5
+202!8!2-10-2014,01:01:00!80.00!5
+202!1!2-10-2014,01:02:00!94.45!1
+202!9!2-10-2014,13:01:00!90.00!5
+202!3!2-10-2014,23:01:00!94.45!1
+300!5!2-11-2014,01:01:00!30.00!2
+300!6!2-11-2014,01:10:00!45.00!3
+300!5!2-11-2014,01:30:00!55.00!2
+300!6!2-11-2014,02:01:00!60.00!3
+300!5!2-11-2014,03:01:00!69.00!2
+300!4!2-12-2014,11:30:00!75.00!1
+300!5!2-12-2014,19:25:00!75.00!1
+301!3!2-11-2014,13:00:00!55.00!2
+301!7!2-11-2014,14:00:00!65.00!2
+301!3!2-11-2014,14:12:00!80.00!2
+301!7!2-11-2014,14:50:00!95.00!2
+301!3!2-11-2014,17:00:00!105.30!2
+301!10!2-12-2014,13:00:00!109.00!1
+302!2!2-16-2014,13:00:00!44.99!1
+302!9!2-17-2014,00:30:00!44.99!1
+303!1!2-16-2014,12:30:00!12.00!1
+303!2!2-16-2014,13:30:00!17.99!1
+303!2!2-16-2014,13:35:00!22.99!1
+303!2!2-16-2014,14:30:00!28.99!1
+End
+Enterprise: MavBay CorporationEmployees: 4
+Welcome to MavBay!
+Main Menu:
+1) List all employees
+2) List items
+3) List all customers
+4) Display items sold
+5) Display total fee collection
+6) Display Items that received max bid
+7) Release an employee
+0) Exit Program
+7
+Please enter an Emplyee ID to release
+1
+Employee has been found and released: { ID: 001| Name: katy dough|Gender: FEMALE| HireDate: [11-9-2006]| Release Date: [2-22-2014]|Salary: $0.00|Job: WD
+Enterprise: MavBay CorporationEmployees: 3
+Welcome to MavBay!
+Main Menu:
+1) List all employees
+2) List items
+3) List all customers
+4) Display items sold
+5) Display total fee collection
+6) Display Items that received max bid
+7) Release an employee
+0) Exit Program
+7
+Please enter an Emplyee ID to release
+1
+Employee Has already been released
+{ ID: 001| Name: katy dough|Gender: FEMALE| HireDate: [11-9-2006]| Release Date: [2-22-2014]|Salary: $0.00|Job: WD
+Enterprise: MavBay CorporationEmployees: 3
+Welcome to MavBay!
+Main Menu:
+1) List all employees
+2) List items
+3) List all customers
+4) Display items sold
+5) Display total fee collection
+6) Display Items that received max bid
+7) Release an employee
+0) Exit Program
+7
+Please enter an Emplyee ID to release
+3
+Employee Has already been released
+{ ID: 003| Name: john smith|Gender: MALE| HireDate: [4-7-2007]| Release Date: [9-20-2012]|Salary: $1,000.00|Job: WD
+Enterprise: MavBay CorporationEmployees: 3
+Welcome to MavBay!
+Main Menu:
+1) List all employees
+2) List items
+3) List all customers
+4) Display items sold
+5) Display total fee collection
+6) Display Items that received max bid
+7) Release an employee
+0) Exit Program
+0
+Exiting System
+]0;san1465@omega:~/CSE1325/Project2/CodeGiven[san1465@omega CodeGiven]$ exit
+exit
+
+Script done on Sat 22 Feb 2014 12:18:46 AM CST

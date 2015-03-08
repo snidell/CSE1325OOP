@@ -1,0 +1,275 @@
+/*************************************************************************
+ *  Compilation:  javac Item.java <br>
+ *  Execution:    java Item <br>
+ *************************************************************************/
+
+/**
+ * A simple data type Item for use in Project 2 (CSE 1325, Fall 2010)
+ * <br>
+ * Useful for creating Item objects to hold Infromation of an Item
+ * Item ID, category, name, description, sale type, quanity, condition, minimum bid,
+ * Increment, Reserve amount, Start date, number of days, seller ID, Feedback score
+ * 
+ * @author Scott Nidell 
+ */
+
+import java.util.ArrayList;
+public class Item implements Proj2Constants,DateConstants{
+  
+  private enum Condition{NEW,USED};
+  private enum SaleType{FIX_PRICE,AUCTION,BOTH};
+  
+  int itemID;
+  String category;
+  String name;
+  SaleType type;
+  int qty;
+  Condition condition;
+  double minStart;
+  double increment;
+  double reserveAmount;
+  DateTime startD;
+  int numDays;
+  int sellerID;
+  int feedback;
+  int shipID;
+  String description;
+  ArrayList<Bid> bids = new ArrayList<Bid>();
+  
+  /**
+  * Constructor: Default constructor that builds a Item
+  * with default values.
+  */
+  
+  public Item(){
+   this.itemID=ZEROI;
+   this.category=null;
+   this.name=DEFAULT_ITEM;
+   this.qty=ZEROI;
+   this.condition= Condition.NEW;
+   this.minStart= ZEROD;
+   this.increment= ZEROD;
+   this.reserveAmount=ZEROD;
+   this.startD= new DateTime();
+   this.numDays= ZEROI;
+   this.sellerID=ZEROI;
+   this.feedback=ZEROI;
+   this.description=null;
+  }
+  
+  /**
+  * Constructs Item given data
+  * 
+  * @param id       id of the item
+  * @param cat      category of item
+  * @param n        name of item
+  * @param ty       sale type of Item
+  * @param qt       quanity of items to be sold
+  * @param cond     condition in terms of  a string
+  * @param minS     minimum start of auction
+  * @param inc      increment of bids
+  * @param reserveA amount of item
+  * @param sd       Start Date
+  * @param sid      Seller ID
+  * @param fb       Seller Feedback
+  * @param desc     Description of Item
+  * 
+  */
+  public Item(int id, String cat, String n, String ty, int qt, String cond, double minS,
+               double inc, double reserveA, String sd, int nd,int sid, int fb,String desc){
+    
+   
+    this.itemID=id;
+    this.category=cat;
+    this.name=n;
+    if(!isValidType(ty))
+      throw new RuntimeException("Item 1: error not valid item type");
+    this.type= SaleType.valueOf(ty.toUpperCase());
+    this.qty=qt;
+    if(!isValidCond(cond))
+      throw new RuntimeException("Item 2: error not valid item condition");
+    this.condition= condition.valueOf(cond.toUpperCase());
+    this.minStart= minS;
+    this.increment=inc;
+    this.reserveAmount=reserveA;
+    this.startD= new DateTime(sd);
+    this.numDays=nd;
+    this.sellerID=sid;
+    this.feedback=fb;
+    this.description=desc;
+  }
+  
+  /**
+  * checks if a Sale type is valid
+  * 
+  * @return false if item does not fall in Enum sale type    
+  * 
+  */
+  
+  private static boolean isValidType(String t){
+    
+    if(t.toUpperCase().equals(FIXED)){
+     return true;
+   }else if(t.toUpperCase().equals(AUCTION)){
+     return true;
+   }else if(t.toUpperCase().equals(BOTH_ITEM)){
+     return true;
+   }else
+     return false; 
+  }
+  
+  /**
+  * checks if a condition type is valid
+  * 
+  * @return false if item does not fall in Enum condition    
+  */
+  private static boolean isValidCond(String c){
+    
+    if(c.toUpperCase().equals(NEW)){
+     return true;
+   }else if(c.toUpperCase().equals(USED)){
+     return true;
+   }
+     return false;
+  }
+  
+  /**
+  * creates new description for Item
+  * 
+  * @param d new description of the item  
+  * 
+  */
+  public void setDescription(String d){
+    
+    this.description=d;    
+  }
+  
+  /**
+  * Change quantity of Item
+  * 
+  * @param q new quanitity for the item
+  *                
+  */
+  public void setQuanity(int q){
+    
+    this.qty=q;    
+  }
+  
+  /**
+  * Increase feedback of Item
+  * 
+  * @param fb amount of rating to be increased
+  *                
+  */
+  public void increaseFeedback(int fb){
+    
+    this.feedback+=fb;  
+  }
+  
+  /**
+  * Decrease feedback of Item
+  * 
+  * @param fb amount of rating to be decreased
+  *                
+  */
+  
+  public void decreaseFeedback(int fb){
+    
+    this.feedback-=fb;    
+  }
+  
+  public void addBid(Bid bid){
+    if(bids.size()>=MAX_BIDS){
+      System.out.println("Max bids reached for this item");
+      return;
+    }
+    bids.add(bid);
+  }
+  
+  public int getItemID(){
+   
+    return this.itemID;    
+  }
+  
+  public void printBids(){
+   
+    System.out.println("ItemID: "+this.itemID+"|Description: "+this.description);
+    System.out.println("   CurrentBids:");
+    for(int i=0;i<bids.size();i++){
+     System.out.println("   "+bids.get(i));
+    }
+  }
+  
+  /**
+  * Prints the current attributes of the object
+  
+  * @return string that describes the object.
+  *                
+  */
+  
+  public String toString(){
+    
+    return "{ID: "+this.itemID+"| Name: "+this.name+"| Description: "+this.description+"| QTY: "
+      +this.qty+"|Condition: "+this.condition+" Auction TYPE: "+this.type+"|Min Start: "+this.minStart+"|Seller Feedback: "+this.feedback;   
+  }
+  
+  public static void main(String []args){
+    
+    
+    Item myItem= new Item();
+    System.out.println(myItem);
+    
+    int itemID= 003;
+    String itemCat= "Antique";
+    String itName="Camera";
+    String itemType= "FIX_PRICE";
+    int itemQty= 5;
+    String condition= "USED";
+    double minStart= 30.00;
+    double bidInc= 5.00;
+    double reserveAmt= 400.00;
+    String startD= "1-1-2014,21:49:00";
+    int days= 7;
+    int sellerID= 200;
+    int feedback=1000;
+    String desc= "Old Ass Camera"; 
+    
+    Item myItem3= new Item(itemID,itemCat,itName,itemType,itemQty,condition,minStart,bidInc,reserveAmt,startD,days,sellerID,feedback,desc);
+    
+    System.out.println(myItem3);
+    
+    
+  int userID1=011;
+  int itemID1=100;
+  DateTime bidDate1= new DateTime("2-12-2014,00:00:45");
+  double bidAmount1=200.00;
+  int bidQTY1= 3;
+  
+  int userID2=012;
+  int itemID2=120;
+  DateTime bidDate2= new DateTime("2-13-2014,13:45:00");
+  double bidAmount2=203.00;
+  int bidQTY2= 3;
+  
+  int userID3=013;
+  int itemID3=110;
+  DateTime bidDate3= new DateTime("2-11-2014,11:00:00");
+  double bidAmount3=900.00;
+  int bidQTY3= 1;
+  
+  int userID4=014;
+  int itemID4=190;
+  DateTime bidDate4= new DateTime("2-11-2014,14:00:00");
+  double bidAmount4=233.00;
+  int bidQTY4= 9;
+  
+  Bid bid1= new Bid(userID1,itemID1,bidDate1,bidAmount1,bidQTY1);
+  Bid bid2= new Bid(userID2,itemID2,bidDate2,bidAmount2,bidQTY2);
+  Bid bid3= new Bid(userID3,itemID3,bidDate3,bidAmount3,bidQTY3);
+  Bid bid4= new Bid(userID4,itemID4,bidDate4,bidAmount4,bidQTY4);
+    
+    
+    
+  }
+  
+}
